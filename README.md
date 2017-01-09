@@ -12,8 +12,9 @@ cd dbpedia-spotlight
 # dbpedia spotlight server needs at least 6gb of ram
 java -Xmx6g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest 
 ```
+# Dumps 
 
-### Wikdata dumps
+## Wikdata dumps
 
 Wikdata provides a [tool for exporting RDF dumps](http://tools.wmflabs.org/wikidata-exports/rdf/index.html)
  
@@ -25,10 +26,17 @@ Sameas links between Wikidata and DBpedia are already extracted and can be found
 The latest available version in this project is [Available on the extraction page from 20150330](http://wikidata.dbpedia.org/downloads/20150330/)
 the downloaded dump is available from here [20150330-sameas-all-wikis.ttl.bz2](http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2)
 
+## Text Dumps
+
+### Wikipedia dumps
+
+download the [latest wikipedia dump enwiki-latest-pages-articles.xml.bz2](https://dumps.wikimedia.org/enwiki/) and extract text documents from wikipedia articles.
+ 
+see more `./datasets/Wikipedia/`
 
 
 
-### Feautres  
+## Feautres  
 
 | feature name                 | description                                                                      |
 |------------------------------|----------------------------------------------------------------------------------|
