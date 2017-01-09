@@ -10,7 +10,7 @@ to run DBpedia spotlight server on port 2222 run in a separate session
 ```
 cd dbpedia-spotlight
 # dbpedia spotlight server needs at least 6gb of ram
-sc  
+java -Xmx6g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest 
 ```
 
 ### Feautres  
