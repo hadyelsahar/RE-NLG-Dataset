@@ -26,6 +26,7 @@ hadyelsahar@gmail.com
 ...
 
 """
+import os
 import csv
 from collections import defaultdict
 import argparse
@@ -88,7 +89,7 @@ for event, elem in etree.iterparse(args.input):
     if len(BUFFER) % SAVE_EVERY_N == 0:
 
         fname = "%05d-of-%05d-doc.json" % (len(DOCS_PROCESSED_ID)-SAVE_EVERY_N, len(DOCS_PROCESSED_ID)-1)
-        with open(fname, "a") as f:
+        with open(os.join(args.output, fname), "a") as f:
             TMP_BUFFER = BUFFER
             BUFFER = []
             f.write("\n".join(TMP_BUFFER))
