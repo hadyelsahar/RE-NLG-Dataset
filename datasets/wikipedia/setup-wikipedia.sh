@@ -19,5 +19,9 @@ rm -rf extracted
 echo "Done Extraction all text in wikipedia articles can be found in enwiki-latest-pages-articles-text.xml"
 
 echo "downloading mappings between wikipedia page id and wikidata id"
-curl https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-page_props.sql.gz | zcat | grep -P "(\d+,'wikibase_item','Q\d+',NULL)" -o | cut -d"," -f1,3 | sed -e "s/'//g"  > wiki_id-wikidataid.csv
+curl https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-page_props.sql.gz | zcat | grep -P "(\d+,'wikibase_item','Q\d+',NULL)" -o | cut -d"," -f1,3 | sed -e "s/'//g"  > wikipageid-wikidataid.csv
+
+echo "splitting every batch of documents into a single file for easy processing"
+mkdir raw_docs
+python chunk-wikipedia-articles.py -i en-wikipedia-latest-pages-articles-text.xml -o ./raw_docs/ -se 100000
 
