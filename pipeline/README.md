@@ -11,4 +11,3 @@ The automatic alignment and extraction of the process consists of the following 
     - Mapping Triple to Sentences.
     - Alignment of the Property if exists (simple matching using property labels).
     - Check if Dependency path between Subject and Object words. (Boolean Value).
-

@@ -12,25 +12,44 @@ The Script outputs Number of files:
 
 -  NNNNN-of-NNNNN-doc.json:
         output file is json objects per line the keys of each json:
-
+  {
         "id":                       Wikipedia document id
         "title":                    title of the wikipedia document
         "wikidata_id":              Wikidata item id of the main page or None if doesn't exist
         "text":                     The whole text of the Wikipedia article
-        "document_sequence_id":     list of IDS of words in the Wikipedia article
-        "word_offsets":             list of offsets of each word in the Wikipedia Article
+        "Sentences":                start and end offsets of sentences[(start,end),(start,end)]
         "word_boundaries":          list of tuples (start, end) of each word in Wikipedia Article
+        "Entities":                 list of Entities:
+                                    [
+                                    {
+                                    "wikidata-uri":
+                                    "DBpedia-uri":
+                                    "boundaries": (start,end)
+                                    "surface-form": ""
+                                    "annotator" : ""  [NER,DBpediaspotlight,coref]
+                                    }
+                                    ]
+        "Triples":                  list of triples that occur in the document
+                                    We opt of having them exclusive of other fields so they can be self contained and easy to process
+                                    [
+                                    {
+                                    "subject":{"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
+                                    "predicate": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}  # fill in boundaries if it can be alined it
+                                    "object": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
+                                    "dependency-path": "lexicalized dependency path between sub and obj if exists" or None (if not existing)
+                                    "confidence":      # confidence of annotation if possible
+                                    "annotator":  ""   # if we will have multiple annotators soon
+                                    "sentence-id":     # integer shows which sentence does this triple lie in
+                                    }
+                                    ]
+ }
+
 
 contributors:
     hadyelsahar@gmail.com
-    ...
+    p.vougiouklis@soton.ac.uk
 
 """
-# todo :
-# - clean the code "see whether it's better to put a class wrapper"
-# - enhance file name logging
-# - make running script  __main__
-
 
 import json
 import re

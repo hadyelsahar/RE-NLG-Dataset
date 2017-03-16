@@ -34,9 +34,39 @@ download the [latest wikipedia dump enwiki-latest-pages-articles.xml.bz2](https:
  
 see more `./datasets/Wikipedia/`
 
-
-
-## Feautres  
-
-| feature name                 | description                                                                      |
-|------------------------------|----------------------------------------------------------------------------------|
+## Feautres :
+All of the modules in the pipeline take the a single json file [as descriped below]
+ and outputs the same file after filling in some of it's attributes.
+```
+  {
+        "id":                       Wikipedia document id
+        "title":                    title of the wikipedia document
+        "wikidata_id":              Wikidata item id of the main page or None if doesn't exist
+        "text":                     The whole text of the Wikipedia article
+        "Sentences":                start and end offsets of sentences[(start,end),(start,end)] start/ end are character indices
+        "word_boundaries":          list of tuples (start, end) of each word in Wikipedia Article, start/ end are character indices
+        "Entities":                 list of Entities:
+                                    [
+                                    {
+                                    "wikidata-uri":
+                                    "DBpedia-uri":
+                                    "boundaries": (start,end)
+                                    "surface-form": ""
+                                    "annotator" : ""  [NER,DBpediaspotlight,coref]
+                                    }
+                                    ]
+        "Triples":                  list of triples that occur in the document
+                                    We opt of having them exclusive of other fields so they can be self contained and easy to process
+                                    [
+                                    {
+                                    "subject":{"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
+                                    "predicate": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}  # fill in boundaries if it can be alined it
+                                    "object": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
+                                    "dependency-path": "lexicalized dependency path between sub and obj if exists" or None (if not existing)
+                                    "confidence":      # confidence of annotation if possible
+                                    "annotator":  ""   # if we will have multiple annotators soon
+                                    "sentence-id":     # integer shows which sentence does this triple lie in
+                                    }
+                                    ]
+    }
+```
