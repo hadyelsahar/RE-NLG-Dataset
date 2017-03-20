@@ -2,6 +2,7 @@
 Our annotation pipeline consits of a series of BasePipeline objects.   (EntityLinker, Coreference, triple aligner .. etc)
 each BasePipelie class takes a document class and add it's annotation
 Each Document with it's annotation when converted into json has the following fields.
+
   {
         "doc"id:                       Document id     -- Wikipedia document id when dealing with wikipedia dump
         "title":                    title of the wikipedia document
@@ -106,12 +107,18 @@ class Document:
         function to print the annotated document into one json file
         :return:
         """
-
         j = self.__dict__
         j['entities'] = [i.toJSON() for i in j['entities']] if 'entities' in j and j['entities'] is not None else []
         j['triples'] = [i.toJSON() for i in j['triples']] if 'triples' in j and j['triples'] is not None else []
 
         return j
+
+    def get_sentences(self):
+        """
+        :return: get sentences text
+        """
+        return [self.text[s:e] for s, e in self.sentences_boundaries]
+
 
 class Entity:
     def __init__(self, uri, boundaries, surfaceform, annotator=None):
@@ -187,7 +194,7 @@ class Triple:
 
 class BasePipeline:
 
-    def run(self, j):
+    def run(self, document):
         """
         a basic run function for all pipeline components.
         * To Override in every Pipeline components
@@ -195,7 +202,7 @@ class BasePipeline:
         :return: the same Json after adding annotations.
         """
 
-        return j
+        return document
 
 
 
