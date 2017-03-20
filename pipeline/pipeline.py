@@ -63,7 +63,7 @@ class Document:
         self.triples = None
 
     @classmethod
-    def fromjson(cls, j):
+    def fromJSON(cls, j):
         """
         instantiate a document class from existing json file
         :param j: j is a json file containing all fields as described in the begining of the document
@@ -75,8 +75,8 @@ class Document:
         text = j['text']
         sentences_boundaries = j['sentences_boundaries'] if 'sentences_boundaries' in j else None
         word_boundaries =j['words_boundaries'] if 'words_boundaries' in j else None
-        entities = [Entity.fromjson(ej) for ej in j['entities']] if 'entities' in j else None
-        triples = [Triple.fromjson(tj) for tj in j['triples']] if 'triples' in j else None
+        entities = [Entity.fromJSON(ej) for ej in j['entities']] if 'entities' in j else None
+        triples = [Triple.fromJSON(tj) for tj in j['triples']] if 'triples' in j else None
 
         return Document(docid, title, uri, text, sentences_boundaries, word_boundaries, entities, triples)
 
@@ -101,14 +101,17 @@ class Document:
         words = list(tokenizer.span_tokenize(self.text))
         return words
 
-    def to_json(self):
+    def toJSON(self):
         """
         function to print the annotated document into one json file
         :return:
         """
-        raise NotImplementedError
 
+        j = self.__dict__
+        j['entities'] = [i.toJSON() for i in j['entities']] if 'entities' in j and j['entities'] is not None else []
+        j['triples'] = [i.toJSON() for i in j['triples']] if 'triples' in j and j['triples'] is not None else []
 
+        return j
 
 class Entity:
     def __init__(self, uri, boundaries, surfaceform, annotator=None):
@@ -124,7 +127,7 @@ class Entity:
         self.annotator = annotator
 
     @classmethod
-    def fromjson(cls, j):
+    def fromJSON(cls, j):
         """
         initialize an entity class using a json object
         :param j: json object of an entity
@@ -132,9 +135,9 @@ class Entity:
         """
         return Entity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'])
 
-    def to_json(self):
+    def toJSON(self):
 
-        raise NotImplementedError
+        return self.__dict__
 
 class Triple:
     def __init__(self, subject, predicate, object, sentence_id, dependency_path=None, confidence=None, annotator=None):
@@ -157,15 +160,15 @@ class Triple:
         self.annotator = annotator
 
     @classmethod
-    def fromjson(cls, j):
+    def fromJSON(cls, j):
         """
         initialize a triple class using a json object
         :param j: json object of an entity
         :return: Triple instantiated object
         """
-        subject = Entity.fromjson(j['subject'])
-        predicate = Entity.fromjson(j['predicate'])
-        object = Entity.fromjson(j['object'])
+        subject = Entity.fromJSON(j['subject'])
+        predicate = Entity.fromJSON(j['predicate'])
+        object = Entity.fromJSON(j['object'])
         sentence_id = j['sentence_id']
         dependency_path = j['dependency_path'] if 'dependency_path' in j else None
         confidence = j['confidence'] if 'confidence' in j else None
@@ -173,7 +176,13 @@ class Triple:
 
         return Triple(subject, predicate, object, sentence_id, dependency_path, confidence, annotator)
 
+    def toJSON(self):
+        j = self.__dict__
+        j['subject'] = j['subject'].toJSON()
+        j['predicate'] = j['predicate'].toJSON()
+        j['object'] = j['object'].toJSON()
 
+        return j
 
 
 class BasePipeline:
