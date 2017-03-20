@@ -1,4 +1,4 @@
-from pipeline import  *
+from pipeline import *
 import spotlight
 
 class DBpediaSpotlightEntityLinker(BasePipeline):
@@ -43,5 +43,3 @@ class DBpediaSpotlightEntityLinker(BasePipeline):
                 document.entities.append(entity)
 
         return document
-
-
