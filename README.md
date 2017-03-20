@@ -39,34 +39,35 @@ All of the modules in the pipeline take the a single json file [as descriped bel
  and outputs the same file after filling in some of it's attributes.
 ```
   {
-        "id":                       Wikipedia document id
+        "doc"id:                       Document id     -- Wikipedia document id when dealing with wikipedia dump
         "title":                    title of the wikipedia document
-        "wikidata_id":              Wikidata item id of the main page or None if doesn't exist
-        "text":                     The whole text of the Wikipedia article
-        "Sentences":                start and end offsets of sentences[(start,end),(start,end)] start/ end are character indices
-        "word_boundaries":          list of tuples (start, end) of each word in Wikipedia Article, start/ end are character indices
-        "Entities":                 list of Entities:
+        "uri":                      URI of the item containing the main page
+        "text":                     The whole text of the document
+        "sentences_boundaries":                start and end offsets of sentences
+                                    [(start,end),(start,end)] start/ end are character indices
+        "words_boundaries":                                      # list of tuples (start, end) of each word in Wikipedia Article, start/ end are character indices
+        "entities":                                             # list of Entities   (Class Entity)
                                     [
                                     {
-                                    "wikidata-uri":
-                                    "DBpedia-uri":
-                                    "boundaries": (start,end)
+                                    "uri":
+                                    "boundaries": (start,end)   # tuple containing the of the surface form of the entity
                                     "surface-form": ""
-                                    "annotator" : ""  [NER,DBpediaspotlight,coref]
+                                    "annotator" : ""            # the annotator name used to detect this entity [NER,DBpediaspotlight,coref]
                                     }
                                     ]
-        "Triples":                  list of triples that occur in the document
+        "triples":                  list of triples that occur in the document
                                     We opt of having them exclusive of other fields so they can be self contained and easy to process
                                     [
                                     {
-                                    "subject":{"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
-                                    "predicate": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}  # fill in boundaries if it can be alined it
-                                    "object": {"wikidata-uri":, "surface-form":, "boundaries": (start,end)}
-                                    "dependency-path": "lexicalized dependency path between sub and obj if exists" or None (if not existing)
+                                    "subject":          class Entity
+                                    "predicate":        class Entity
+                                    "object":           class Entity
+                                    "dependency_path": "lexicalized dependency path between sub and obj if exists" or None (if not existing)
                                     "confidence":      # confidence of annotation if possible
-                                    "annotator":  ""   # if we will have multiple annotators soon
-                                    "sentence-id":     # integer shows which sentence does this triple lie in
+                                    "annotator":       # annotator used to annotate this triple with the sentence
+                                    "sentence_id":     # integer shows which sentence does this triple lie in
                                     }
                                     ]
     }
 ```
+
