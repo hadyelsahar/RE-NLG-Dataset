@@ -15,7 +15,7 @@ class NoSubjectAlign(BasePipeline):
         with open(triples_file) as f:
             for l in f:
                 tmp = l.split("\t")
-                d["%s\t%s" % (tmp[0], tmp[2])].append(tmp[1])
+                d["%s\t%s" % (tmp[0].strip(), tmp[2].strip())].append(tmp[1])
 
         # pd.read_csv(triples_file, sep="\t", names=["subject", "predicate", "object"]).set_index(['subject', 'object'])
 
