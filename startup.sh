@@ -42,7 +42,7 @@ echo "creating a csv dictionary out of wikidata english labels"
 zcat wikidata-terms.nt.gz | grep "@en" | cut -d" " -f1,3- | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g'| sed -E 's/@.+//g' | sort | uniq > wikidata-labels-dict.csv
 
 echo "creating a csv dictionary out of english dbpedia uris to wikidata same as links"
-bzcat wikidatawiki-20150330-sameas-all-wikis.ttl.bz2 | grep "http://dbpedia.org" | awk '{ print $3 " " $1}'  | sed -e 's/wikidata\.dbpedia\.org\/resource/wikidata\.org\/entity/'  | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g' > dbpedia-wikidata-sameas-dict.csv
+bzcat wikidatawiki-20150330-sameas-all-wikis.ttl.bz2 | grep "http://dbpedia.org" | awk '{ print $3 " " $1}'  | sed -e 's/wikidata\.dbpedia\.org\/resource/www.wikidata\.org\/entity/'  | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g' > dbpedia-wikidata-sameas-dict.csv
 
 cd ../..
 
