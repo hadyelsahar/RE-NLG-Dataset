@@ -37,11 +37,12 @@ class DBpediaAbstractsDataReader:
 
                 if self.mappings is not None:
                     if l[0] in self.mappings:
-                        l[0] = self.mappings[0]
+                        l[0] = self.mappings[l[0]]
                     else:
                         continue
 
                 document = Document(
+                    docid=l[0],
                     pageuri=l[0],
                     title=title,
                     text=l[1]
