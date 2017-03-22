@@ -1,5 +1,5 @@
 from pipeline import *
-import pandas as pd
+from collections import defaultdict
 
 class NoSubjectAlign(BasePipeline):
     """
@@ -9,8 +9,18 @@ class NoSubjectAlign(BasePipeline):
     """
     def __init__(self, triples_file):
         self.annotator_name = "NoSubject-Triple-aligner"
+
         # load triples in memory
-        self.wikidata_triples = pd.read_csv(triples_file, sep="\t", names=["subject", "predicate", "object"])
+        d = defaultdict(list)
+        with open(triples_file) as f:
+            for l in f:
+                tmp = l.split("\t")
+                d["%s\t%s" % (tmp[0], tmp[2])].append(tmp[1])
+
+        # pd.read_csv(triples_file, sep="\t", names=["subject", "predicate", "object"]).set_index(['subject', 'object'])
+
+        self.wikidata_triples = d
+
 
     def run(self, document):
         """
@@ -33,10 +43,10 @@ class NoSubjectAlign(BasePipeline):
                 subject = Entity(document.uri, boundaries=None, surfaceform=document.title, annotator=self.annotator_name)
 
             for o in es:
-                predicates = self.wikidata_triples[self.wikidata_triples.subject == subject.uri][self.wikidata_triples.object == o.uri].predicate.values
+
+                predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
 
                 for pred in predicates:
-
                     pred = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
 
                     triple = Triple(subject=subject,
