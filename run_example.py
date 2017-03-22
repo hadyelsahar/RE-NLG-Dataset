@@ -16,4 +16,4 @@ for d in reader.read_documents():
     d = link.run(d)
     d = align.run(d)
 
-    print "Document Title: %s \t Number of Annotated Entities %s" % (d.title, len(d.triples))
+    print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
