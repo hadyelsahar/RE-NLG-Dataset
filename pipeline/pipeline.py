@@ -107,7 +107,7 @@ class Document:
         function to print the annotated document into one json file
         :return:
         """
-        j = self.__dict__
+        j = self.__dict__.copy()
         j['entities'] = [i.toJSON() for i in j['entities']] if 'entities' in j and j['entities'] is not None else []
         j['triples'] = [i.toJSON() for i in j['triples']] if 'triples' in j and j['triples'] is not None else []
 
@@ -144,7 +144,7 @@ class Entity:
 
     def toJSON(self):
 
-        return self.__dict__
+        return self.__dict__.copy()
 
 class Triple:
     def __init__(self, subject, predicate, object, sentence_id, dependency_path=None, confidence=None, annotator=None):
@@ -184,7 +184,7 @@ class Triple:
         return Triple(subject, predicate, object, sentence_id, dependency_path, confidence, annotator)
 
     def toJSON(self):
-        j = self.__dict__
+        j = self.__dict__.copy()
         j['subject'] = j['subject'].toJSON()
         j['predicate'] = j['predicate'].toJSON()
         j['object'] = j['object'].toJSON()
