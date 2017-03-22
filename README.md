@@ -12,9 +12,14 @@ cd dbpedia-spotlight
 # dbpedia spotlight server needs at least 6gb of ram
 java -Xmx6g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest 
 ```
-# Dumps 
+# Knowledge Base Dumps
+## DBpedia
 
-## Wikdata dumps
+dbpedia triples and same as links are downloaded automatically with the `setup.sh` script
+
+## Wikdata
+
+downloaded automatically using the `setup.sh` script
 
 Wikdata provides a [tool for exporting RDF dumps](http://tools.wmflabs.org/wikidata-exports/rdf/index.html)
  
@@ -26,20 +31,25 @@ Sameas links between Wikidata and DBpedia are already extracted and can be found
 The latest available version in this project is [Available on the extraction page from 20150330](http://wikidata.dbpedia.org/downloads/20150330/)
 the downloaded dump is available from here [20150330-sameas-all-wikis.ttl.bz2](http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2)
 
-## Text Dumps
+# Text Dumps
 
-### Wikipedia dumps
+### Wikipedia Atricles dump
+go to `./datasets/Wikipedia/`
+run "setup.sh"
+the script will download wikipedia latest dump and extract text in articles.
 
-download the [latest wikipedia dump enwiki-latest-pages-articles.xml.bz2](https://dumps.wikimedia.org/enwiki/) and extract text documents from wikipedia articles.
- 
-see more `./datasets/Wikipedia/`
+### DBpedia Abstracts dump
+go to `./datasets/wikipedia-abstracts/`
+run "setup.sh"
+the script will download dbpedia abstracts latest dump from DBpedia website
+and extract text in article
 
-## Feautres :
+## Output Format :
 All of the modules in the pipeline take the a single json file [as descriped below]
  and outputs the same file after filling in some of it's attributes.
 ```
   {
-        "doc"id:                       Document id     -- Wikipedia document id when dealing with wikipedia dump
+        "docid":                   Document id     -- Wikipedia document id when dealing with wikipedia dump
         "title":                    title of the wikipedia document
         "uri":                      URI of the item containing the main page
         "text":                     The whole text of the document
