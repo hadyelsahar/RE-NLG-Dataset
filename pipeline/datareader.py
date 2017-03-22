@@ -29,9 +29,10 @@ class DBpediaAbstractsDataReader:
         function that yields iterator of documents, the URI of each document is the DBpedia URI
         """
         with open(self.dataset_file) as f:
-            read = csv.reader(f)
+            read = csv.reader(f, delimiter="\t")
 
             for l in read:
+
                 # extraction of title from DBpedia URI
                 title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
 
