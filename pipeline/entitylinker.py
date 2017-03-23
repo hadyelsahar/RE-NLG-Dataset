@@ -34,7 +34,7 @@ class DBSpotlightEntityLinker(BasePipeline):
             for ann in annotations:
 
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
-                e_end = e_start + len(ann['surfaceForm'])
+                e_end = e_start + len(str(ann['surfaceForm']))
 
                 entity = Entity(ann['URI'],
                        boundaries=(e_start, e_end),
@@ -91,7 +91,7 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
             for ann in annotations:
 
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
-                e_end = e_start + len(ann['surfaceForm'])
+                e_end = e_start + len(str(ann['surfaceForm']))
 
                 # give priority to Tag DBpedia classes if they are tagged.
                 tmp = ann['URI'].replace("resource", "ontology")
@@ -148,7 +148,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
             for ann in annotations:
 
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
-                e_end = e_start + len(ann['surfaceForm'])
+                e_end = e_start + len(str(ann['surfaceForm']))
 
                 # change DBpedia URI to Wikidata URI
                 if ann['URI'] in self.mappings:
