@@ -32,7 +32,6 @@ class DBpediaAbstractsDataReader:
             read = csv.reader(f, delimiter="\t")
 
             for l in read:
-
                 # extraction of title from DBpedia URI
                 title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
 
@@ -46,7 +45,7 @@ class DBpediaAbstractsDataReader:
                     docid=l[0],
                     pageuri=l[0],
                     title=title,
-                    text=l[1]
+                    text=l[1].decode('utf-8')
                 )
 
                 yield document
