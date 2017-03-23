@@ -36,7 +36,7 @@ class DBSpotlightEntityLinker(BasePipeline):
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
 
                 if type(ann['surfaceForm']) not in [str, unicode]:
-                    ann['surfaceForm'] = str[ann['surfaceForm']]
+                    ann['surfaceForm'] = str(ann['surfaceForm'])
 
                 e_end = e_start + len(ann['surfaceForm'])
 
@@ -97,7 +97,7 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
 
                 if type(ann['surfaceForm']) not in [str, unicode]:
-                    ann['surfaceForm'] = str[ann['surfaceForm']]
+                    ann['surfaceForm'] = str(ann['surfaceForm'])
 
                 e_end = e_start + len(ann['surfaceForm'])
 
@@ -158,7 +158,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 e_start = document.sentences_boundaries[sid][0] + ann['offset']
 
                 if type(ann['surfaceForm']) not in [str, unicode]:
-                    ann['surfaceForm'] = str[ann['surfaceForm']]
+                    ann['surfaceForm'] = str(ann['surfaceForm'])
 
                 e_end = e_start + len(ann['surfaceForm'])
 
