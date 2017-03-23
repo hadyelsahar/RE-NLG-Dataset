@@ -10,10 +10,19 @@ reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
 link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
-align = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
-writer = JsonWriter('./sample-docs', filesize=10)
+align = NoSubjectAlign('./datasets/wikidata/wikidata-triples.csv')
+writer = JsonWriter('./out')
 for d in reader.read_documents():
-    d = link.run(d)
-    d = align.run(d)
-    writer.run(d)
-    print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
+
+    try:
+        d = link.run(d)
+        d = align.run(d)
+        writer.run(d)
+        # print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
+
+    except Exception as e:
+
+        print "error Processing document %s" % d.title
+        print e.message
+
+
