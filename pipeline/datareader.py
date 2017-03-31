@@ -7,7 +7,10 @@ class DBpediaAbstractsDataReader:
     """
     def __init__(self, dataset_file, db_wd_mapping=None):
         """
+
         :param dataset_file: path of the dataset file
+        :param db_wd_mapping: if given the page-uri will be changed from the one in the dataset
+        to be mapped using the mappings file given.
         """
 
         self.dataset_file = dataset_file
