@@ -1,0 +1,201 @@
+,counts,pattern,examples,headwordid
+0,208,NN,draft -- draught -- beam -- BOA -- IE -- interaction -- powerplant -- engine -- turbine -- reactor -- propulsion -- powerstation -- elector -- callsign -- comment -- ATCvet -- DOIP -- PCS -- hangingwall -- basionym -- ICD-O -- issuer -- direction -- FIN -- facility_id -- facid -- degree -- diploma -- completeness -- PA -- total -- user -- starttime -- introduction -- MMSI -- coolant -- spin-off -- NILF -- gradient -- UEL -- UFL -- ASL -- FaGID -- GRid -- issue -- number -- aboutness -- topic -- subject -- uio -- CASRN -- ISSN -- InChI -- video -- shield -- schema -- country -- nation -- state -- land -- image -- portrait -- illustration -- picture -- photo -- birthplace -- POB -- location -- NSID -- sandbox-externalId -- formula -- equation -- notation -- owner -- shareholder -- stockholder -- maintenance -- maintainer -- custodian -- administrator -- publisher -- government -- fleet -- eq -- TDP -- thrust -- domain -- cause -- reason -- edition(s) -- translation(s) -- ISNI -- ISBN-13 -- isbn-13 -- pseudonym -- ISO639-2 -- iso639-2 -- ISO639-1 -- iso639-1 -- cleavage -- PMID -- armament -- weapon -- ingredient -- member -- signature -- employer -- workplace -- rank -- occupation -- profession -- job -- work -- career -- employment -- craft -- discipline -- subject -- area -- specialism -- domain -- party -- undercarriage -- KH -- demonym -- boxofficemojo -- constituency -- ward -- electorate -- assistant -- version -- enddate -- endtime -- date -- year -- time -- thickness -- depth -- parity -- TEU -- teu -- ceo -- flag -- producer -- actor -- actress -- electorate -- DHS -- DSS -- floruit (end of work) -- floruit (start) -- PUID (File formats) -- citation -- manager/director -- manager -- director -- DDC -- Q48460 -- bpm -- pinyin -- incipit -- name -- superpower -- GWP -- TWAEL -- spending -- expense -- SDFB -- 6DFB -- protonym -- dedication -- JETDS -- totem -- siteid -- TA98 -- footwall -- fon -- number -- era -- period -- client -- commissioner -- ADB -- librettist -- composer -- songwriter -- anthem -- architect -- PAA -- deme -- editor -- ISBN-10 -- isbn-10 -- manager -- coach -- designer -- alphabet -- script -- postcode -- zipcode -- channel -- network -- ODP -- GNUHoo -- directory.mozilla -- dmoz -- paleodb -- electronegativity,0.0
+1,175,NN NN,line item -- ionization energy -- ionisation energy -- ionization potential -- ionisation potential -- unit conversion -- power plant -- rocket engine -- power station -- debut participant -- debut country -- call sign -- constraint status -- property usage -- usage note -- min quantity -- max quantity -- max date -- min date -- issue tracker -- bug tracker -- error tracker -- index case -- style prefix -- crystal habit -- FIE identifier -- ribbon image -- GRID ID -- Scope ID (film) -- end cause -- Scope ID (person) -- compression ratio -- costume designer -- color index -- start date -- building date -- MMSI number -- oxidation state -- production rate -- production volume -- autoignition temperature -- kindling point -- dipole moment -- streak color -- FaG ID -- ATP ID -- airline code -- airline callsign -- work MBID -- song MBID -- work ID -- song ID -- MBID work -- artist MBID -- artist ID -- index term -- motorway sign -- highway shield -- road marker -- route marker -- highway marker -- trail blaze -- route map -- street map -- highway map -- road map -- railway map -- railroad map -- highway system -- transport network -- road type -- birth place -- birth location -- book publisher -- software publisher -- maximum thrust -- headstone image -- headstone photo -- headstone picture -- score method -- party chief -- party secretary -- pen name -- stage name -- formation location -- parent organization -- parent company -- parent organisation -- NKC identifier -- space group -- area MBID -- Ship armament -- taxon rank -- mother tongue -- language native -- formatter URL -- URL pattern -- URL template -- landing gear -- aircraft undercarriage -- baptism date -- date baptism -- drug interaction -- AniDB identifier -- software version -- end time -- end date -- fall date -- point group -- death toll -- death count -- isospin z-component -- flag description -- record producer -- film producer -- HDS ID -- HDS identifier -- work period (end) -- work period (start) -- case citation -- statute citation -- regulation citation -- art director -- style suffix -- food source -- food plant -- luminosity distance -- pinyin transliteration -- hanyu pinyin -- VIOLIN ID -- target disease -- exhibition history -- ABoK number -- DNF film -- DNF ID (film) -- Wikimedia siteid -- plaque image -- inscription image -- DVN identifier -- lieu d'origine -- luogo d'origine -- name day -- phone number -- telephone number -- voice number -- AuDB ID -- railway line -- film editor -- cpu slot -- cpu socket -- discovery method -- detection method -- NCL ID -- NCL identifier -- vessel class -- ship class -- spacecraft class -- head coach -- club manager -- team manager -- post code -- zip code -- voice recording -- sheet music -- TV channel -- radio network -- television channel -- radio station -- review score -- review rating -- dmoz ID -- district key (Germany) -- pronunciation audio -- narrative location -- GBIF ID,1.0
+2,63,JJ NN,first-time participant -- primary case -- honorific prefix -- central bank/issuer -- academic degree -- average gradient -- electric charge -- MBID artist -- main subject -- main topic -- sovereign state -- Sandbox-External identifier -- Sandbox-Mathematical expression -- mathematical formula -- mathematical notation -- grave image -- grave photo -- grave picture -- ultimate cause -- initial cause -- spectral class -- taxonomic rank -- academic discipline -- scientific discipline -- academic subject -- academic area -- scientific area -- native language -- political party -- religious name -- monastic name -- Kaiserhof ID -- Kaiserhof identifier -- electoral district -- electoral area -- multitree code -- stable version -- left office -- chief executive -- PSS-archi ID -- neutral citation -- parallel citation -- honorific suffix -- honourific suffix -- proper distance -- light-travel distance -- married name -- global-warming potential -- total expenditure -- original combination -- professional name (Japan) -- ARKive ID -- side effect -- national anthem -- biological process -- submarine class -- senior coach -- postal code -- main topic -- full text -- full movie -- original network -- original channel,1.0
+3,46,NNP NNP,BARTOC ID -- Glacier ID -- CONA ID -- TGN ID -- DOI Prefix -- ProCyclingStats ID (cyclist) -- Prosopographia Attica -- FIE ID -- EUL ID -- TED ID (talk) -- MarineTraffic ID -- MMSI Number -- IPNI ID (author) -- endangeredlanguages.com ID -- Findagrave ID -- LEM ID -- WomenWriters ID -- OEIS ID -- Neurolex ID -- PubMed ID -- ICIA ID -- OKTMO ID -- Lake ID (Sweden) -- AniDB ID -- TED ID (speaker) -- GrassBase ID -- Gaoloumi ID -- GitHub username -- InfoCard ID -- GEA ID -- GAE ID -- DVN ID -- OpenCorporates ID -- TED ID (topic) -- ComLaw ID -- Theatricalia ID (person) -- Theatricalia ID (theatre) -- ZDB ID -- MSW ID -- Sycomore ID -- NFPA Health -- NFPA Fire -- NNDB ID -- Mozilla Directory -- Fossilworks ID -- HomoloGene ID,1.0
+4,32,NN NN NN,bug tracking system -- error tracking system -- feature tracking system -- ASCC reporting name -- service ribbon image -- medal ribbon image -- grid research id -- Scope.dk film ID -- IPNI author ID -- NILF author id -- Soccerbase player ID -- Soccerbase manager ID -- PSS-Archi architect id -- airline call sign -- ICAO aerodrome code -- video game publisher -- party chief representative -- NKCR AUT ID -- Disease Ontology ID -- film classification category (CNC) -- aircraft landing gear -- ISFDB series ID -- ISFDB publication ID -- ISFDB author ID -- draft pick number -- FEC candidate ID -- CWGC burial ID -- ceiling exposure limit -- DNF film ID -- Wikimedia database name -- memorial plaque image -- elibrary.ru organisation ID,0.0
+5,32,VBN IN,eliminated at -- ended by -- used by -- born in -- born at -- enclaved by -- owned by -- maintained by -- administered by -- caused by -- founded in -- owned by (company or organization) -- owned by (company or organisation) -- appointed by -- armed with -- composed of -- formed from -- assembled from -- created from -- comprised of -- employed by -- replaced by (structure) -- repealed by -- known as -- amended by -- commissioned by -- made for -- built for -- composed by -- Edited by -- worshipped by -- designed by,0.0
+6,31,NNP NN NN,NATO code name -- WALS family code -- Jamendo album ID -- LibraryThing work ID -- LibraryThing work identifier -- TED talk ID -- Spotify album ID -- Spotify track ID -- MusicBrainz work ID -- MusicBrainz work MBID -- ICAO airport code -- IATA airport code -- CAS registry number -- ICAO airline designator -- MusicBrainz area ID -- CNC film rating -- Linguist list code -- TED speaker ID -- INSEE department code -- INSEE region code -- CWGC memorial ID -- Wikidata month number -- Aragon encyclopedia ID -- EMLO person identifier -- TED topic ID -- CWGC person identifier -- Theatricalia theatre ID -- Theatricalia venue ID -- Theatricalia place ID -- AlloCine serie ID -- USN aircraft designation,0.0
+7,27,JJ NN NN,mandatory constraint status -- Jamendo artist ID -- LT work identifier -- LT work ID -- electric dipole moment -- average shot length -- MusicBrainz artist ID -- thermal design power -- communist party chief -- significant drug interaction -- Hungarian company ID -- Hungarian company number -- African Plant Database -- main food source -- angular diameter distance -- AllMusic album ID -- AllMusic artist ID -- global warming potential -- short-term exposure limit -- individual tax rate -- commemorative plaque image -- rapid transit line -- elibrary organisation ID -- Theatricalia actress ID -- total vote count -- original air channel -- German district key,2.0
+8,27,NN IN NN,city of license -- community of license -- author of afterword -- status of constraint -- rate of production -- callsign of airline -- topic of work -- map of route -- part of network -- place of birth -- location of birth -- type of government -- form of government -- aircraft in fleet -- image of grave -- location of formation -- place of foundation -- type of taxon -- field of work -- field of study -- date of baptism -- time of baptism -- point in time -- time of event -- place of origin (Switzerland) -- head of state -- class of vessel,0.0
+9,23,NN IN,afterword by -- subject of -- enclave within -- operator of -- effect of -- outcome of -- result of -- subsidiary of -- amalgamation of -- set of -- holonym of -- owner of -- vaccine for -- libretto by -- book by -- music by -- deity of -- facet of -- aspect of -- subitem of -- topic of -- subtopic of -- broadcast on,0.0
+10,20,NNP NN,CONA identifier -- TGN identifier -- Alexa rank -- SourceForge project -- CAS number -- Commons image -- Pokedex number -- UN number -- MBID area -- Parsons code -- OKTMO identifier -- Gini coefficient -- PEGI rating -- ClinVar accession -- ZDB identifier -- MSW identifier -- NFPA Flammability -- NFPA Reactivity -- SIRUTA code -- UBIGEO code,0.0
+11,18,NNS,bugs -- spin-offs -- SMILES -- media -- editions -- members -- parts -- fields -- employees -- workers -- deaths -- fatalities -- HLS -- assets -- expenses -- overlies -- fossilworks -- children (number),0.0
+12,13,NNP NNP NNP,Politifact Personality ID -- Chess Club ID -- Cycling Database ID -- FCC Facility ID -- Berliner Denkmaldatenbank ID -- OmegaWiki Defined Meaning -- MarineTraffic Ship ID -- International Chemical Identifier -- IDEO Job ID -- Communist Party Secretary -- China Vitae ID -- PEI Register ID -- Netscape Open Directory,2.0
+13,10,NN VBD,stage reached -- point achieved -- item operated -- aircraft operated -- equipment operated -- facility operated -- service operated -- item operated -- aircraft carried -- metre used,1.0
+14,9,VBG NN,defining formula -- publishing house -- underlying cause -- playing hand -- comoving distance -- connecting line -- writing system -- speaking voice -- setting location,0.0
+15,9,VBG,starting -- beginning -- fracturing -- drawing -- missing -- holding -- riding -- ending -- starring,0.0
+16,9,NNP,IP -- Museofile -- InChIKey -- Bookland -- CEO -- GPU -- Heimatort -- NewHoo -- Rundata,0.0
+17,9,NN IN NNS,type of electors -- number of awards -- coat of arms -- network of routes -- system of routes -- number of employees -- number of deaths -- number of contributors -- number of children,0.0
+18,7,VBZ NN,has cause -- has reason -- has edition -- has part -- has member -- includes part -- has phoneme,0.0
+20,7,VBZ,underlies -- operates -- regulates (molecular biology) -- contains -- includes -- owns -- solves,0.0
+21,7,JJ NNS,eligible voters -- total inductees -- canonical SMILES -- ultimate causes -- primary destinations -- total assets -- eligible voters,1.0
+23,6,NNP NN NNP,C-SPAN person ID -- EMLO person ID -- CWGC person ID -- Theatricalia person ID -- Theatricalia actor ID -- AlloCine series ID,0.0
+24,6,VBN,introduced -- operated -- baptised -- divorced -- closed -- dissolved,0.0
+25,6,NNP NNP NN NN,Orsay Museum artist ID -- BBC Music artist ID -- Catholic Hierarchy bishop identifier -- Nationalmuseum Sweden artwork ID -- Nationalmuseum Sweden artist ID -- Getty Museum object id,3.0
+26,6,NN NNS,code letters -- EUL editions -- road atlas -- qty deaths -- qty fatalities -- SWB editions,1.0
+27,5,VBN NN,expected completeness -- replaced synonym (for nom. nov.) -- cast member -- used metre -- spoken voice,0.0
+28,5,NNP NNP NNP NNP NN NN,International Civil Aviation Organization airport code -- International Air Transport Association airport code -- International Civil Aviation Organization airline designator -- J. Paul Getty Museum object id -- Commonwealth War Graves Commission person identifier,5.0
+29,5,NN CD,patient zero -- ISO 27729 -- iso 639-2 -- iso 639-1 -- ZIP+4,0.0
+30,5,JJ JJ NN,upper flammable limit -- upper explosive limit -- minimum explosive concentration -- twenty-foot equivalent unit -- chief executive officer,2.0
+31,5,VB NN,start time -- have part -- cease date -- cease time -- scan file (Commons),0.0
+32,4,JJ NN NN NN,Australian Ramsar site ID -- Hungarian company register number -- Hungarian company register ID -- Catholic Hierarchy diocese ID,1.0
+33,4,NNP NNP NNP NNP,Politifact Personality Identifier ID -- World Glacier Inventory ID -- Maritime Mobile Service Identity -- Czech National Authority Database,3.0
+34,4,NN NN NN NN,CWGC burial ground ID -- CWGC burial ground ID -- maximum peak exposure limit -- Cell line ontology ID,3.0
+35,4,RB NN,first language -- first line -- OWW ID -- daily ridership,1.0
+36,4,NNP NNP NNP NN,Free Software Directory entry -- International Standard Book Number-13 -- Digital Rights Management system -- International Standard Book Number-10,2.0
+37,4,NNP NNP NNP NN NN,Fashion Model Directory model ID -- Box Office Mojo studio ID -- Box Office Mojo franchise ID -- Box Office Mojo film ID,2.0
+38,3,NNP VBD,ISOCAT id -- BabelNet id -- Wikimedia dbname/siteid,1.0
+39,3,IN NN,from time -- from date -- at time,1.0
+40,3,JJ NNP NNP NNP,Swedish Football Association ID -- Meteoritical Bulletin Database ID -- Global Geoparks Network ID,3.0
+41,3,NNP JJ NN NN,Berlin cultural heritage ID -- MSK Gent work PID -- China administrative division code,0.0
+42,3,NN CD NN,ISO 12620 ID -- ISO 639-2 code -- ISO 639-1 code,0.0
+43,3,NNP NNP IN NNP NNP NN NN,Information Center for Israeli Art artist ID -- Information Center for Israeli Art artist identifier -- Information Center for Israeli Art artist ID,1.0
+44,3,NN NNP NNP,Facility ID Number -- Vaccine Ontology ID -- ECHA InfoCard ID,0.0
+45,3,VBN IN IN,formed out of -- assembled out of -- created out of,0.0
+46,3,NNP NNP NN,European Community number -- Gene Atlas Image -- Dewey Decimal Classification,1.0
+47,3,JJ JJ NN NN,Czech cultural heritage ID -- time-weighted average exposure limit -- Great Aragonese Encyclopedia ID,2.0
+48,3,VBZ IN,originates from -- comes from -- consists of,0.0
+49,2,NNP NNPS NNP,Cycling Archives ID (cyclist) -- Chess Games ID,2.0
+50,2,JJ NN IN,musical score by -- narrative set in,1.0
+51,2,NN VBN IN,structure replaced by -- state headed by,1.0
+52,2,NNP NNP NNP NNP NN NN NN,Commonwealth War Graves Commission burial ground identifier -- Commonwealth War Graves Commission burial ground ID,3.0
+53,2,NNP NNP .,EC No. -- EINECS No.,1.0
+54,2,NNP NNP IN NNP NNP,Parsons Code for Melodic Contours -- Online World of Wrestling ID,1.0
+55,2,SYM,FMD -- FNA,0.0
+56,2,VBN IN NN,set in period -- set in era,0.0
+57,2,JJ VBN,round reached -- total awarded,1.0
+58,2,JJS NN NN,highest income threshold -- lowest income threshold,0.0
+59,2,NNP NNP NN NNP,Catholic Hierarchy person ID -- Masaryk University person ID,1.0
+60,2,NN JJ NN,grid global id -- NK CR AUT,0.0
+61,2,NNS JJ,years active -- years active,0.0
+62,2,JJ NN NNS,national team caps -- national team appearances,2.0
+63,2,JJS NN,latest date -- latest version,0.0
+64,2,NN VBG,number missing -- film starring,0.0
+65,2,NN IN VBN NNS,number of registered users/contributors -- number of registered users,0.0
+66,2,JJ NN IN NN,graphic symbol of thoroughfare -- basic form of government,1.0
+67,2,NNS VBD,ballots cast -- sockets supported,1.0
+68,2,VB NNP NNP,Open Corporates ID -- Open Directory Project,0.0
+69,2,NN IN VBG,cause of ending -- number of missing,0.0
+70,2,NNS NN,singles record -- routes system,0.0
+71,2,JJ NNP IN NN NN,Australian Dictionary of Biography ID -- Australian Dictionary of Biography identifier,1.0
+72,2,NNP NNP NNP NNP NNP : NN,New York Times Semantic Concept: Descriptor -- New York Times Semantic Concept: Person,4.0
+73,2,VBZ DT NN IN NN,is an object of class -- is a star of class,2.0
+74,2,JJ NNP NNP NNP NNP,Swiss Football Association Club Number -- Global Biodiversity Information Facility ID,4.0
+75,2,VB,include -- autograph,0.0
+76,1,VBZ NN NN,has index case,0.0
+77,1,JJS JJ NN,lowest atmospheric pressure,0.0
+78,1,JJ JJ NNP NNP NNP,Australian Geological Provinces Database Identifier,2.0
+79,1,JJ NNP NN,Australian Wetlands Database,1.0
+80,1,DT .,no.,0.0
+81,1,JJ NNP NNP NNP NNP NN NN,Australian Wetlands Database Australian Ramsar site number,4.0
+82,1,JJ NNS NN NNS VBP,Notable Names Database people ID,4.0
+83,1,RB VBZ IN,physically interacts with,0.0
+84,1,JJ NNP IN NNP,Historical Dictionary of Switzerland,1.0
+85,1,NNS VBG NN,graphics processing unit,0.0
+86,1,NNP NNP NNP IN NNP NNPS NNP,Nova Scotia Register of Historic Places ID,2.0
+87,1,NN IN VBG NNS,number of missing people,0.0
+88,1,NNS VBP NN,Discogs release ID,1.0
+89,1,WRB,when,0.0
+90,1,NN NNP NN,maximum Strahler number,0.0
+91,1,NNP NNP NNP NNP NN,US Federal Election Commission identifier,3.0
+92,1,JJ NNP NNP,Australian Wetlands Code,0.0
+93,1,JJ JJ NNS IN JJ NNS,Spanish subject headings for public libraries,2.0
+94,1,NNS VBG,people missing,0.0
+95,1,NN IN NNP NNP,Hall of Valor ID,0.0
+96,1,NNP NNP NNP NNP NNP : NNP,New York Times Semantic Concept: Organization,4.0
+97,1,NNP JJ NN,NASA biographical ID,0.0
+98,1,NN IN NNS VBN IN NN,Category for pictures taken with camera,0.0
+99,1,NN IN NN IN JJ NN,date of baptism in early childhood,0.0
+100,1,VBN TO VB TO,licensed to broadcast to,0.0
+101,1,RB NN IN,first appearance for,1.0
+102,1,NN IN DT NN,member of the deme,0.0
+103,1,NNP VBP,Exif make,1.0
+104,1,TO NN,to time,1.0
+105,1,VBZ TO NN,applies to part,0.0
+106,1,NNP NN IN DT NN,C-SPAN identifier of a person,0.0
+107,1,NN VBN,location born,1.0
+108,1,JJ JJ NNP NNP,Australian Geological Provinces ID,0.0
+109,1,IN IN,as of,1.0
+110,1,NNP NN NN NN,PRONOM file format identifier,0.0
+111,1,VBZ VBG NN,has underlying cause,0.0
+112,1,NNP NNP NNP NN NNP,Box Office Mojo person ID,2.0
+113,1,NNP NN IN NNS IN NNP,International Classification of Diseases for Oncology,0.0
+114,1,NNPS NNP NN NN,Statistics Indonesia ethnicity code,1.0
+115,1,NNP IN NNP NN NN,University of Barcelona authority ID,0.0
+116,1,NNP NNP NNS,World Heritage criteria (2005),1.0
+117,1,JJ JJ IN DT NNP,light characteristic of a lighthouse,0.0
+118,1,NNP NNP NNP JJ NN,Baltisches Biographisches Lexikon digital ID,2.0
+119,1,NN IN NNP,distance from Earth,0.0
+120,1,JJ IN NN,valid for part,0.0
+121,1,NN IN NNP NNP NN NN,Flora of North America taxon ID,0.0
+122,1,NNP NNP IN NNP NNP NN,Saskatchewan Register of Heritage Property identifier,1.0
+123,1,RB IN,mainly about,0.0
+124,1,JJ NN IN DT NN POS VBN NN,audio recording of the subject's spoken voice,1.0
+125,1,JJ JJ,academic minor,0.0
+126,1,NNP VBG NN,NATO reporting name,0.0
+127,1,NNP NNP VB NNP,International Standard Name Identifier,1.0
+128,1,RB VBN IN,also known as,1.0
+129,1,NN VBN TO,line connected to,0.0
+130,1,NNP JJ NN NN NN NN,Internet Speculative Fiction Database author ID,0.0
+131,1,NNP #,EC#,0.0
+132,1,JJ NNS NNS NNP NN,Cultural Objects Names Authority identifier,1.0
+133,1,JJ NNS NN NN,Notable Names Database ID,1.0
+134,1,NNP NNP IN JJ NN NN,National Discography of Italian Song ID,1.0
+135,1,NNS IN,works at,0.0
+136,1,NNP NNP IN NNP NNPS NN,PEI Register of Historic Places identifier,1.0
+137,1,NNP NNP CD,Terminologia Anatomica 98,1.0
+138,1,JJ NNP NNP NNP IN NNP NNP NNP NNP,Australian Wetlands Database Directory of Important Wetlands Reference Code,3.0
+139,1,NN NNS VBP,NNDB people ID,2.0
+140,1,NNP NNP JJ NN,International Standard Serial Number,1.0
+141,1,DT JJ NN VBZ JJ IN,this zoological name is coordinate with,4.0
+142,1,IN DT NN,of the deme,2.0
+143,1,NNP NNP NNP NNP NN NNP,Commonwealth War Graves Commission person ID,3.0
+144,1,TO,to,0.0
+145,1,NN IN JJ NN,member of political party,0.0
+146,1,NNP NNP NNP IN NNP NNPS NN,Nova Scotia Register of Historic Places identifier,2.0
+147,1,NN VBD IN,surface played on,1.0
+148,1,JJ NN IN JJ JJ NN,administrative code of Indonesian Administrative Division,1.0
+149,1,JJ NN IN DT NN,legal citation of this text,1.0
+150,1,NN IN NNS IN DT NN,category for recipients of this award,0.0
+151,1,VBG NNS,participating teams,0.0
+152,1,RB VB,first verse,0.0
+153,1,NN :,tel:,0.0
+154,1,NN NN NNP CD NNP,Florentine musea Inventario 1890  ID,1.0
+155,1,NNP NNP NNP NNPS NNP,Nova Scotia Historic Places ID,1.0
+156,1,VBN NN IN NN,expected level of completion,0.0
+157,1,NN NN VBN TO,rail line connected to,1.0
+158,1,NN NN IN NN,source location of group/organisation,1.0
+159,1,NN #,phone #,0.0
+160,1,VBG CC NN IN,recording or performance of,0.0
+161,1,JJ NNS NNS NNP NNP,Cultural Objects Names Authority ID,1.0
+162,1,FW FW NN,ex taxon author,1.0
+163,1,VBZ VBN IN,is owned by,1.0
+164,1,NNP NNP IN NNP NNP NNP,Saskatchewan Register of Heritage Property ID,1.0
+165,1,RB NNP NNP NNP NN,Early Modern Letters Online identifier,3.0
+166,1,CD NNS IN NNP NNP,6 Degrees of Francis Bacon,1.0
+167,1,VB DT NN JJ NNS VBP,Find a Grave grave people ID,0.0
+168,1,JJ NN CC NN,superhuman feature or ability,1.0
+169,1,NNP NNP IN NNP NNPS NNP,PEI Register of Historic Places ID,1.0
+170,1,NNP NNPS NNP NN NN,United States Navy aircraft designation,2.0
+171,1,JJ NNP NNP NN NN,Danish National Filmography film ID,2.0
+172,1,VBN TO,dedicated to,0.0
+173,1,VBZ JJ,has add-on,0.0
+174,1,NN TO JJ NN,conversion to standard unit,0.0
+175,1,NNP NNP NNP NNP NNP,US Federal Election Commission ID,4.0
+176,1,VBZ TO,belongs to,0.0
+177,1,JJ NN IN NNP,administrative code of Indonesia,1.0
+178,1,NN TO DT NN,contributor(s) to the subject,0.0
+179,1,VBG IN,working for,0.0
+180,1,VBN NN IN NNP NNPS,scanned file on Wikimedia Commons,0.0
+181,1,VBD,began,0.0
+182,1,VBN NNS,qualified voters,0.0
+183,1,NNS IN NN,beats per minute,0.0
+184,1,JJ VBG,subject heading,0.0
+185,1,NNP NNP IN NNP NNS,Getty Thesaurus of Geographic Names,1.0
+186,1,NN VBD NN,ICAO airfield code,1.0
+187,1,NNS IN JJ NNP,Persons of Ancient Athens,0.0
+188,1,NNP NNS IN NN NN,Commons photos by camera category,0.0
+189,1,CD NNS IN NNP NNP NNP,Six Degrees of Francis Bacon ID,1.0
+190,1,NNP NNP NN NNP NNP NNP NN,Joint Electronics Type Designation Automated System designation,5.0
+191,1,NN VBN IN NN IN NN,office held by head of state,1.0
+192,1,VBN IN DT NN,Taken with this camera,0.0
+193,1,NN IN JJ NNS,Thesaurus of Geographic Names,0.0
+194,1,NN IN DT NN POS VBN NN,recording of the subject's spoken voice,0.0
+195,1,NN JJ NN NN,grid global research id,0.0
+196,1,NNP DT .,EC no.,0.0
+197,1,NN CC NN NN NN,mix'n'match catalogue ID,0.0
+198,1,NN NN IN NNP NNPS,document file on Wikimedia Commons,1.0
+199,1,VBZ NNS,has causes,0.0
+200,1,JJ NN NNP,Scope.dk person ID,1.0
+200,1,JJ NN NNP,Scope.dk person ID,1.0
