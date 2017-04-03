@@ -1,11 +1,10 @@
 __author__ = 'hadyelsahar'
 
 import json
-
 import numpy as np
 import networkx as nx
 import requests
-
+from pipeline.pipeline import *
 
 class CoreNlPClient:
 
@@ -20,22 +19,22 @@ class CoreNlPClient:
     def annotate(self, s):
 
         properties = json.dumps(self.properties)
-        r = requests.post("%s?properties=%s" %(self.serverurl, properties), data=s)
+        r = requests.post("%s?properties=%s" % (self.serverurl, properties), data=s)
 
         if r.status_code == 200:
             x = json.loads(unicode(r.text), strict=False)
 
-            return Parse(x)
+            return Parse(x, annotators=self.properties["annotators"])
 
         else:
-            raise RuntimeError("%s \t %s"%(r.status_code, r.reason))
+            raise RuntimeError("%s \t %s" % (r.status_code, r.reason))
 
 
 class Parse:
     """
     a class to hold the output of the corenlp parsed result
     """
-    def __init__(self, parsed):
+    def __init__(self, parsed, annotators):
         """
         :param parsed: the output of invoking the stanford parser service
         :return
@@ -48,33 +47,53 @@ class Parse:
                     redundant but easy to call afterwards when writing rule based
                     {"in":[], "out":[]}] ... etc
         """
+        self.tokens = []
+        self.sentences_boudaries = []
+        self.words_boudaries = []
+        self.postags = None
+        self.ner = None
 
-        self.tokens = [i['originalText'] for i in parsed["sentences"][0]["tokens"]]
-        self.positions = [(i['characterOffsetBegin'], i['characterOffsetEnd']) for i in parsed["sentences"][0]["tokens"]]
-        self.postags = [i['pos'] for i in parsed["sentences"][0]["tokens"]]
-        self.ner = [i['ner'] for i in parsed["sentences"][0]["tokens"]]
-        self.parsed_tokens = parsed["sentences"][0]["tokens"]
+        for s in parsed["sentences"]:
+            # get sentence boundaries
+            start = s['tokens'][0]["characterOffsetBegin"]
+            end = s['tokens'][-1]["characterOffsetEnd"]
 
-        # removing the root note and starting counting from 0
-        self.dep = [{"in": [], "out":[]} for i in self.tokens]
+            self.sentences_boudaries.append((start, end))
 
-        for d in parsed["sentences"][0]["collapsed-ccprocessed-dependencies"]:
+            self.tokens += [i["originalText"] for i in s["tokens"]]
+            self.words_boudaries += [(i['characterOffsetBegin'], i['characterOffsetEnd']) for i in s["tokens"]]
 
-            if d['dep'] == "ROOT":
-                self.dep[d['dependent']-1]["in"].append(("ROOT", None))
+            if "pos" in annotators:
+                if self.postags is None:
+                    self.postags = []
+                self.postags += [i['pos'] for i in s["tokens"]]
 
-            else:
-                self.dep[d['dependent']-1]["in"].append((d['dep'], d['governor']-1))
-                self.dep[d['governor']-1]["out"].append((d['dep'], d['dependent']-1))
+            if "ner" in annotators:
+                if self.ner is None:
+                    self.ner = []
+                self.ner += [i['ner'] for i in s["tokens"]]
 
-        self.corefs = parsed["corefs"]
-        self.all = parsed
+        # if "parse" in annotators:
+        #     for s in parsed["sentences"]:
+        #         # removing the root note and starting counting from 0
+        #         self.dep = [{"in": [], "out":[]} for i in self.tokens]
+        #
+        #         for d in s["collapsed-ccprocessed-dependencies"]:
+        #
+        #             if d['dep'] == "ROOT":
+        #                 self.dep[d['dependent']-1]["in"].append(("ROOT", None))
+        #
+        #             else:
+        #                 self.dep[d['dependent']-1]["in"].append((d['dep'], d['governor']-1))
+        #                 self.dep[d['governor']-1]["out"].append((d['dep'], d['dependent']-1))
+
+        # self.corefs = parsed["corefs"]
 
         # making graphs out of parses to make shortest path function
-        self.depgraph = nx.MultiDiGraph()
-        for tokid, dep in enumerate(self.dep):
-            for iin in dep['in']:
-                self.depgraph.add_edge(iin[1], tokid, label=iin[0])
+        # self.depgraph = nx.MultiDiGraph()
+        # for tokid, dep in enumerate(self.dep):
+        #     for iin in dep['in']:
+        #         self.depgraph.add_edge(iin[1], tokid, label=iin[0])
 
     def getshortestpath(self, source, target):
 
