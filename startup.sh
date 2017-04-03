@@ -60,6 +60,20 @@ bzcat instance_types_en.ttl.bz2 | cut -d" " -f3  | grep "<http://dbpedia.org/ont
 
 
 
+echo "Downloading CoreNLP Library"
+
+mkdir ./utils/corenlp
+wget http://nlp.stanford.edu/software/stanford-corenlp-full-2015-12-09.zip -O ./utils/corenlp/stanford-corenlp-full-2015-12-09.zip
+unzip ./utils/corenlp/stanford-corenlp-full-2015-12-09.zip -d ./utils/corenlp/
+
+# Set up your classpath. For example, to add all jars in the current directory tree:
+cd ./utils/corenlp/stanford-corenlp-full-2015-12-09
+export CLASSPATH="`find . -name '*.jar'`"
+# Run the server on port 9000
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer 9000
+
+
+
 
 
 
