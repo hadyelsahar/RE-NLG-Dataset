@@ -130,36 +130,6 @@ class Parse:
         parsed sentence  ex : [[1, 2], [4, 5], [11, 12]]
         """
 
-        def index(subseq, seq):
-            """
-            Return an index of `subseq`uence in the `seq`uence.
-            Or `-1` if `subseq` is not a subsequence of the `seq`.
-            The time complexity of the algorithm is O(n*m), where
-                n, m = len(seq), len(subseq)
-            index([1,2], range(5))
-            [1]
-            index(range(1, 6), range(5))
-            -1
-            index(range(5), range(5))
-            [0]
-            index([1,2], [0, 1, 0, 1, 2])
-            [3]
-            index([1,2], [0, 1,2 , 0, 1, 2])
-            [1,4]
-            """
-            starts = []
-            # while subseq[0] in seq:
-            #     index = seq.index(subseq[0])
-            #     if subseq == seq[index:index + len(subseq)]:
-            #         starts.append(index)
-            #     else:
-            #         seq = seq[index + 1:]
-            #
-            # if len(starts) > 0:
-            #     return starts
-            # else:
-            #     return -1
-
         allchunks = []
 
         # extraction of chunks that exists in patterns
