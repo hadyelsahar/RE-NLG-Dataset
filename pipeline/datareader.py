@@ -73,6 +73,7 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
 
         self.dataset_file = dataset_file
         self.corenlp = CoreNlPClient(annotators=["tokenize", "ssplit", "pos"])
+        self.annotator_name = "corenlp"
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -114,7 +115,7 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
                         boundaries=p.words_boudaries[i],
                         surfaceform=p.tokens[i],
                         uri=postag,
-                        annotator="corenlp_pos_tagger"
+                        annotator=self.annotator_name + "_pos"
                     )
 
                     entities.append(e)
