@@ -1,6 +1,7 @@
 from pipeline import *
 import spotlight
 import pandas as pd
+from utils.textmatch import string_matching_rabin_karp
 
 class DBSpotlightEntityLinker(BasePipeline):
 
@@ -21,7 +22,8 @@ class DBSpotlightEntityLinker(BasePipeline):
         :return: Document after being annotated
         """
 
-        document.entities = []
+        if document.entities is None:
+            document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
@@ -81,8 +83,8 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
         :param document: Document object
         :return: Document after being annotated
         """
-
-        document.entities = []
+        if document.entities is None:
+            document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
@@ -136,14 +138,14 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 tmp = l.split("\t")
                 self.mappings[tmp[0].strip()] = tmp[1].strip()
 
-
     def run(self, document):
         """
         :param document: Document object
         :return: Document after being annotated
         """
 
-        document.entities = []
+        if document.entities is None:
+            document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
@@ -176,5 +178,151 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 document.entities.append(entity)
 
         return document
+
+
+class POSPatternLinker(BasePipeline):
+
+    def __init__(self, patterns, annotator_name=None, longest_sequence=True, filter_annotator=None, filter_mode="intersection"):
+        """
+
+        :param patterns: list of patterns to tag  ["NN NP", "VB NN" ..etc]
+        :param annotator_name: annotator_name to add to annotations
+        :param longest_sequence: pick longest sequence pattern match
+                for example if  both patterns "NN" and "NN NP" matches will return only "NN NP"
+        :param filter_annotator:  filter intersection with other entities tagged by annotator
+                                    [list of annotator names to filter]
+
+        :param filter_mode:  ["intersection", "subset"] filter tagged entities which match with intersection of previous tagged entities on two modes
+                                intersection:  if they overlap  "largest city in" will not be returned if "city" is tagged as a named entity
+                                subset: only if they are subset of the named entity "President of" will not be returned is "The president of United States" is tagged as a named entity
+        """
+
+        self.patterns = patterns
+        self.annotator_name = annotator_name if annotator_name is not None else "PosPatternLinker"
+        self.longest_sequence = longest_sequence
+        self.filter_annotator = filter_annotator if filter_annotator is not None else []
+        self.filter_mode = filter_mode
+
+
+    def run(self, document):
+        """
+        :param document: input document to extract all pos patterns sequences inside and tag them as entities.
+        :return: document after annotation of entities that match the sequences
+        """
+
+        for sid, (start, end) in enumerate(document.sentences_boundaries):
+            # for each sentence collect pos tags annotated and
+            # reconstructing a text containing all pos tags to send to the string matching algorithm
+            es = [j for j in document.entities if j.boundaries[0] >= start and j.boundaries[1] <= end and j.annotator == "corenlp_pos"]
+            postags = [e.uri for e in es]
+            # save pos tags positions in a dictionary called positions to get them later
+            c = 0
+            positions = {}
+            for i, j in enumerate(postags):
+                positions[c] = i
+                c += (len(j) + 1)
+
+            postags = " ".join(postags)
+
+            detected_entities = []
+
+            for pattern in self.patterns:
+
+                matched_positions = string_matching_rabin_karp(postags, pattern)
+                # print matched_positions
+
+                for i in [x for x in matched_positions if x in positions]:
+
+                    start_id = positions[i]
+                    end_id = positions[i] + len(pattern.split())-1
+                    start_offset = es[start_id].boundaries[0]
+                    end_offset = es[end_id].boundaries[1]
+
+                    # make sure the sum of entities pos tags matches patterns
+                    # important to match cases where  pattern  "NN NN" will mistakenly match the pattern "NN NNP"
+                    # todo: use (1 char)id for each pattern
+
+                    if pattern.strip() == " ".join([es[i].uri for i in range(start_id, end_id+1)]).strip():
+
+                        detected_entities.append(Entity(
+                            uri=pattern,
+                            surfaceform=document.text[start_offset:end_offset],
+                            annotator=self.annotator_name,
+                            boundaries=(start_offset, end_offset)
+                        ))
+
+
+            # filtering entities
+            if len(self.filter_annotator) > 0:
+
+                filterlist = [j for j in document.entities
+                              if j.boundaries[0] >= start and j.boundaries[1] <= end if j.annotator in self.filter_annotator]
+
+                detected_entities = self.filter_entities(detected_entities, filterlist, mode="intersection")
+
+            if self.longest_sequence:
+                detected_entities = self.filter_entities(detected_entities, detected_entities, mode="subset")
+
+            document.entities += detected_entities
+
+        return document
+
+    def filter_entities(self, entities, filterlist, mode="intersection"):
+        """
+        :param entities: list of entities to filter
+        :param filterlist: list of entities to filter against
+        :param mode: ["intersection", "subset"]
+        :return: list of filtered entities
+        """
+        filtered_list = []
+
+        for e in entities:
+
+            match = False
+
+            for ea in filterlist:
+
+                if POSPatternLinker.match(e, ea,  mode == "subset"):
+
+                    match = True
+                    break
+
+            if not match:
+                filtered_list.append(e)
+
+        return filtered_list
+
+    @staticmethod
+    def match(x, y, subsets=False):
+        """
+        helper method to detect if one of the entities contains within the second
+        :param x: entities to check [Class Entity Object]
+        :param y: entities to check against  [Class Entity Object]
+        :param subsets: if True detect only subset not intersection
+        :return:  True if boundaries of x matches y
+        """
+
+        r1 = range(x.boundaries[0], x.boundaries[1])
+        r2 = range(y.boundaries[0], y.boundaries[1])
+
+        if subsets:
+            # match is not a case of subset
+            # important !! because we compare the entity with itself
+            if r1 == r2:
+                return False
+            # return True in case of subsets
+            if all(x in r2 for x in r1):
+                return True
+
+        else:
+            if any(x in r2 for x in r1):
+                return True
+
+        return False
+
+
+
+
+
 
 
