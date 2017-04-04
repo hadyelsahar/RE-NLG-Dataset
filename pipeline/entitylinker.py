@@ -1,6 +1,9 @@
 from pipeline import *
+from utils.matching import *
+from nltk import ngrams
 import spotlight
 import pandas as pd
+import csv
 
 class DBSpotlightEntityLinker(BasePipeline):
 
@@ -178,3 +181,38 @@ class WikidataSpotlightEntityLinker(BasePipeline):
         return document
 
 
+class WikidataPropertyLinker(BasePipeline):
+
+    def __init__(self, wd_prop_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
+        self.annotator_name = 'Wikidata_Property_Linker'
+        self.wd_prop_mapping = wd_prop_mapping
+        self.spotlight_url = spotlight_url
+        self.confidence = confidence
+        self.support = support
+
+        self.mappings = {}
+        with open(wd_prop_mapping) as f:
+            #for l in f.readlines():
+            for l in csv.reader(f, delimiter='\t'):
+                #tmp = l.split("\t")
+                self.mappings[l[2]] = l[0]
+
+
+    def run(self, document):
+        document.entities = []
+        boundaries = []
+        dict_keys = self.mappings.keys()
+
+        for prop in dict_keys:
+            for i in string_matching_knuth_morris_pratt(document.text, prop):
+                boundaries.append((i, i+len(prop)))
+
+        for bou, (start, end) in enumerate(boundaries):
+            entity = Entity(self.mappings[document.text[start:end]],
+                            boundaries=(start,end),
+                            surfaceform=document.text[start:end],
+                            annotator=self.annotator_name)
+
+            document.entities.append(entity)
+
+        return document
