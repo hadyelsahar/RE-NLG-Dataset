@@ -146,6 +146,7 @@ class Entity:
 
         return self.__dict__.copy()
 
+
 class Triple:
     def __init__(self, subject, predicate, object, sentence_id, dependency_path=None, confidence=None, annotator=None):
         """
@@ -191,6 +192,48 @@ class Triple:
 
         return j
 
+class Tuple:
+    def __init__(self, subject, predicate, direction, sentence_id, dependency_path=None, confidence=None, annotator=None):
+        """
+        :param subject: entity class containing the triple subject
+        :param object: entity class containing the triple predicate
+        :param direction: 1 or -1   subject --> predicate or property --> predicate
+        :param sentence_id:  integer showing which sentence in the document this (0,1,2,3 .. first , second , third ..etc)
+        :param dependency_path: "lexicalized dependency path between sub and obj if exists" or None (if not existing)
+        :param confidence: confidence of annotation if possible
+        :param annotator:
+        """
+
+        self.subject = subject
+        self.predicate = predicate
+        self.direction = direction
+        self.sentence_id = sentence_id
+        self.dependency_path = dependency_path
+        self.confidence = confidence
+        self.annotator = annotator
+
+    @classmethod
+    def fromJSON(cls, j):
+        """
+        initialize a triple class using a json object
+        :param j: json object of an entity
+        :return: Triple instantiated object
+        """
+        subject = Entity.fromJSON(j['subject'])
+        predicate = Entity.fromJSON(j['predicate'])
+        direction = Entity.fromJSON(j['direction'])
+        sentence_id = j['sentence_id']
+        dependency_path = j['dependency_path'] if 'dependency_path' in j else None
+        confidence = j['confidence'] if 'confidence' in j else None
+        annotator = j['annotator'] if 'annotator' in j else None
+
+        return Tuple(subject, predicate, direction, sentence_id, dependency_path, confidence, annotator)
+
+    def toJSON(self):
+        j = self.__dict__.copy()
+        j['subject'] = j['subject'].toJSON()
+        j['predicate'] = j['predicate'].toJSON()
+        return j
 
 class BasePipeline:
 
