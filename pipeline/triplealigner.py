@@ -1,5 +1,7 @@
 from pipeline import *
 from collections import defaultdict
+import itertools
+
 
 class NoSubjectAlign(BasePipeline):
     """
@@ -24,7 +26,7 @@ class NoSubjectAlign(BasePipeline):
 
     def run(self, document):
         """
-        :param: input document to align it's sentences with triples
+        :param: input document to align its sentences with triples
         :return:
         """
         document.triples = []
@@ -60,3 +62,59 @@ class NoSubjectAlign(BasePipeline):
 
         return document
 
+
+class SimpleAligner(BasePipeline):
+    """
+    Take a document with tagged entities and match them with one another.
+    Example : If we have three entities Q1, Q2 and Q3, it will try to find a
+    property binding Q1 with Q2, Q2 with Q1, Q2 with Q3 etc...
+    It won't match Q1 with itself, but if Q1 == Q2, it will try to find a
+    property between them
+    """
+    def __init__(self, triples_file):
+        """
+        :param: input document containing the triples (two entities and
+        the property that bind them together)
+        """
+        self.annotator_name = "Simple-Aligner"
+
+        # load triples in memory
+        d = defaultdict(list)
+        with open(triples_file) as f:
+            for l in f:
+                tmp = l.split("\t")
+                d["%s\t%s" % (tmp[0].strip(), tmp[2].strip())].append(tmp[1])
+
+        self.wikidata_triples = d
+
+
+    def run(self, document):
+        """
+        :param: input document to align its sentences with triples
+        :return:
+        """
+        document.triples = []
+        for sid, (start, end) in enumerate(document.sentences_boundaries):
+
+            es = [j for j in document.entities if j.boundaries[0] >= start and j.boundaries[1] <= end]
+
+            # We use permutations to match every entity with all the others
+            for o in itertools.permutations(es, 2):
+
+                # We grab the predicates
+                predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+
+                # And create the triples
+                for pred in predicates:
+                    pred = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
+
+                    triple = Triple(subject=o[0],
+                                    predicate=pred,
+                                    object=o[1],
+                                    sentence_id=sid,
+                                    annotator=self.annotator_name
+                                    )
+
+                    document.triples.append(triple)
+
+        return document
