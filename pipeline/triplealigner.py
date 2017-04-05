@@ -65,9 +65,17 @@ class NoSubjectAlign(BasePipeline):
 
 class SimpleAligner(BasePipeline):
     """
-    Take all the entities in the sentence and match them with the others.
+    Take a document with tagged entities and match them with one another.
+    Example : If we have three entities Q1, Q2 and Q3, it will try to find a
+    property binding Q1 with Q2, Q2 with Q1, Q2 with Q3 etc...
+    It won't match Q1 with itself, but if Q1 == Q2, it will try to find a
+    property between them
     """
     def __init__(self, triples_file):
+        """
+        :param: input document containing the triples (two entities and
+        the property that bind them together)
+        """
         self.annotator_name = "Simple-Aligner"
 
         # load triples in memory
