@@ -2,7 +2,6 @@ __author__ = 'hadyelsahar'
 
 import json
 import numpy as np
-import networkx as nx
 import requests
 from pipeline.pipeline import *
 
