@@ -6,6 +6,7 @@ import networkx as nx
 import requests
 from pipeline.pipeline import *
 
+
 class CoreNlPClient:
 
     def __init__(self, serverurl="http://127.0.0.1:9000/", annotators=("tokenize", "ssplit", "pos", "lemma", "ner", "parse", "dcoref")):
@@ -52,7 +53,9 @@ class Parse:
         self.words_boudaries = []
         self.postags = None
         self.ner = None
+        self.dep = None
 
+        sentence_start_token = 0
         for s in parsed["sentences"]:
             # get sentence boundaries
             start = s['tokens'][0]["characterOffsetBegin"]
@@ -73,50 +76,45 @@ class Parse:
                     self.ner = []
                 self.ner += [i['ner'] for i in s["tokens"]]
 
-        # if "parse" in annotators:
-        #     for s in parsed["sentences"]:
-        #         # removing the root note and starting counting from 0
-        #         self.dep = [{"in": [], "out":[]} for i in self.tokens]
-        #
-        #         for d in s["collapsed-ccprocessed-dependencies"]:
-        #
-        #             if d['dep'] == "ROOT":
-        #                 self.dep[d['dependent']-1]["in"].append(("ROOT", None))
-        #
-        #             else:
-        #                 self.dep[d['dependent']-1]["in"].append((d['dep'], d['governor']-1))
-        #                 self.dep[d['governor']-1]["out"].append((d['dep'], d['dependent']-1))
+            if "parse" in annotators:
+                self.dep = []
+                # removing the root note and starting counting from token base
+                for d in s["collapsed-ccprocessed-dependencies"]:
 
-        # self.corefs = parsed["corefs"]
+                    d['dependent'] = d['dependent'] - 1 + sentence_start_token
+                    d['governor'] = d['governor'] - 1 + sentence_start_token
+                    self.dep.append(d)
 
-        # making graphs out of parses to make shortest path function
+            sentence_start_token += len(self.tokens)
+
+        # # making graphs out of parses to make shortest path function
         # self.depgraph = nx.MultiDiGraph()
         # for tokid, dep in enumerate(self.dep):
         #     for iin in dep['in']:
         #         self.depgraph.add_edge(iin[1], tokid, label=iin[0])
 
-    def getshortestpath(self, source, target):
-
-        try:
-            path = nx.shortest_path(self.depgraph, source=source, target=target)
-
-            s = ""
-
-            for c, i in enumerate(path[:-1]):
-
-                if c != 0:
-                    s += " -> "
-                    s += self.tokens[i]
-                s += " -> "
-                s += self.depgraph.get_edge_data(i, path[c+1])[0]['label']
-
-            s += " -> "
-            # s += self.tokens[path[-1]]
-
-            return s
-
-        except:
-            return None
+    # def getshortestpath(self, source, target):
+    #
+    #     try:
+    #         path = nx.shortest_path(self.depgraph, source=source, target=target)
+    #
+    #         s = ""
+    #
+    #         for c, i in enumerate(path[:-1]):
+    #
+    #             if c != 0:
+    #                 s += " -> "
+    #                 s += self.tokens[i]
+    #             s += " -> "
+    #             s += self.depgraph.get_edge_data(i, path[c+1])[0]['label']
+    #
+    #         s += " -> "
+    #         # s += self.tokens[path[-1]]
+    #
+    #         return s
+    #
+    #     except:
+    #         return None
 
 
     def getchunks_using_patterns(self, patterns, sequence, removesubsets=True):

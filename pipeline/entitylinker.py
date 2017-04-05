@@ -5,6 +5,8 @@ from utils.textmatch import string_matching_rabin_karp
 
 class DBSpotlightEntityLinker(BasePipeline):
 
+    annotator_name = 'DBpedia_spotlight'
+
     def __init__(self, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
         """
         :param spotlight_url: url of the dbpedia spotlight service
@@ -62,6 +64,7 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
     <http://dbpedia.org/resource/Berlin> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Capital> .
     This Entity linker tries to alleviate that by searching is the resource matches a DBpedia ontology class
     """
+    annotator_name = 'DBpedia-spotlight-Entity-Type-Linker'
 
     def __init__(self, dbo_file, dict_file, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
         """
@@ -119,6 +122,9 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
 
 
 class WikidataSpotlightEntityLinker(BasePipeline):
+
+    annotator_name = 'Wikidata_Spotlight_Entity_Linker'
+
 
     def __init__(self, db_wd_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
         """
@@ -181,6 +187,8 @@ class WikidataSpotlightEntityLinker(BasePipeline):
 
 
 class POSPatternLinker(BasePipeline):
+
+    annotator_name = "PosPatternLinker"
 
     def __init__(self, patterns, annotator_name=None, longest_sequence=True, filter_annotator=None, filter_mode="intersection"):
         """
@@ -319,10 +327,4 @@ class POSPatternLinker(BasePipeline):
                 return True
 
         return False
-
-
-
-
-
-
 

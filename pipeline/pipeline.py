@@ -40,7 +40,7 @@ from nltk.tokenize import PunktSentenceTokenizer, WordPunctTokenizer
 
 class Document:
 
-    def __init__(self, docid, title, pageuri, text, sentence_boundaries=None, words_boundaries=None, entities=None, triples=None):
+    def __init__(self, docid, title, pageuri, text, sentence_boundaries=None, words_boundaries=None, entities=None, triples=None, tuples=None, dependencies=None):
         """
 
         initalization of document class
@@ -60,8 +60,10 @@ class Document:
         self.text = text
         self.sentences_boundaries = self.__get_setences_boundaries() if sentence_boundaries is None else sentence_boundaries
         self.words_boundaries = self.__get_words_boundaries() if words_boundaries is None else words_boundaries
-        self.entities = entities
-        self.triples = triples
+        self.entities = entities if entities is not None else []
+        self.dependencies = dependencies if dependencies is not None else []
+        self.tuples = tuples if tuples is not None else []
+        self.triples = triples if triples is not None else []
 
     @classmethod
     def fromJSON(cls, j):
@@ -110,6 +112,7 @@ class Document:
         j = self.__dict__.copy()
         j['entities'] = [i.toJSON() for i in j['entities']] if 'entities' in j and j['entities'] is not None else []
         j['triples'] = [i.toJSON() for i in j['triples']] if 'triples' in j and j['triples'] is not None else []
+        j['dependencies'] = [i.toJSON() for i in j['dependencies']] if 'dependencies' in j and j['dependencies'] is not None else []
 
         return j
 
@@ -247,7 +250,30 @@ class BasePipeline:
 
         return document
 
+class Dependency:
 
+    def __init__(self, dep, govid, depid, annotator=None):
+        """
+        :param dep: name of the dependency array
+        :param wordid: word id in the document
+        :param annotator:   annotator used in entity linking
+        """
+        self.dep = dep
+        self.govid = govid  # from word id
+        self.depid = depid  # to word id
+        self.annotator = annotator
 
+    @classmethod
+    def fromJSON(cls, j):
+        """
+        initialize an entity class using a json object
+        :param j: json object of an entity
+        :return: Entity instantiated object
+        """
+        return Dependency(j['dep'], j['govid'], j['depid'], j['annotator'])
+
+    def toJSON(self):
+
+        return self.__dict__.copy()
 
 

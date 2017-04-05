@@ -72,7 +72,7 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
         """
 
         self.dataset_file = dataset_file
-        self.corenlp = CoreNlPClient(annotators=["tokenize", "ssplit", "pos"])
+        self.corenlp = CoreNlPClient(annotators=["tokenize", "ssplit", "pos", "parse"])
         self.annotator_name = "corenlp"
 
         if db_wd_mapping is not None:
@@ -120,6 +120,20 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
 
                     entities.append(e)
 
+
+                #get dependency path
+                dep = []
+
+                dependencies = []
+                for i, d in enumerate(p.dep):
+
+                    dependencies.append(Dependency(
+                        dep=d['dep'],
+                        govid=d['governor'],
+                        depid=d['dependent'],
+                        annotator=self.annotator_name + "_dep"
+                    ))
+
                 text = text.decode("utf-8")
 
                 document = Document(
@@ -129,6 +143,7 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
                     text=text,
                     words_boundaries=p.words_boudaries,
                     sentence_boundaries=p.sentences_boudaries,
+                    dependencies=dependencies,
                     entities=entities
                 )
 
