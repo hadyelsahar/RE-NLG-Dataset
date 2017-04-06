@@ -1,6 +1,4 @@
 from pipeline import *
-from utils.matching import *
-from nltk import ngrams
 import spotlight
 import pandas as pd
 import csv
@@ -205,12 +203,6 @@ class WikidataPropertyLinker(BasePipeline):
         dict_keys = self.mappings.keys()
 
         for prop in dict_keys:
-            # for i in string_matching_knuth_morris_pratt(document.text, prop):
-            #     boundaries.append((i, i+len(prop)))
-
-            # print prop in document.text
-            # print re.findall(prop, document.text)
-
             for m in re.finditer(prop, document.text):
                 (start, end) = m.start(), m.end()
                 entity = Entity(self.mappings[document.text[start:end]],
