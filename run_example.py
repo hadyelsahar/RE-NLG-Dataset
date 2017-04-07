@@ -29,7 +29,6 @@ for d in reader.read_documents():
         d = Salign.run(d)
         d = SPOalign.run(d)
         writer.run(d)
-        writer.flush()
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
     except Exception as e:
