@@ -23,13 +23,12 @@ class NoSubjectAlign(BasePipeline):
 
         self.wikidata_triples = d
 
-
     def run(self, document):
         """
         :param: input document to align its sentences with triples
         :return:
         """
-        document.triples = []
+        #document.triples = []
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             # Getting sentence subject
@@ -42,7 +41,10 @@ class NoSubjectAlign(BasePipeline):
             if len(e_sub) > 0:
                 subject = e_sub[0]
             else:
-                subject = Entity(document.uri, boundaries=None, surfaceform=document.title, annotator=self.annotator_name)
+                subject = Entity(document.uri,
+                                 boundaries=None,
+                                 surfaceform=document.title,
+                                 annotator=self.annotator_name)
 
             for o in es:
 
@@ -87,13 +89,12 @@ class SimpleAligner(BasePipeline):
 
         self.wikidata_triples = d
 
-
     def run(self, document):
         """
         :param: input document to align its sentences with triples
         :return:
         """
-        document.triples = []
+        #document.triples = []
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             es = [j for j in document.entities if j.boundaries[0] >= start and j.boundaries[1] <= end]
@@ -116,5 +117,55 @@ class SimpleAligner(BasePipeline):
                                     )
 
                     document.triples.append(triple)
+
+        return document
+
+
+class SPOAligner(BasePipeline):
+
+    def __init__(self, triples_file):
+        self.annotator_name = "SPOAligner"
+        # Add here the name of the annotators creating entities with something else than properties
+        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference"]
+
+        # load triples in memory
+        d = defaultdict(list)
+        with open(triples_file) as f:
+            for l in f:
+                tmp = l.split("\t")
+                d["%s\t%s" % (tmp[0].strip(), tmp[2].strip())].append(tmp[1])
+
+        self.wikidata_triples = d
+
+    def run(self, document):
+        document.triples = []
+        for sid, (start, end) in enumerate(document.sentences_boundaries):
+
+            # Entities created by the Entity linkers and the Coreference
+            es = [j for j in document.entities if j.boundaries[0] >= start
+                                                and j.boundaries[1] <= end
+                                                and j.annotator in self.annotator_list]
+
+            # Entities created by the Property Linker
+            # uri [1:-1] to get rid of the < > surrounding the uri.
+            p = [j.uri[1:-1] for j in document.entities if j.boundaries[0] >= start
+                                                and j.boundaries[1] <= end
+                                                and j.annotator == 'Wikidata_Property_Linker']
+
+            for o in itertools.permutations(es, 2):
+                predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+                # And create the triples
+                for pred in predicates:
+                    if pred[:-1] in p:  # [:-1] to remove the final c from the comparison
+                        predic = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
+
+                        triple = Triple(subject=o[0],
+                                        predicate=predic,
+                                        object=o[1],
+                                        sentence_id=sid,
+                                        annotator=self.annotator_name
+                                        )
+
+                        document.triples.append(triple)
 
         return document

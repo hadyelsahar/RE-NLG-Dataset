@@ -1,6 +1,9 @@
 from pipeline import *
 import spotlight
 import pandas as pd
+import csv
+import re
+
 
 class DBSpotlightEntityLinker(BasePipeline):
 
@@ -21,12 +24,15 @@ class DBSpotlightEntityLinker(BasePipeline):
         :return: Document after being annotated
         """
 
-        document.entities = []
+        #document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             try:
-                annotations = spotlight.annotate(self.spotlight_url, document.text[start:end], self.confidence, self.support)
+                annotations = spotlight.annotate(self.spotlight_url,
+                                                 document.text[start:end],
+                                                 self.confidence,
+                                                 self.support)
 
             except Exception as e:
                 annotations = []
@@ -41,9 +47,9 @@ class DBSpotlightEntityLinker(BasePipeline):
                 e_end = e_start + len(ann['surfaceForm'])
 
                 entity = Entity(ann['URI'],
-                       boundaries=(e_start, e_end),
-                       surfaceform=ann['surfaceForm'],
-                       annotator=self.annotator_name)
+                                boundaries=(e_start, e_end),
+                                surfaceform=ann['surfaceForm'],
+                                annotator=self.annotator_name)
 
                 document.entities.append(entity)
 
@@ -75,19 +81,21 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
         with open(dbo_file) as f:
             self.dbo_classes = set([i.strip() for i in f.readlines()])
 
-
     def run(self, document):
         """
         :param document: Document object
         :return: Document after being annotated
         """
 
-        document.entities = []
+        #document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             try:
-                annotations = spotlight.annotate(self.spotlight_url, document.text[start:end], self.confidence, self.support)
+                annotations = spotlight.annotate(self.spotlight_url,
+                                                 document.text[start:end],
+                                                 self.confidence,
+                                                 self.support)
 
             except Exception as e:
                 annotations = []
@@ -107,9 +115,9 @@ class DBSpotlightEntityAndTypeLinker(BasePipeline):
                     ann['URI'] = tmp
 
                 entity = Entity(ann['URI'],
-                       boundaries=(e_start, e_end),
-                       surfaceform=ann['surfaceForm'],
-                       annotator=self.annotator_name)
+                                boundaries=(e_start, e_end),
+                                surfaceform=ann['surfaceForm'],
+                                annotator=self.annotator_name)
 
                 document.entities.append(entity)
 
@@ -136,7 +144,6 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 tmp = l.split("\t")
                 self.mappings[tmp[0].strip()] = tmp[1].strip()
 
-
     def run(self, document):
         """
         :param document: Document object
@@ -148,7 +155,10 @@ class WikidataSpotlightEntityLinker(BasePipeline):
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             try:
-                annotations = spotlight.annotate(self.spotlight_url, document.text[start:end], self.confidence, self.support)
+                annotations = spotlight.annotate(self.spotlight_url,
+                                                 document.text[start:end],
+                                                 self.confidence,
+                                                 self.support)
 
             except Exception as e:
                 annotations = []
@@ -169,12 +179,40 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                     continue
 
                 entity = Entity(ann['URI'],
-                       boundaries=(e_start, e_end),
-                       surfaceform=ann['surfaceForm'],
-                       annotator=self.annotator_name)
+                                boundaries=(e_start, e_end),
+                                surfaceform=ann['surfaceForm'],
+                                annotator=self.annotator_name)
 
                 document.entities.append(entity)
 
         return document
 
 
+class WikidataPropertyLinker(BasePipeline):
+
+    def __init__(self, wd_prop_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
+        self.annotator_name = 'Wikidata_Property_Linker'
+        self.wd_prop_mapping = wd_prop_mapping
+        self.spotlight_url = spotlight_url
+        self.confidence = confidence
+        self.support = support
+
+        self.mappings = {}
+        with open(wd_prop_mapping) as f:
+            for l in csv.reader(f, delimiter='\t'):
+                self.mappings[l[2]] = l[0]
+
+    def run(self, document):
+        dict_keys = self.mappings.keys()
+
+        for prop in dict_keys:
+            for m in re.finditer(prop, document.text):
+                (start, end) = m.start(), m.end()
+                entity = Entity(self.mappings[document.text[start:end]],
+                                boundaries=(start, end),
+                                surfaceform=document.text[start:end],
+                                annotator=self.annotator_name)
+
+                document.entities.append(entity)
+
+        return document
