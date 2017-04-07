@@ -60,8 +60,8 @@ class Document:
         self.text = text
         self.sentences_boundaries = self.__get_setences_boundaries() if sentence_boundaries is None else sentence_boundaries
         self.words_boundaries = self.__get_words_boundaries() if words_boundaries is None else words_boundaries
-        self.entities = None
-        self.triples = None
+        self.entities = [] if entities is None else entities
+        self.triples = [] if triples is None else triples
 
     @classmethod
     def fromJSON(cls, j):

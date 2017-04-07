@@ -18,7 +18,7 @@ prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 SPOalign = SPOAligner('./datasets/wikidata/sample-wikidata-triples.csv')
 NSalign = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
 #align = NoSubjectAlign('./datasets/wikidata/wikidata-triples.csv')
-writer = JsonWriter('./out', "Test")
+writer = JsonWriter('./out')
 for d in reader.read_documents():
 
     try:
