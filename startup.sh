@@ -35,6 +35,8 @@ echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas
 wget http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2
 echo "download instance of dump wikidata-instances.nt.gz"
 wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-instances.nt.gz
+zcat wikidata-instances.nt.gz | cut -d" " -f1,3 | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g'| sed -E 's/@.+//g' > wikidata-types.csv
+
 echo "download class heirarchy dump: wikidata-taxonomy.nt.gz"
 wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-taxonomy.nt.gz
 

@@ -112,6 +112,7 @@ class Document:
         j = self.__dict__.copy()
         j['entities'] = [i.toJSON() for i in j['entities']] if 'entities' in j and j['entities'] is not None else []
         j['triples'] = [i.toJSON() for i in j['triples']] if 'triples' in j and j['triples'] is not None else []
+        j['tuples'] = [i.toJSON() for i in j['tuples']] if 'tuples' in j and j['tuples'] is not None else []
         j['dependencies'] = [i.toJSON() for i in j['dependencies']] if 'dependencies' in j and j['dependencies'] is not None else []
 
         return j
@@ -124,7 +125,7 @@ class Document:
 
 
 class Entity:
-    def __init__(self, uri, boundaries, surfaceform, annotator=None):
+    def __init__(self, uri, boundaries, surfaceform, annotator=None, types=None):
         """
         :param uri: entity uri
         :param boundaries: start and end boundaries of the surface form in the sentence
@@ -135,6 +136,7 @@ class Entity:
         self.boundaries = boundaries
         self.surfaceform = surfaceform
         self.annotator = annotator
+        self.types = types
 
     @classmethod
     def fromJSON(cls, j):
@@ -143,7 +145,7 @@ class Entity:
         :param j: json object of an entity
         :return: Entity instantiated object
         """
-        return Entity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'])
+        return Entity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'], j['types'])
 
     def toJSON(self):
 
