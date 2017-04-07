@@ -11,20 +11,23 @@ reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-d
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
 #link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
 #link = DBSpotlightEntityLinker(spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
-#link = WikidataSpotlightEntityLinker(db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv', spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
-#coref = SimpleCoreference()
-#align = SimpleAligner('./datasets/wikidata/sample-wikidata-triples.csv')
+link = WikidataSpotlightEntityLinker(db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv', spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
+coref = SimpleCoreference()
+Salign = SimpleAligner('./datasets/wikidata/sample-wikidata-triples.csv')
 prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
-#align = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
+SPOalign = SPOAligner('./datasets/wikidata/sample-wikidata-triples.csv')
+NSalign = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
 #align = NoSubjectAlign('./datasets/wikidata/wikidata-triples.csv')
 #writer = JsonWriter('./out')
 for d in reader.read_documents():
 
     try:
-        #d = link.run(d)
-        #d = coref.run(d)
-        #d = align.run(d)
+        d = link.run(d)
+        d = coref.run(d)
         d = prop.run(d)
+        d = NSalign.run(d)
+        d = Salign.run(d)
+        d = SPOalign.run(d)
         if d is not None:
             print d.toJSON()
         else:
