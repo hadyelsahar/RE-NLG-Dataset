@@ -28,7 +28,7 @@ class NoSubjectAlign(BasePipeline):
         :param: input document to align its sentences with triples
         :return:
         """
-        document.triples = []
+        #document.triples = []
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             # Getting sentence subject
@@ -138,7 +138,7 @@ class SPOAligner(BasePipeline):
         self.wikidata_triples = d
 
     def run(self, document):
-        #document.triples = []
+        document.triples = []
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             # Entities created by the Entity linkers and the Coreference
