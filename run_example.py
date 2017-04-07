@@ -18,7 +18,7 @@ prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 SPOalign = SPOAligner('./datasets/wikidata/sample-wikidata-triples.csv')
 NSalign = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
 #align = NoSubjectAlign('./datasets/wikidata/wikidata-triples.csv')
-#writer = JsonWriter('./out')
+writer = JsonWriter('./out', "Test")
 for d in reader.read_documents():
 
     try:
@@ -28,12 +28,9 @@ for d in reader.read_documents():
         d = NSalign.run(d)
         d = Salign.run(d)
         d = SPOalign.run(d)
-        if d is not None:
-            print d.toJSON()
-        else:
-            print d
-        # writer.run(d)
-        #print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
+        writer.run(d)
+        writer.flush()
+        print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
     except Exception as e:
 
