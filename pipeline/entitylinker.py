@@ -150,7 +150,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
         :return: Document after being annotated
         """
 
-        document.entities = []
+        #document.entities = []
 
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 

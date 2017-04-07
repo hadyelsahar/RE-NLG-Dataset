@@ -138,7 +138,7 @@ class SPOAligner(BasePipeline):
         self.wikidata_triples = d
 
     def run(self, document):
-        document.triples = []
+        #document.triples = []
         for sid, (start, end) in enumerate(document.sentences_boundaries):
 
             # Entities created by the Entity linkers and the Coreference
