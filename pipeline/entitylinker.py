@@ -2,6 +2,7 @@ from pipeline import *
 import spotlight
 import pandas as pd
 from utils.textmatch import string_matching_rabin_karp
+from collections import  defaultdict
 
 class DBSpotlightEntityLinker(BasePipeline):
 
@@ -126,7 +127,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
     annotator_name = 'Wikidata_Spotlight_Entity_Linker'
 
 
-    def __init__(self, db_wd_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
+    def __init__(self, db_wd_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1, wikidata_types_dict=None):
         """
         :param db_wd_mapping: csv file name containing mappings between DBpedia URIS and Wikdiata URIS
         :param spotlight_url: url of the dbpedia spotlight service
@@ -143,6 +144,13 @@ class WikidataSpotlightEntityLinker(BasePipeline):
             for l in f.readlines():
                 tmp = l.split("\t")
                 self.mappings[tmp[0].strip()] = tmp[1].strip()
+
+        self.wikidata_types_dict = defaultdict(lambda: [])
+        if wikidata_types_dict is not None:
+            with open(wikidata_types_dict) as f:
+                for l in f.readlines():
+                    tmp = l.split("\t")
+                    self.wikidata_types_dict[tmp[0].strip()].append(tmp[1].strip())
 
     def run(self, document):
         """
@@ -176,9 +184,13 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 else:
                     continue
 
+                # getting types of an entity:
+                types = ann['types'].split(",") + self.wikidata_types_dict[ann['URI']]
+
                 entity = Entity(ann['URI'],
                        boundaries=(e_start, e_end),
                        surfaceform=ann['surfaceForm'],
+                       types= types,
                        annotator=self.annotator_name)
 
                 document.entities.append(entity)

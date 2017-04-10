@@ -76,15 +76,22 @@ class Parse:
                 self.ner += [i['ner'] for i in s["tokens"]]
 
             if "parse" in annotators:
-                self.dep = []
+                if self.dep is None:
+                    self.dep = []
                 # removing the root note and starting counting from token base
                 for d in s["collapsed-ccprocessed-dependencies"]:
 
                     d['dependent'] = d['dependent'] - 1 + sentence_start_token
-                    d['governor'] = d['governor'] - 1 + sentence_start_token
+
+                    if d['governor'] == 0:
+                        d['governor'] = -1   # -1 is the governor of all root words in all the sentences
+
+                    else:
+                        d['governor'] = d['governor'] - 1 + sentence_start_token
+
                     self.dep.append(d)
 
-            sentence_start_token += len(self.tokens)
+            sentence_start_token += len(s['tokens'])
 
         # # making graphs out of parses to make shortest path function
         # self.depgraph = nx.MultiDiGraph()

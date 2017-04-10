@@ -4,7 +4,7 @@ import os
 
 class JsonWriter(BasePipeline):
 
-    def __init__(self, outputfolder, basefilename=None, filesize=10000):
+    def __init__(self, outputfolder, basefilename=None, filesize=1000):
         """
         when attached to the pipeline this file log all json
         :param outputfolder: folder to save output files in

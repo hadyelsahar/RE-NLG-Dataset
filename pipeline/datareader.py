@@ -95,19 +95,22 @@ class DBpediaAbstractsDataReaderWithCoreNLP:
             read = csv.reader(f, delimiter="\t")
 
             for l in read:
-                # extraction of title from DBpedia URI
-                title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
-                text = l[1]
-                if self.mappings is not None:
-                    if l[0] in self.mappings:
-                        l[0] = self.mappings[l[0]]
-                    else:
-                        continue
+		try:
+	                # extraction of title from DBpedia URI
+	                title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
+	                text = l[1]
+	                if self.mappings is not None:
+	                    if l[0] in self.mappings:
+	                        l[0] = self.mappings[l[0]]
+	                    else:
+	                        continue
 
-                # corenlp preprocessing
-                p = self.corenlp.annotate(text)
+	                # corenlp preprocessing
+	                p = self.corenlp.annotate(text)
 
-                entities = []
+	                entities = []
+		except Exception:
+			continue 
 
                 for i, postag in enumerate(p.postags):
 
