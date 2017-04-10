@@ -4,6 +4,7 @@ from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import JsonWriter
 from pipeline.coreference import *
+from utils.triplereader import *
 
 # Reading the DBpedia Abstracts Dataset
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv')
@@ -13,12 +14,12 @@ reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-d
 #link = DBSpotlightEntityLinker(spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
 link = WikidataSpotlightEntityLinker(db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv', spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
 coref = SimpleCoreference()
-Salign = SimpleAligner('./datasets/wikidata/sample-wikidata-triples.csv')
+trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
+Salign = SimpleAligner(trip_read)
 prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
-SPOalign = SPOAligner('./datasets/wikidata/sample-wikidata-triples.csv')
-NSalign = NoSubjectAlign('./datasets/wikidata/sample-wikidata-triples.csv')
-#align = NoSubjectAlign('./datasets/wikidata/wikidata-triples.csv')
-writer = JsonWriter('./out')
+SPOalign = SPOAligner(trip_read)
+NSalign = NoSubjectAlign(trip_read)
+writer = JsonWriter('./out', "", 1)
 for d in reader.read_documents():
 
     try:

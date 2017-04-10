@@ -21,11 +21,12 @@ class SimpleCoreference(BasePipeline):
         list_pronouns = ["he", "she", "it", "they"]
 
         for sid, (start, end_s) in enumerate(document.sentences_boundaries):
+            # Get the boundaries of the word in the beginning of the sentence
             for num, (x, y) in enumerate(document.words_boundaries):
                 if x == start:
                     end_w = y
                     break
-
+            # If this word is a pronoun found on the list above, create an entity with the URI of the document.
             if document.text[start:end_w].lower() in list_pronouns:
                 entity = Entity(document.uri,
                                 boundaries=(start, end_w),
