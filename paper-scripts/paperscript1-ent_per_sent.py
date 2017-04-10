@@ -13,8 +13,8 @@ args = parser.parse_args()
 counts = [(0, 0)]
 
 for fname in os.listdir(args.input):
-    with open(fname) as f:
-        j = json.load(join(args.input, f))
+    with open(join(args.input, fname)) as f:
+        j = json.load(f)
         for d in j:
             for s in d['sentences_boundaries']:
 
