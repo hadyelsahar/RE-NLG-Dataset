@@ -1,6 +1,7 @@
 
 import argparse
 import os
+from os.path import join
 import json
 import pandas as pd
 
@@ -13,7 +14,7 @@ counts = [(0, 0)]
 
 for fname in os.listdir(args.input):
     with open(fname) as f:
-        j = json.load(f)
+        j = json.load(join(args.input, f))
         for d in j:
             for s in d['sentences_boundaries']:
 
@@ -28,8 +29,3 @@ y = pd.Series([i[0] + i[1] for i in counts])
 
 print (x.values_counts() / len(counts))[0:10]
 print (y.values_counts() / len(counts))[0:10]
-
-
-
-
-
