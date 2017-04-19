@@ -154,7 +154,6 @@ class DateEntity(Entity):
 
     @classmethod
     def fromJSON(cls, j):
-
         return DateEntity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'], j['standardform'])
 
 
