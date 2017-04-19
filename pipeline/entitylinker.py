@@ -1,8 +1,10 @@
 from pipeline import *
 import spotlight
-import pandas as pd
 import csv
 import re
+import json
+import os
+from sutime import SUTime
 
 
 class DBSpotlightEntityLinker(BasePipeline):
@@ -215,4 +217,49 @@ class WikidataPropertyLinker(BasePipeline):
 
                 document.entities.append(entity)
 
+        return document
+
+
+class DateLinker(BasePipeline):
+
+    def __init__(self, spotlight_url='', confidence=0.2, support=1):
+
+        self.annotator_name = 'Date_Linker'
+        self.spotlight_url = spotlight_url
+        self.confidence = confidence
+        self.support = support
+
+    def run(self, document):
+        jar_files = os.path.join(os.path.dirname(""), 'jars')
+        sutime = SUTime(jars=jar_files, mark_time_ranges=True)
+
+        s = json.dumps(sutime.parse(document.text))
+        dates = json.loads(s)
+        number = len(dates)
+        count = 0
+        pattern = re.compile(r"^-*\d*-*\d*-*\d*-*$")
+        while count < number:
+            if dates[count]["type"] == "DATE" and pattern.match(dates[count]["value"]):
+                val = dates[count]["value"]
+                if re.match(r"^(-?[0-9]{4}-[0-9]{2}-[0-9]{2})$", val):
+                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#date"
+
+                elif re.match(r"^(-?[0-9]{4}-[0-9]{2})$", val):
+                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#gYearMonth"
+
+                elif re.match(r"^(-?[0-9]{4})$", val):
+                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#gYear"
+
+                else:
+                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#date"
+
+                entity = DateEntity(standardform=val,
+                                    uri=stdform,
+                                    boundaries=(dates[count]["start"], dates[count]["end"]),
+                                    surfaceform=stdform,
+                                    annotator=self.annotator_name)
+
+                document.entities.append(entity)
+            count += 1
+        
         return document
