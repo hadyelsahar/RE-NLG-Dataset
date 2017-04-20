@@ -26,7 +26,8 @@ pip install sutime
 mkdir sutime
 cd sutime
 wget wget https://www.dropbox.com/s/smayhjqgzlhxpwc/jars.zip?dl=0
-unzip jars.zip?dl
+unzip jars.zip?dl=0
+rm jars.zip?dl=0
 cd ../..
 
 
