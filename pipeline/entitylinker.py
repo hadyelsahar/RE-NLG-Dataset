@@ -208,7 +208,7 @@ class WikidataPropertyLinker(BasePipeline):
         dict_keys = self.mappings.keys()
 
         for prop in dict_keys:
-            for m in re.finditer(prop, document.text):
+            for m in re.finditer(r"\b" + re.escape(prop) + r"\b", document.text):
                 (start, end) = m.start(), m.end()
                 entity = Entity(self.mappings[document.text[start:end]],
                                 boundaries=(start, end),
@@ -226,11 +226,10 @@ class DateLinker(BasePipeline):
         self.annotator_name = 'Date_Linker'
         if resource_folder is None:
             self.resource_folder = os.path.join(os.path.dirname(__file__), '../resources/sutime/')
+        self.sutime = SUTime(jars=self.resource_folder)
 
     def run(self, document):
-        sutime = SUTime(jars=self.resource_folder)
-
-        s = json.dumps(sutime.parse(document.text))
+        s = json.dumps(self.sutime.parse(document.text))
         dates = json.loads(s)
         number = len(dates)
         count = 0

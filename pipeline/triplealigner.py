@@ -123,25 +123,26 @@ class SPOAligner(BasePipeline):
                                                 and j.annotator in self.annotator_list]
 
             # Entities created by the Property Linker
-            # uri [1:-1] to get rid of the < > surrounding the uri.
-            p = [j.uri[1:-1] for j in document.entities if j.boundaries[0] >= start
+            p = [j for j in document.entities if j.boundaries[0] >= start
                                                 and j.boundaries[1] <= end
                                                 and j.annotator == 'Wikidata_Property_Linker']
 
             for o in itertools.permutations(es, 2):
                 predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
                 # And create the triples
-                for pred in predicates:
-                    if pred[:-1] in p:  # [:-1] to remove the final c from the comparison
-                        predic = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
+                for kbpred in predicates:
+                    for spred in p:
+                        if kbpred[:-1] == spred.uri[1:-1]:  # [:-1] to remove the final c from the comparison
+                            # uri [1:-1] to get rid of the < > surrounding the uri.
+                            predic = Entity(spred.uri[1:-1], boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
 
-                        triple = Triple(subject=o[0],
-                                        predicate=predic,
-                                        object=o[1],
-                                        sentence_id=sid,
-                                        annotator=self.annotator_name
-                                        )
+                            triple = Triple(subject=o[0],
+                                            predicate=predic,
+                                            object=o[1],
+                                            sentence_id=sid,
+                                            annotator=self.annotator_name
+                                            )
 
-                        document.triples.append(triple)
+                            document.triples.append(triple)
 
         return document
