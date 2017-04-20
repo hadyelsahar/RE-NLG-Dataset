@@ -3,6 +3,9 @@
 
 # DBpedia spotlight Installation
 echo "downloading dbpedia spotlight ..."
+
+mkdir resources
+cd resources
 wget http://spotlight.sztaki.hu/downloads/dbpedia-spotlight-latest.jar
 wget http://spotlight.sztaki.hu/downloads/latest_models/en.tar.gz
 
@@ -17,6 +20,15 @@ cd ..
 
 echo "installing python client for dbpedia spotlight..."
 pip install pyspotlight
+
+echo "downloading SU time"
+pip install sutime
+mkdir sutime
+cd sutime
+wget wget https://www.dropbox.com/s/smayhjqgzlhxpwc/jars.zip?dl=0
+unzip jars.zip?dl
+cd ../..
+
 
 # Downloading Wikidata
 cd datasets
