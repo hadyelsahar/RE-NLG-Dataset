@@ -147,16 +147,6 @@ class Entity:
         return self.__dict__.copy()
 
 
-class DateEntity(Entity):
-    def __init__(self, standardform, uri, boundaries, surfaceform, annotator=None):
-        Entity.__init__(self, uri, boundaries, surfaceform, annotator)
-        self.standardform = standardform
-
-    @classmethod
-    def fromJSON(cls, j):
-        return DateEntity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'], j['standardform'])
-
-
 class Triple:
     def __init__(self, subject, predicate, object, sentence_id, dependency_path=None, confidence=None, annotator=None):
         """

@@ -222,16 +222,13 @@ class WikidataPropertyLinker(BasePipeline):
 
 class DateLinker(BasePipeline):
 
-    def __init__(self, spotlight_url='', confidence=0.2, support=1):
-
+    def __init__(self, resource_folder=None):
         self.annotator_name = 'Date_Linker'
-        self.spotlight_url = spotlight_url
-        self.confidence = confidence
-        self.support = support
+        if resource_folder is None:
+            self.resource_folder = os.path.join(os.path.dirname(__file__), '../resources/sutime/')
 
     def run(self, document):
-        jar_files = os.path.join(os.path.dirname(""), 'jars')
-        sutime = SUTime(jars=jar_files, mark_time_ranges=True)
+        sutime = SUTime(jars=self.resource_folder)
 
         s = json.dumps(sutime.parse(document.text))
         dates = json.loads(s)
@@ -241,23 +238,30 @@ class DateLinker(BasePipeline):
         while count < number:
             if dates[count]["type"] == "DATE" and pattern.match(dates[count]["value"]):
                 val = dates[count]["value"]
-                if re.match(r"^(-?[0-9]{4}-[0-9]{2}-[0-9]{2})$", val):
-                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#date"
-
-                elif re.match(r"^(-?[0-9]{4}-[0-9]{2})$", val):
-                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#gYearMonth"
-
-                elif re.match(r"^(-?[0-9]{4})$", val):
-                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#gYear"
-
+                if val[0] == '-':
+                    if len(val[1:]) == 4:
+                        stdform = val + '-00-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    elif len(val[1:]) == 7:
+                        stdform = val + '-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    elif len(val[1:]) == 10:
+                        stdform = val + 'T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    stdform = '"-' + stdform
                 else:
-                    stdform = val + "^^http://www.w3.org/2001/XMLSchema#date"
+                    if len(val) == 4:
+                        stdform = val + '-00-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    elif len(val) == 7:
+                        stdform = val + '-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    elif len(val) == 10:
+                        stdform = val + 'T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    stdform = '"' + stdform
 
-                entity = DateEntity(standardform=val,
-                                    uri=stdform,
-                                    boundaries=(dates[count]["start"], dates[count]["end"]),
-                                    surfaceform=stdform,
-                                    annotator=self.annotator_name)
+                start = dates[count]["start"]
+                end = dates[count]["end"]
+
+                entity = Entity(uri=stdform,
+                                boundaries=(start, end),
+                                surfaceform=document.text[start:end],
+                                annotator=self.annotator_name)
 
                 document.entities.append(entity)
             count += 1
