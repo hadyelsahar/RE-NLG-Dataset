@@ -15,8 +15,6 @@ class SimpleCoreference(BasePipeline):
         :param document: Class Document. Document containing
         :return:
         """
-        # todo: fill in by pavlos
-        # get base class URI   document.uri
 
         list_pronouns = ["he", "she", "it", "they"]
 
@@ -30,7 +28,7 @@ class SimpleCoreference(BasePipeline):
             if document.text[start:end_w].lower() in list_pronouns:
                 entity = Entity(document.uri,
                                 boundaries=(start, end_w),
-                                surfaceform=document.title,
+                                surfaceform=document.text[start:end_w],
                                 annotator=self.annotator_name)
 
                 document.entities.append(entity)
