@@ -225,6 +225,7 @@ class DateLinker(BasePipeline):
         self.sutime = SUTime(jars=self.resource_folder)
 
     def run(self, document):
+
         s = json.dumps(self.sutime.parse(document.text))
         dates = json.loads(s)
         number = len(dates)
