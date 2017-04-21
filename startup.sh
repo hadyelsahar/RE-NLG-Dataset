@@ -55,7 +55,7 @@ echo "creating a csv dictionary out of english dbpedia uris to wikidata same as 
 bzcat wikidatawiki-20150330-sameas-all-wikis.ttl.bz2 | grep "http://dbpedia.org" | awk '{ print $3 " " $1}'  | sed -e 's/wikidata\.dbpedia\.org\/resource/www.wikidata\.org\/entity/'  | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g' > dbpedia-wikidata-sameas-dict.csv
 
 # Wikidata properties labels
-echo "download wikidata labels"
+echo "download wikidata properties labels"
 wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-properties.nt.gz
 zcat wikidata-properties.nt| grep "http://www.w3.org/2000/01/rdf-schema#label\|http://www.w3.org/2004/02/skos/core#altLabel" | grep "@en " | sed 's/^<//' | sed 's/.\{5\}$//' | sed 's/> </\t/g' | sed 's/> "/\t"/g'  > wikidata-properties.csv
 rm wikidata-properties.nt.gz
