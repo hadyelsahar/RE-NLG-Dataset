@@ -15,7 +15,7 @@ mkdir dbpedia-spotlight
 mv en dbpedia-spotlight
 mv dbpedia-spotlight-latest.jar dbpedia-spotlight
 cd dbpedia-spotlight
-# screen -S dbpedia-spotlight -dm java -Xmx6g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest  # uncomment for running dbpedia spotlight server
+# screen -S dbpedia-spotlight -dm java -Xmx25g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest  # uncomment for running dbpedia spotlight server
 cd ..
 
 echo "installing python client for dbpedia spotlight..."
@@ -57,7 +57,7 @@ bzcat wikidatawiki-20150330-sameas-all-wikis.ttl.bz2 | grep "http://dbpedia.org"
 # Wikidata properties labels
 echo "download wikidata properties labels"
 wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-properties.nt.gz
-zcat wikidata-properties.nt| grep "http://www.w3.org/2000/01/rdf-schema#label\|http://www.w3.org/2004/02/skos/core#altLabel" | grep "@en " | sed 's/^<//' | sed 's/.\{5\}$//' | sed 's/> </\t/g' | sed 's/> "/\t"/g'  > wikidata-properties.csv
+zcat wikidata-properties.nt | grep "http://www.w3.org/2000/01/rdf-schema#label\|http://www.w3.org/2004/02/skos/core#altLabel" | grep "@en " | sed 's/^<//' | sed 's/.\{5\}$//' | sed 's/> </\t/g' | sed 's/> "/\t"/g' | sed 's/entity\/P/prop\/direct\/P/g'  > wikidata-properties.csv
 rm wikidata-properties.nt.gz
 
 cd ../..
