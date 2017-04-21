@@ -31,35 +31,10 @@ wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-sim
 echo "make csv file out of nt"
 zcat  wikidata-simple-statements.nt.gz | sed -E 's/[<>\"]//g'| sed -E 's/@.+//g' | cut -d" " -f1-3 | sed -E 's/\s/\t/g' > wikidata-triples.csv
 
-echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas-all-wikis.ttl.bz2"
-wget http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2
-echo "download instance of dump wikidata-instances.nt.gz"
-wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-instances.nt.gz
-echo "download class heirarchy dump: wikidata-taxonomy.nt.gz"
-wget http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/wikidata-taxonomy.nt.gz
-
-echo "creating a csv dictionary out of wikidata english labels"
-zcat wikidata-terms.nt.gz | grep "@en" | cut -d" " -f1,3- | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g'| sed -E 's/@.+//g' | sort | uniq > wikidata-labels-dict.csv
-
 echo "creating a csv dictionary out of english dbpedia uris to wikidata same as links"
 bzcat wikidatawiki-20150330-sameas-all-wikis.ttl.bz2 | grep "http://dbpedia.org" | awk '{ print $3 " " $1}'  | sed -e 's/wikidata\.dbpedia\.org\/resource/www.wikidata\.org\/entity/'  | sed -e 's/ /\t/' | sed -E 's/[<>\"]//g' > dbpedia-wikidata-sameas-dict.csv
 
 cd ../..
-
-# Downloading DBpedia:
-mkdir datasets/dbpedia
-cd datasets/dbpedia
-echo "download dbpedia triples"
-wget http://downloads.dbpedia.org/2016-04/core-i18n/en/infobox_properties_en.ttl.bz2
-
-echo "download dbpedia ontology triples"
-wget http://downloads.dbpedia.org/2016-04/core-i18n/en/instance_types_en.ttl.bz2
-
-echo "make list of dbpedia types"
-bzcat instance_types_en.ttl.bz2 | cut -d" " -f3  | grep "<http://dbpedia.org/ontology/" | sed -E 's/[<>]//g'| sort | uniq > dbpedia-classes.txt
-
-
-
 
 
 
