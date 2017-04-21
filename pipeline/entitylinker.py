@@ -192,12 +192,8 @@ class WikidataSpotlightEntityLinker(BasePipeline):
 
 class WikidataPropertyLinker(BasePipeline):
 
-    def __init__(self, wd_prop_mapping, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
+    def __init__(self, wd_prop_mapping):
         self.annotator_name = 'Wikidata_Property_Linker'
-        self.wd_prop_mapping = wd_prop_mapping
-        self.spotlight_url = spotlight_url
-        self.confidence = confidence
-        self.support = support
 
         self.mappings = {}
         with open(wd_prop_mapping) as f:
