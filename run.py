@@ -16,9 +16,9 @@ link = WikidataSpotlightEntityLinker(db_wd_mapping='./datasets/wikidata/dbpedia-
 coref = SimpleCoreference()
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
 Salign = SimpleAligner(trip_read)
-prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
+# prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
-SPOalign = SPOAligner(trip_read)
+# SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
 writer = JsonWriter('./out', "re-nlg")
 
@@ -27,11 +27,11 @@ for d in reader.read_documents():
     try:
         d = link.run(d)
         d = coref.run(d)
-        d = prop.run(d)
+        # d = prop.run(d)
         d = date.run(d)
         d = NSalign.run(d)
         d = Salign.run(d)
-        d = SPOalign.run(d)
+        # d = SPOalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
