@@ -4,7 +4,7 @@ import os
 
 class JsonWriter(BasePipeline):
 
-    def __init__(self, outputfolder, basefilename=None, filesize=10000):
+    def __init__(self, outputfolder, basefilename=None, filesize=10000, startfile=0):
         """
         when attached to the pipeline this file log all json
         :param outputfolder: folder to save output files in
@@ -19,7 +19,7 @@ class JsonWriter(BasePipeline):
 
         self.basefilename = basefilename
         self.filesize = filesize
-        self.counter = 0
+        self.counter = 0 + startfile
         self.buffer = []
 
     def run(self, document):
@@ -41,6 +41,7 @@ class JsonWriter(BasePipeline):
         with open(filename, 'w') as outfile:
             json.dump(self.buffer, outfile)
             print "Saved file %s" % filename
+            del self.buffer
             self.buffer = []
 
 

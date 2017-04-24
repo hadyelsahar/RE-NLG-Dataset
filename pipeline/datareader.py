@@ -5,15 +5,17 @@ class DBpediaAbstractsDataReader:
     """
     class with a default read_documents functions that yields Document iterator
     """
-    def __init__(self, dataset_file, db_wd_mapping=None):
+    def __init__(self, dataset_file, db_wd_mapping=None, skip=0):
         """
 
         :param dataset_file: path of the dataset file
         :param db_wd_mapping: if given the page-uri will be changed from the one in the dataset
+        :param skip: skip the first n documents
         to be mapped using the mappings file given.
         """
 
         self.dataset_file = dataset_file
+        self.skip = skip
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -33,6 +35,10 @@ class DBpediaAbstractsDataReader:
         """
         with open(self.dataset_file) as f:
             read = csv.reader(f, delimiter="\t")
+
+            # skip the first lines
+            for i in range(self.skip):
+                read.next()
 
             for l in read:
                 # extraction of title from DBpedia URI
