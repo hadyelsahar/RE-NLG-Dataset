@@ -238,8 +238,7 @@ class DateLinker(BasePipeline):
 
     def run(self, document):
 
-        s = json.dumps(self.sutime.parse(document.text))
-        dates = json.loads(s)
+        dates = self.sutime.parse(document.text)
         number = len(dates)
         count = 0
         pattern = re.compile(r"^-*\d*-*\d*-*\d*-*$")
