@@ -239,11 +239,11 @@ class DateLinker(BasePipeline):
     def run(self, document):
 
         dates = self.sutime.parse(document.text)
-        number = len(dates)
-        count = 0
+
         pattern = re.compile(r"^-*\d*-*\d*-*\d*-*$")
-        while count < number:
-            if dates[count]["type"] == "DATE" and pattern.match(dates[count]["value"]):
+
+        for date in dates:
+            if date["type"] == "DATE" and pattern.match(date["value"]):
                 val = dates[count]["value"]
                 if val[0] == '-':
                     if len(val[1:]) == 4:
@@ -262,8 +262,8 @@ class DateLinker(BasePipeline):
                         stdform = val + 'T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
                     stdform = '"' + stdform
 
-                start = dates[count]["start"]
-                end = dates[count]["end"]
+                start = date["start"]
+                end = date["end"]
 
                 entity = Entity(uri=stdform,
                                 boundaries=(start, end),
@@ -271,6 +271,5 @@ class DateLinker(BasePipeline):
                                 annotator=self.annotator_name)
 
                 document.entities.append(entity)
-            count += 1
-        
+
         return document
