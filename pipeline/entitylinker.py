@@ -202,16 +202,28 @@ class WikidataPropertyLinker(BasePipeline):
 
     def run(self, document):
         dict_keys = self.mappings.keys()
+        stop_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
+                      "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its",
+                      "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this",
+                      "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has",
+                      "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or",
+                      "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between",
+                      "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down",
+                      "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there",
+                      "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other",
+                      "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t",
+                      "can", "will", "just", "don", "should", "now"]
 
         for prop in dict_keys:
             for m in re.finditer(r"\b" + re.escape(prop) + r"\b", document.text):
                 (start, end) = m.start(), m.end()
-                entity = Entity(self.mappings[document.text[start:end]],
-                                boundaries=(start, end),
-                                surfaceform=document.text[start:end],
-                                annotator=self.annotator_name)
+                if document.text[start:end] not in stop_words:
+                    entity = Entity(self.mappings[document.text[start:end]],
+                                    boundaries=(start, end),
+                                    surfaceform=document.text[start:end],
+                                    annotator=self.annotator_name)
 
-                document.entities.append(entity)
+                    document.entities.append(entity)
 
         return document
 
