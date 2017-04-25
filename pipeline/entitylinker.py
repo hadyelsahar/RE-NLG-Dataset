@@ -244,7 +244,7 @@ class DateLinker(BasePipeline):
 
         for date in dates:
             if date["type"] == "DATE" and pattern.match(date["value"]):
-                val = dates[count]["value"]
+                val = date["value"]
                 if val[0] == '-':
                     if len(val[1:]) == 4:
                         stdform = val + '-00-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
