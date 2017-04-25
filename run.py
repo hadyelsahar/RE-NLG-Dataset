@@ -13,7 +13,7 @@ start_doc = 0   #start reading from document number #
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc)
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
-link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', spotlight_url='http://localhost:9999/rest/annotate', support=1, confidence=0.2)
+link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=1, confidence=0.2)
 
 coref = SimpleCoreference()
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
