@@ -13,14 +13,14 @@ start_doc = 0   #start reading from document number #
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc)
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
-link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
+link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', spotlight_url='http://localhost:9999/rest/annotate', support=1, confidence=0.2)
 
 coref = SimpleCoreference()
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
 Salign = SimpleAligner(trip_read)
-# prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
+prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
-# SPOalign = SPOAligner(trip_read)
+SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
 writer = JsonWriter('./out', "re-nlg", startfile=start_doc)
 
@@ -29,11 +29,11 @@ for d in reader.read_documents():
     try:
         d = link.run(d)
         d = coref.run(d)
-        # d = prop.run(d)
+        d = prop.run(d)
         d = date.run(d)
         d = NSalign.run(d)
         d = Salign.run(d)
-        # d = SPOalign.run(d)
+        d = SPOalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
