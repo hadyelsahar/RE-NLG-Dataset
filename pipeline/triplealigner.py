@@ -132,8 +132,8 @@ class SPOAligner(BasePipeline):
                 # And create the triples
                 for kbpred in predicates:
                     for spred in p:
-                        if kbpred[:-1] == spred.uri:  # [:-1] to remove the final c from the comparison
-                            predic = Entity(spred.uri[1:-1], boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
+                        if kbpred == spred.uri:
+                            predic = Entity(spred.uri, boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
 
                             triple = Triple(subject=o[0],
                                             predicate=predic,
