@@ -28,11 +28,11 @@ for d in reader.read_documents():
 
     try:
         d = link.run(d)
-        d = coref.run(d)
-        d = prop.run(d)
-        d = date.run(d)
         d = NSalign.run(d)
+        d = coref.run(d)
+        d = date.run(d)
         d = Salign.run(d)
+        d = prop.run(d)
         d = SPOalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
