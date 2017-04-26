@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-
 class TripleReader:
 
     def __init__(self, triples_file):
