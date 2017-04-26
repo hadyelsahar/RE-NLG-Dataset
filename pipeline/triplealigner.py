@@ -45,7 +45,7 @@ class NoSubjectAlign(BasePipeline):
                 #predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
 
                 for pred in predicates:
-                    pred = Entity("http://www.wikidata.org/prop/direct/" + str(pred),
+                    pred = Entity(pred,
                                   boundaries=None,
                                   surfaceform=None,
                                   annotator=self.annotator_name)
@@ -97,7 +97,7 @@ class SimpleAligner(BasePipeline):
 
                 # And create the triples
                 for pred in predicates:
-                    pred = Entity("http://www.wikidata.org/prop/direct/" + str(pred),
+                    pred = Entity(pred,
                                   boundaries=None,
                                   surfaceform=None,
                                   annotator=self.annotator_name)
@@ -142,7 +142,7 @@ class SPOAligner(BasePipeline):
                 # And create the triples
                 for kbpred in predicates:
                     for spred in p:
-                        if kbpred == spred.uri.split('/')[-1]:
+                        if kbpred == spred.uri:
                             predic = Entity(spred.uri, boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
 
                             triple = Triple(subject=o[0],
