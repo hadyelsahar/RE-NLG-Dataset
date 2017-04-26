@@ -90,7 +90,6 @@ class SimpleAligner(BasePipeline):
 
             # We use permutations to match every entity with all the others
             for o in itertools.permutations(es, 2):
-
                 # We grab the predicates
                 #predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
                 predicates = self.wikidata_triples.get(o[0].uri, o[1].uri)
@@ -143,10 +142,8 @@ class SPOAligner(BasePipeline):
                 for kbpred in predicates:
                     for spred in p:
                         if kbpred == spred.uri:
-                            predic = Entity(spred.uri, boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
-
                             triple = Triple(subject=o[0],
-                                            predicate=predic,
+                                            predicate=spred,
                                             object=o[1],
                                             sentence_id=sid,
                                             annotator=self.annotator_name
