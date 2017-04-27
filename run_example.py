@@ -23,17 +23,17 @@ NSalign = NoSubjectAlign(trip_read)
 writer = JsonWriter('./out', "", 1)
 for d in reader.read_documents():
 
-    try:
+#    try:
         d = link.run(d)
-        d = coref.run(d)
-        d = prop.run(d)
-        d = date.run(d)
         d = NSalign.run(d)
+        d = coref.run(d)
+        d = date.run(d)
         d = Salign.run(d)
+        d = prop.run(d)
         d = SPOalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
-    except Exception as e:
+ #   except Exception as e:
 
-        print "error Processing document %s" % d.title
+  #      print "error Processing document %s" % d.title
