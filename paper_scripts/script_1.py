@@ -48,6 +48,7 @@ for js in json_files:
                         stats['SPO_coref'] += 1
                     if t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date:
                         stats['SPO_dates'] += 1
+    json_file.close()
 
 
 with open(result, 'w') as k:
