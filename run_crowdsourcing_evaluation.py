@@ -33,6 +33,7 @@ date = DateLinker()
 SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
 writer = JsonWriter('./crowdsourcing/out', "re-nlg-eval", startfile=start_doc, filesize=10)
+Nospoalign = NoSubSPOAligner(trip_read)
 
 for d in reader.read_documents():
 
@@ -47,6 +48,7 @@ for d in reader.read_documents():
         d = Salign.run(d)
         d = prop.run(d)
         d = SPOalign.run(d)
+        d = Nospoalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
