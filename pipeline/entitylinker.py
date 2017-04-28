@@ -247,20 +247,19 @@ class DateLinker(BasePipeline):
                 val = date["value"]
                 if val[0] == '-':
                     if len(val[1:]) == 4:
-                        stdform = val + '-00-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                        stdform = val + '-00-00T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
                     elif len(val[1:]) == 7:
-                        stdform = val + '-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                        stdform = val + '-00T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
                     elif len(val[1:]) == 10:
-                        stdform = val + 'T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
-                    stdform = '"-' + stdform
+                        stdform = val + 'T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
+
                 else:
                     if len(val) == 4:
-                        stdform = val + '-00-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                        stdform = val + '-00-00T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
                     elif len(val) == 7:
-                        stdform = val + '-00T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                        stdform = val + '-00T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
                     elif len(val) == 10:
-                        stdform = val + 'T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>'
-                    stdform = '"' + stdform
+                        stdform = val + 'T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
 
                 start = date["start"]
                 end = date["end"]

@@ -10,8 +10,8 @@ from utils.triplereader import *
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv')
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
-#link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
-#link = DBSpotlightEntityLinker(spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
+# link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
+# link = DBSpotlightEntityLinker(spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
 link = WikidataSpotlightEntityLinker(db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv', spotlight_url='http://model.dbpedia-spotlight.org/en/annotate')
 coref = SimpleCoreference()
 trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
