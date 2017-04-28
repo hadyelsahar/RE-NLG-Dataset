@@ -8,7 +8,7 @@ DOC_NUM = 100
 titles = pd.read_csv('./crowdsourcing/GR7bQ7Ra.tsv', sep="\t")["title"].values
 titles = [i.replace("_", " ") for i in titles]
 
-titles = random.sample(titles, 100000)
+titles = random.sample(titles, 500000)
 
 from pipeline.entitylinker import *
 from pipeline.triplealigner import *
@@ -32,7 +32,7 @@ prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
 SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
-writer = JsonWriter('./crowdsourcing/out', "re-nlg-eval", startfile=start_doc, filesize=10)
+writer = JsonWriter('./crowdsourcing/out', "re-nlg-eval", startfile=start_doc, filesize=100)
 Nospoalign = NoSubSPOAligner(trip_read)
 
 for d in reader.read_documents():
