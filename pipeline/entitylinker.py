@@ -214,16 +214,28 @@ class WikidataPropertyLinker(BasePipeline):
                       "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t",
                       "can", "will", "just", "don", "should", "now"]
 
+        properties = []
         for prop in dict_keys:
             for m in re.finditer(r"\b" + re.escape(prop) + r"\b", document.text):
                 (start, end) = m.start(), m.end()
                 if document.text[start:end] not in stop_words:
-                    entity = Entity(self.mappings[document.text[start:end]],
+                    properties.append(Entity(self.mappings[document.text[start:end]],
                                     boundaries=(start, end),
                                     surfaceform=document.text[start:end],
-                                    annotator=self.annotator_name)
+                                    annotator=self.annotator_name))
 
-                    document.entities.append(entity)
+        #filtering inclusive properties:
+        filtered_properties = []
+        for c1, p1 in enumerate(properties):
+            included = False
+            for c2, p2 in enumerate(properties):
+                if p1.boundaries[0] >= p2.boundaries[0] and p1.boundaries[1] <= p2.boundaries[1] and c1 != c2:
+                    included = True
+            if not included:
+                filtered_properties.append(p1)
+
+        for p in filtered_properties:
+            document.entities.append(p)
 
         return document
 
