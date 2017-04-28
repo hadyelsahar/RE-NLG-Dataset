@@ -39,6 +39,8 @@ class NoSubjectAlign(BasePipeline):
                                  annotator=self.annotator_name)
 
             for o in es:
+                if subject.uri == o.uri:
+                    continue
 
                 predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
 
@@ -86,6 +88,9 @@ class SimpleAligner(BasePipeline):
             # We use permutations to match every entity with all the others
             for o in itertools.permutations(es, 2):
 
+                if o[0].uri == o[1].uri:
+                    continue
+
                 # We grab the predicates
                 predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
 
@@ -128,6 +133,10 @@ class SPOAligner(BasePipeline):
                                                 and j.annotator == 'Wikidata_Property_Linker']
 
             for o in itertools.permutations(es, 2):
+
+                if o[0].uri == o[1].uri:
+                    continue
+
                 predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
                 # And create the triples
                 for kbpred in predicates:
