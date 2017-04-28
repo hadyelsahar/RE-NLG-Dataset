@@ -1,13 +1,11 @@
 # read files
-
 import pandas as pd
 import random
 
 random.seed(4)
 
-
 DOC_NUM = 100
-titles = pd.read_csv('GR7bQ7Ra.tsv', sep="\t")["title"].values
+titles = pd.read_csv('./crowdsourcing/GR7bQ7Ra.tsv', sep="\t")["title"].values
 titles = [i.replace("_", " ") for i in titles]
 
 titles = random.sample(titles, 100000)
@@ -19,23 +17,22 @@ from pipeline.writer import JsonWriter
 from pipeline.coreference import *
 from utils.triplereader import *
 
-
-start_doc = 0   #start reading from document number #
+start_doc = 0   # start reading from document number #
 
 # Reading the DBpedia Abstracts Dataset
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc)
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
-link = WikidataSpotlightEntityLinker('../datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
+link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
 
 coref = SimpleCoreference()
-trip_read = TripleReader('../datasets/wikidata/wikidata-triples.csv')
+trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
 Salign = SimpleAligner(trip_read)
-prop = WikidataPropertyLinker('../datasets/wikidata/wikidata-properties.csv')
+prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
 SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
-writer = JsonWriter('./out', "re-nlg-eval", startfile=start_doc, filesize=10)
+writer = JsonWriter('./crowdsourcing/out', "re-nlg-eval", startfile=start_doc, filesize=10)
 
 for d in reader.read_documents():
 
@@ -56,9 +53,6 @@ for d in reader.read_documents():
     except Exception as e:
 
         print "error Processing document %s" % d.title
-
-
-
 
 
 
