@@ -6,6 +6,7 @@
 
 import os
 import json
+import argparse
 
 annotator_date = "Date_Linker"
 annotator_coref = "Simple_Coreference"
@@ -24,12 +25,18 @@ stats = {
         "SPO_dates" : 0
         }
 
-result = os.path.join(os.path.dirname(__file__), '../results/result_script_1.json')
-path_to_json = os.path.join(os.path.dirname(__file__), '../out')
+parser = argparse.ArgumentParser(description='filter extracted attributes')
+parser.add_argument('-i', '--input', help='input file name', required=True)
+parser.add_argument('-o', '--out', help='input file name', required=True)
+args = parser.parse_args()
+
+result = os.path.join(args.out, 'result_script_1.json')
+path_to_json = args.input
 
 json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
 for js in json_files:
     with open(os.path.join(path_to_json, js)) as json_file:
+        print "Starting the file : " + str(os.path.join(path_to_json, js))
         for d in json.load(json_file):
             for t in d['triples']:
                 if t['annotator'] == annotator_nosub:
@@ -48,11 +55,7 @@ for js in json_files:
                         stats['SPO_coref'] += 1
                     if t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date:
                         stats['SPO_dates'] += 1
-    json_file.close()
-
+    print "Finished the file : " + str(os.path.join(path_to_json, js))
 
 with open(result, 'w') as k:
     k.write(json.dumps(stats, indent=4))
-
-
-k.close()
