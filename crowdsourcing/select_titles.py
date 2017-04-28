@@ -35,7 +35,7 @@ prop = WikidataPropertyLinker('../datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
 SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
-writer = JsonWriter('./out', "re-nlg-eval", startfile=start_doc)
+writer = JsonWriter('./out', "re-nlg-eval", startfile=start_doc, filesize=10)
 
 for d in reader.read_documents():
 
