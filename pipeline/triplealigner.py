@@ -115,7 +115,7 @@ class SPOAligner(BasePipeline):
     def __init__(self, triples_reference):
         self.annotator_name = "SPOAligner"
         # Add here the name of the annotators creating entities with something else than properties
-        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference"]
+        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference", "Date_Linker"]
 
         self.wikidata_triples = triples_reference.d
 
@@ -152,5 +152,54 @@ class SPOAligner(BasePipeline):
                                             )
 
                             document.triples.append(triple)
+
+        return document
+
+
+class NoSubSPOAligner(BasePipeline):
+
+    def __init__(self, triples_reference):
+        self.annotator_name = "NosubSPOAligner"
+        # Add here the name of the annotators creating entities with something else than properties
+        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference", "Date_Linker"]
+
+        self.wikidata_triples = triples_reference.d
+
+    def run(self, document):
+        for sid, (start, end) in enumerate(document.sentences_boundaries):
+
+            # Entities created by the Entity linkers and the Coreference
+            es = [j for j in document.entities if j.boundaries[0] >= start
+                                                and j.boundaries[1] <= end
+                                                and j.annotator in self.annotator_list]
+
+            e_sub = [j for j in es if j.uri == document.uri]
+
+
+            # Entities created by the Property Linker
+            p = [j for j in document.entities if j.boundaries[0] >= start
+                                                and j.boundaries[1] <= end
+                                                and j.annotator == 'Wikidata_Property_Linker']
+
+            for o in es:
+                for subject in e_sub:
+                    if subject.uri == o.uri:
+                        continue
+
+                    predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
+                    # And create the triples
+                    for kbpred in predicates:
+                        for spred in p:
+                            if kbpred == spred.uri:
+                                predic = Entity(spred.uri, boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
+
+                                triple = Triple(subject=subject,
+                                                predicate=predic,
+                                                object=o,
+                                                sentence_id=sid,
+                                                annotator=self.annotator_name
+                                                )
+
+                                document.triples.append(triple)
 
         return document
