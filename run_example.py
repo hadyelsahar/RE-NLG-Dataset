@@ -19,6 +19,7 @@ Salign = SimpleAligner(trip_read)
 prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
 SPOalign = SPOAligner(trip_read)
+Nospoalign = NoSubSPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
 writer = JsonWriter('./out', "", 1)
 for d in reader.read_documents():
@@ -31,6 +32,7 @@ for d in reader.read_documents():
         d = Salign.run(d)
         d = prop.run(d)
         d = SPOalign.run(d)
+        d = Nospoalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
