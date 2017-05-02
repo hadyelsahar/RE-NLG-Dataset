@@ -21,7 +21,7 @@ result = os.path.join(args.out, 'result_script_2.json')
 path_to_json = args.input
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
-properties = {}
+properties = defaultdict(list)
 
 with open(path_to_properties) as f:
     for l in csv.reader(f, delimiter='\t'):
