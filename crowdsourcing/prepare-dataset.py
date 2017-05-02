@@ -93,7 +93,7 @@ for file in os.listdir(args.input):
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
 
                      row.append(
-                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (x['subject']['surfaceform'], propname, x['object']['surfaceform']))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
@@ -170,7 +170,7 @@ for file in os.listdir(args.input):
                          continue
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
                      row.append(
-                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (x['subject']['surfaceform'], propname, x['object']['surfaceform']))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
