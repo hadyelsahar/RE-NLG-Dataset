@@ -24,8 +24,8 @@ args = parser.parse_args()
 data = []
 
 for file in os.listdir(args.input):
-     with open(file) as f:
-         j = json.load(os.path.join(args.input, f))
+     with open(os.path.join(args.input, file)) as f:
+         j = json.load(f)
          for d in j:
 
              # iterate over every document
