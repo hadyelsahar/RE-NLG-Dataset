@@ -25,7 +25,7 @@ data = []
 
 for file in os.listdir(args.input):
      with open(file) as f:
-         j = json.load(f)
+         j = json.load(os.path.join(args.input, f))
          for d in j:
 
              # iterate over every document
