@@ -30,13 +30,13 @@ parser.add_argument('-i', '--input', help='input file name', required=True)
 parser.add_argument('-o', '--out', help='input file name', required=True)
 args = parser.parse_args()
 
-result = os.path.join(args.out, 'result_script_1.json')
+result = args.out
 path_to_json = args.input
 
 json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-for js in json_files:
+for c, js in enumerate(json_files):
     with open(os.path.join(path_to_json, js)) as json_file:
-        print "Starting the file : " + str(os.path.join(path_to_json, js))
+        print "Starting the file : " + str(os.path.join(path_to_json, js)) + " .. %s / %s" % (c+1, len(json_files))
         for d in json.load(json_file):
             for t in d['triples']:
                 if t['annotator'] == annotator_nosub:
@@ -55,7 +55,6 @@ for js in json_files:
                         stats['SPO_coref'] += 1
                     if t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date:
                         stats['SPO_dates'] += 1
-    print "Finished the file : " + str(os.path.join(path_to_json, js))
 
 with open(result, 'w') as k:
-    k.write(json.dumps(stats, indent=4))
+	k.write(json.dumps(stats, indent=4))
