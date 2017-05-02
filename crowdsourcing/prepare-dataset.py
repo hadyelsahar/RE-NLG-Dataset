@@ -33,8 +33,8 @@ properties = {}
 
 with open(path_to_properties) as f:
     for l in csv.reader(f, delimiter='\t'):
-        properties[l[0]] = l[2]
-
+        if l[1] == "http://www.w3.org/2000/01/rdf-schema#label":
+            properties[l[0]] = l[2]
 
 for file in os.listdir(args.input):
      with open(os.path.join(args.input, file)) as f:
