@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 # [text, triple1 , ... triple 10, annotator]
 data = []
-__MAX_TRIPLES__ = 3
+__MAX_TRIPLES__ = 10
 __MIN_TRIPLES__ = 2
 __SAVE_N__ = 20
 
