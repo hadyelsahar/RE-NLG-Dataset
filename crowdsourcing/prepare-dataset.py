@@ -31,12 +31,11 @@ for file in os.listdir(args.input):
              # iterate over every document
 
              t = [x for x in d['triples'] if annotator_NosubSPO in x['annotator']]
-
              text = ""
+
              if len(t) > 2:
 
                  row = []
-
                  maxsent = 0
 
                  for c, x in enumerate(t):
@@ -59,8 +58,99 @@ for file in os.listdir(args.input):
 
                  row = [text] + row
                  row += [x['annotator']]
-                 print row
                  data.append(row)
+                 continue
+
+             t = [x for x in d['triples'] if annotator_SPO in x['annotator']]
+             if len(t) > 2:
+                 row = []
+                 maxsent = 0
+
+                 for c, x in enumerate(t):
+
+                     if x['sentence_id'] > maxsent:
+                         maxsent = x['sentence_id']
+
+                     row.append(
+                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+
+                 row = list(set(row))
+
+                 if len(row) > 10:
+                     row = row[0:10]
+
+                 elif len(row) < 10:
+                     row += [None] * (10 - len(row))
+
+                 row = [text] + row
+                 row += [x['annotator']]
+                 data.append(row)
+                 continue
+
+
+             t = [x for x in d['triples'] if annotator_nosub in x['annotator']]
+             if len(t) > 2:
+                 row = []
+                 maxsent = 0
+
+                 for c, x in enumerate(t):
+
+                     if x['sentence_id'] > maxsent:
+                         maxsent = x['sentence_id']
+
+                     row.append(
+                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+
+                 row = list(set(row))
+
+                 if len(row) > 10:
+                     row = row[0:10]
+
+                 elif len(row) < 10:
+                     row += [None] * (10 - len(row))
+
+                 row = [text] + row
+                 row += [x['annotator']]
+                 data.append(row)
+                 continue
+
+
+
+
+             t = [x for x in d['triples'] if annotator_simple in x['annotator']]
+             if len(t) > 2:
+                 row = []
+                 maxsent = 0
+
+                 for c, x in enumerate(t):
+
+                     if x['sentence_id'] > maxsent:
+                         maxsent = x['sentence_id']
+
+                     row.append(
+                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+
+                 row = list(set(row))
+
+                 if len(row) > 10:
+                     row = row[0:10]
+
+                 elif len(row) < 10:
+                     row += [None] * (10 - len(row))
+
+                 row = [text] + row
+                 row += [x['annotator']]
+                 data.append(row)
+                 continue
+
+
+
+
+
+
 
 
 names = ["Original Sentence"]
@@ -71,7 +161,7 @@ for i in range(0, 10):
 names += ["annotator-name"]
 
 x = pd.DataFrame(data, columns=names)
-x.to_csv(args.out)
+x.to_csv(args.out, encoding="utf-8")
 
 
 
