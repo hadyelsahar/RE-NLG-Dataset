@@ -161,7 +161,7 @@ class NoSubSPOAligner(BasePipeline):
     def __init__(self, triples_reference):
         self.annotator_name = "NosubSPOAligner"
         # Add here the name of the annotators creating entities with something else than properties
-        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference", "Date_Linker"]
+        self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Date_Linker"]
 
         self.wikidata_triples = triples_reference.d
 
