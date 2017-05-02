@@ -4,7 +4,7 @@ import random
 
 random.seed(4)
 
-DOC_NUM = 1000
+DOC_NUM = 100
 titles = pd.read_csv('./crowdsourcing/GR7bQ7Ra.tsv', sep="\t")["title"].values
 titles = [i.replace("_", " ") for i in titles]
 
