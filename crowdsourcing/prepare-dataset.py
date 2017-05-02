@@ -26,7 +26,7 @@ args = parser.parse_args()
 data = []
 __MAX_TRIPLES__ = 10
 __MIN_TRIPLES__ = 2
-__SAVE_N__ = 20
+__SAVE_N__ = 25
 __MAX_WORDS__ = 80
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
