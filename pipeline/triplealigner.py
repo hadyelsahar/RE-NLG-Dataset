@@ -1,4 +1,5 @@
 from pipeline import *
+from utils import triplereader
 import itertools
 
 
@@ -13,7 +14,7 @@ class NoSubjectAlign(BasePipeline):
 
         # pd.read_csv(triples_file, sep="\t", names=["subject", "predicate", "object"]).set_index(['subject', 'object'])
 
-        self.wikidata_triples = triples_reference.d
+        self.wikidata_triples = triples_reference
 
 
     def run(self, document):
@@ -42,10 +43,14 @@ class NoSubjectAlign(BasePipeline):
                 if subject.uri == o.uri:
                     continue
 
-                predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
+                predicates = self.wikidata_triples.get(subject.uri, o.uri)
+                #predicates = self.wikidata_triples["%s\t%s" % (subject.uri, o.uri)]
 
                 for pred in predicates:
-                    pred = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
+                    pred = Entity(pred,
+                                  boundaries=None,
+                                  surfaceform=None,
+                                  annotator=self.annotator_name)
 
                     triple = Triple(subject=subject,
                                     predicate=pred,
@@ -74,7 +79,7 @@ class SimpleAligner(BasePipeline):
         """
         self.annotator_name = "Simple-Aligner"
 
-        self.wikidata_triples = triples_reference.d
+        self.wikidata_triples = triples_reference
 
     def run(self, document):
         """
@@ -87,16 +92,19 @@ class SimpleAligner(BasePipeline):
 
             # We use permutations to match every entity with all the others
             for o in itertools.permutations(es, 2):
-
                 if o[0].uri == o[1].uri:
                     continue
 
                 # We grab the predicates
-                predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+                #predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+                predicates = self.wikidata_triples.get(o[0].uri, o[1].uri)
 
                 # And create the triples
                 for pred in predicates:
-                    pred = Entity(pred, boundaries=None, surfaceform=None, annotator=self.annotator_name)
+                    pred = Entity(pred,
+                                  boundaries=None,
+                                  surfaceform=None,
+                                  annotator=self.annotator_name)
 
                     triple = Triple(subject=o[0],
                                     predicate=pred,
@@ -117,7 +125,7 @@ class SPOAligner(BasePipeline):
         # Add here the name of the annotators creating entities with something else than properties
         self.annotator_list = ["Wikidata_Spotlight_Entity_Linker", "Simple_Coreference"]
 
-        self.wikidata_triples = triples_reference.d
+        self.wikidata_triples = triples_reference
 
     def run(self, document):
         for sid, (start, end) in enumerate(document.sentences_boundaries):
@@ -133,19 +141,18 @@ class SPOAligner(BasePipeline):
                                                 and j.annotator == 'Wikidata_Property_Linker']
 
             for o in itertools.permutations(es, 2):
-
                 if o[0].uri == o[1].uri:
                     continue
 
-                predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+	        predicates = self.wikidata_triples.get(o[0].uri, o[1].uri)
+                #predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
+
                 # And create the triples
                 for kbpred in predicates:
                     for spred in p:
                         if kbpred == spred.uri:
-                            predic = Entity(spred.uri, boundaries=spred.boundaries, surfaceform=spred.surfaceform, annotator=self.annotator_name)
-
                             triple = Triple(subject=o[0],
-                                            predicate=predic,
+                                            predicate=spred,
                                             object=o[1],
                                             sentence_id=sid,
                                             annotator=self.annotator_name
