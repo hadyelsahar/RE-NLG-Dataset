@@ -191,8 +191,8 @@ for file in os.listdir(args.input):
 
 names = ["Original Sentence"]
 
-for i in range(0, __MAX_TRIPLES__):
-    names.append("Triple-Fact %s" % i+1)
+for i in range(1, __MAX_TRIPLES__+1):
+    names.append("Triple-Fact %s" % i)
 
 names += ["annotator_name"]
 
