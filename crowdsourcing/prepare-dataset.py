@@ -8,6 +8,8 @@ import os
 import json
 import argparse
 import pandas as pd
+import csv
+
 
 annotator_nosub = "NoSubject-Triple-aligner"
 annotator_simple = "Simple-Aligner"
@@ -22,6 +24,15 @@ args = parser.parse_args()
 
 # [text, triple1 , ... triple 10, annotator]
 data = []
+
+
+path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
+properties = {}
+
+with open(path_to_properties) as f:
+    for l in csv.reader(f, delimiter='\t'):
+        properties[l[0]] = l[2]
+
 
 for file in os.listdir(args.input):
      with open(os.path.join(args.input, file)) as f:
@@ -44,7 +55,9 @@ for file in os.listdir(args.input):
 
                          maxsent = x['sentence_id']
 
-                     row.append("%s \t %s \t %s"% (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+
+                     propname =  properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
+                     row.append("%s \t %s \t %s"% (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
 
 
@@ -71,8 +84,10 @@ for file in os.listdir(args.input):
                      if x['sentence_id'] > maxsent:
                          maxsent = x['sentence_id']
 
+                     propname = properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
+
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
 
                  row = list(set(row))
@@ -99,8 +114,16 @@ for file in os.listdir(args.input):
                      if x['sentence_id'] > maxsent:
                          maxsent = x['sentence_id']
 
+                     if x['predicate']['uri'] in properties:
+
+                        propname = properties[x['predicate']['uri']]
+
+                     else:
+
+                         continue
+
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
 
                  row = list(set(row))
@@ -115,9 +138,6 @@ for file in os.listdir(args.input):
                  row += [x['annotator']]
                  data.append(row)
                  continue
-
-
-
 
              t = [x for x in d['triples'] if annotator_simple in x['annotator']]
              if len(t) > 2:
@@ -129,8 +149,17 @@ for file in os.listdir(args.input):
                      if x['sentence_id'] > maxsent:
                          maxsent = x['sentence_id']
 
+
+                     if x['predicate']['uri'] in properties:
+
+                        propname = properties[x['predicate']['uri']]
+
+                     else:
+
+                         continue
+
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
+                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
 
                  row = list(set(row))
@@ -145,11 +174,6 @@ for file in os.listdir(args.input):
                  row += [x['annotator']]
                  data.append(row)
                  continue
-
-
-
-
-
 
 
 
