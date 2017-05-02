@@ -9,7 +9,7 @@ import json
 import argparse
 import pandas as pd
 import csv
-
+from unidecode import unidecode
 
 annotator_nosub = "NoSubject-Triple-aligner"
 annotator_simple = "Simple-Aligner"
@@ -63,6 +63,7 @@ for file in os.listdir(args.input):
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
                      row.append("%s \t %s \t %s"% (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                     text = unidecode(text)
 
 
                  row = list(set(row))
@@ -94,6 +95,7 @@ for file in os.listdir(args.input):
                      row.append(
                          "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                     text = unidecode(text)
 
                  row = list(set(row))
 
@@ -131,6 +133,7 @@ for file in os.listdir(args.input):
                      row.append(
                          "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                     text = unidecode(text)
 
                  row = list(set(row))
 
@@ -168,6 +171,7 @@ for file in os.listdir(args.input):
                      row.append(
                          "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                     text = unidecode(text)
 
                  row = list(set(row))
 
@@ -201,7 +205,7 @@ for ann in anns:
     filtereddata += tmp[0:__SAVE_N__]
 
 filteredx = pd.DataFrame(filtereddata, columns=names)
-filteredx.to_csv(args.out, encoding="utf-8")
+filteredx.to_csv(args.out, encoding="utf-8", index=False)
 
 
 
