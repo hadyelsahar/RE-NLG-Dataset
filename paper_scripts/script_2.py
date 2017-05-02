@@ -28,14 +28,14 @@ with open(path_to_properties) as f:
         properties[l[0]] = l[2]
 
 json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-for js in json_files:
+for c, js in enumerate(json_files):
     with open(os.path.join(path_to_json, js)) as json_file:
-        print "Starting the file : " + str(os.path.join(path_to_json, js))
+        print "Starting the file : " + str(os.path.join(path_to_json, js)) + " .. %s / %s" % (c, len(json_files))
         for d in json.load(json_file):
             for t in d['triples']:
                 label = properties[t['predicate']['uri']]
                 stats["%s, %s, %s" % (t['annotator'], t['predicate']['uri'], label)] += 1
-    print "Finished the file : " + str(os.path.join(path_to_json, js))
 
 with open(result, 'w') as k:
     k.write(json.dumps(stats, indent=4))
+
