@@ -47,7 +47,7 @@ for file in os.listdir(args.input):
              t = [x for x in d['triples'] if annotator_NosubSPO in x['annotator']]
              text = ""
 
-             if len(t) > __MIN_TRIPLES__:
+             if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
 
                  row = []
                  maxsent = 0
@@ -62,10 +62,9 @@ for file in os.listdir(args.input):
                      propname =  properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
 
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
-                     row.append("%s \t %s \t %s"% (d['title'], propname, x['object']['surfaceform']))
-                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
-                     text = unidecode(text)
-
+                     row.append("%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s"% (d['title'], propname, x['object']['surfaceform']))
+                 text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                 text = unidecode(text)
 
                  row = list(set(row))
 
@@ -81,7 +80,7 @@ for file in os.listdir(args.input):
                  continue
 
              t = [x for x in d['triples'] if annotator_SPO in x['annotator']]
-             if len(t) > __MIN_TRIPLES__:
+             if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
                  row = []
                  maxsent = 0
 
@@ -94,9 +93,10 @@ for file in os.listdir(args.input):
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
 
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
-                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
-                     text = unidecode(text)
+                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+
+                 text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                 text = unidecode(text)
 
                  row = list(set(row))
 
@@ -113,7 +113,7 @@ for file in os.listdir(args.input):
 
 
              t = [x for x in d['triples'] if annotator_nosub in x['annotator']]
-             if len(t) > __MIN_TRIPLES__:
+             if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
                  row = []
                  maxsent = 0
 
@@ -132,9 +132,9 @@ for file in os.listdir(args.input):
 
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
-                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
-                     text = unidecode(text)
+                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+                 text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                 text = unidecode(text)
 
                  row = list(set(row))
 
@@ -151,7 +151,7 @@ for file in os.listdir(args.input):
 
 
              t = [x for x in d['triples'] if annotator_simple in x['annotator']]
-             if len(t) > __MIN_TRIPLES__:
+             if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
                  row = []
                  maxsent = 0
 
@@ -170,9 +170,10 @@ for file in os.listdir(args.input):
                          continue
                      propname = "<b><font color=\"red\">" + propname + "</font></b>"
                      row.append(
-                         "%s \t %s \t %s" % (d['title'], propname, x['object']['surfaceform']))
-                     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
-                     text = unidecode(text)
+                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+
+                 text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+                 text = unidecode(text)
 
                  row = list(set(row))
 
@@ -191,7 +192,7 @@ for file in os.listdir(args.input):
 names = ["Original Sentence"]
 
 for i in range(0, __MAX_TRIPLES__):
-    names.append("Triple-Fact %s" % i)
+    names.append("Triple-Fact %s" % i+1)
 
 names += ["annotator_name"]
 
