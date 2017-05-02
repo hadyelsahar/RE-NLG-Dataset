@@ -27,6 +27,7 @@ data = []
 __MAX_TRIPLES__ = 10
 __MIN_TRIPLES__ = 2
 __SAVE_N__ = 20
+__MAX_WORDS__ = 80
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
 properties = {}
@@ -201,7 +202,7 @@ anns = set(x.annotator_name.values)
 filtereddata = []
 
 for ann in anns:
-    tmp = [l for l in data if l[-1] == ann]
+    tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__]
     filtereddata += tmp[0:__SAVE_N__]
 
 filteredx = pd.DataFrame(filtereddata, columns=names)
