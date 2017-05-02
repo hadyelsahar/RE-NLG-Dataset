@@ -43,12 +43,13 @@ for d in reader.read_documents():
 
     try:
         d = link.run(d)
-        d = NSalign.run(d)
-        d = Nospoalign.run(d)
-        d = coref.run(d)
         d = date.run(d)
+        d = NSalign.run(d)
+        d = coref.run(d)
         d = Salign.run(d)
+
         d = prop.run(d)
+        d = Nospoalign.run(d)
         d = SPOalign.run(d)
 
         writer.run(d)

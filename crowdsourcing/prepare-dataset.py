@@ -45,7 +45,7 @@ for file in os.listdir(args.input):
 
                          maxsent = x['sentence_id']
 
-                     row.append(d['title'] + "\t" + x['predicate']['surfaceform'] + "\t" + x['object']['surfaceform'])
+                     row.append("%s \t %s \t %s"% (d['title'], x['predicate']['surfaceform'], x['object']['surfaceform']))
                      text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
 
 
@@ -59,7 +59,7 @@ for file in os.listdir(args.input):
 
                  row = [text] + row
                  row += [x['annotator']]
-
+                 print row
                  data.append(row)
 
 
