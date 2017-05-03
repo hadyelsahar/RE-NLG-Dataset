@@ -34,7 +34,10 @@ for c, js in enumerate(json_files):
         for d in json.load(json_file):
             for t in d['triples']:
                 label = properties[t['predicate']['uri']]
-                stats["%s, %s, %s" % (t['annotator'], t['predicate']['uri'], label)] += 1
+		stats[(t['annotator'], t['predicate']['uri'], label)] += 1
+                #stats["%s,%s,%s" % (t['annotator'], t['predicate']['uri'], label)] += 1
 
-with open(result, 'w') as k:
-    k.write(json.dumps(stats, indent=4))
+with open(result, 'w') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=',')
+    for key, value in stats.items():
+        spamwriter.writerow([key[0], key[1], key[2], value])
