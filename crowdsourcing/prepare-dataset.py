@@ -32,6 +32,38 @@ __MAX_WORDS__ = 80
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
 properties = {}
 
+def uniquerows(rows):
+
+    uniq = []
+
+    for i, r1 in rows:
+        duplicate = False
+        for j, r2 in enumerate(rows):
+            if i != j :
+                if r1[1] == r2[1]:
+                    if r1[0] == r2[0] and r1[2] == r2[2]:
+                        duplicate = True
+                        break
+                    if r1[2] == r2[0] and r1[0] == r2[2]:
+                        duplicate = True
+                        break
+
+        if not duplicate:
+            uniq.append(r1)
+
+    return uniq
+
+def writehtml(rows):
+
+    html = []
+
+    for r in rows:
+        r[1] = "<b><font color=\"red\">" + r[1]+ "</font></b>"
+        html.append("%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (r[0], r[1], r[2]))
+
+    return html
+
+
 with open(path_to_properties) as f:
     for l in csv.reader(f, delimiter='\t'):
         if l[1] == "http://www.w3.org/2000/01/rdf-schema#label":
@@ -58,15 +90,17 @@ for file in os.listdir(args.input):
 
                          maxsent = x['sentence_id']
 
+                     subjectname = d['title']
+                     objectname = x['object']['surfaceform']
+                     propname = properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
 
-                     propname =  properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
+                     row.append((subjectname, propname, objectname))
 
-                     propname = "<b><font color=\"red\">" + propname + "</font></b>"
-                     row.append("%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s"% (d['title'], propname, x['object']['surfaceform']))
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
-                 row = list(set(row))
+                 row = uniquerows(row)
+                 row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
                      row = row[0:__MAX_TRIPLES__]
@@ -90,15 +124,17 @@ for file in os.listdir(args.input):
                          maxsent = x['sentence_id']
 
                      propname = properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
-                     propname = "<b><font color=\"red\">" + propname + "</font></b>"
 
-                     row.append(
-                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (x['subject']['surfaceform'], propname, x['object']['surfaceform']))
+                     subjectname = x['subject']['surfaceform'] if x['subject']['annotator'] != "Simple_Coreference" else d['title']
+                     objectname = x['object']['surfaceform'] if x['object']['annotator'] != "Simple_Coreference" else d['title']
+
+                     row.append((subjectname, propname, objectname))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
-                 row = list(set(row))
+                 row = uniquerows(row)
+                 row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
                      row = row[0:__MAX_TRIPLES__]
@@ -130,13 +166,17 @@ for file in os.listdir(args.input):
 
                          continue
 
-                     propname = "<b><font color=\"red\">" + propname + "</font></b>"
-                     row.append(
-                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (d['title'], propname, x['object']['surfaceform']))
+
+                     subjectname = d['title']
+                     objectname = x['object']['surfaceform']
+
+                     row.append((subjectname, propname, objectname))
+
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
-                 row = list(set(row))
+                 row = uniquerows(row)
+                 row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
                      row = row[0:__MAX_TRIPLES__]
@@ -168,14 +208,18 @@ for file in os.listdir(args.input):
                      else:
 
                          continue
-                     propname = "<b><font color=\"red\">" + propname + "</font></b>"
-                     row.append(
-                         "%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (x['subject']['surfaceform'], propname, x['object']['surfaceform']))
+
+
+                     subjectname = x['subject']['surfaceform'] if x['subject']['annotator'] != "Simple_Coreference" else d['title']
+                     objectname = x['object']['surfaceform'] if x['object']['annotator'] != "Simple_Coreference" else d['title']
+
+                     row.append((subjectname, propname, objectname))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
-                 row = list(set(row))
+                 row = uniquerows(row)
+                 row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
                      row = row[0:__MAX_TRIPLES__]
