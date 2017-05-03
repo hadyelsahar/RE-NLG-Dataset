@@ -36,10 +36,10 @@ def uniquerows(rows):
 
     uniq = []
 
-    for i, r1 in rows:
+    for i, r1 in enumerate(rows):
         duplicate = False
-        for j, r2 in enumerate(rows):
-            if i != j :
+        for j, r2 in enumerate(uniq):
+            if i != j:
                 if r1[1] == r2[1]:
                     if r1[0] == r2[0] and r1[2] == r2[2]:
                         duplicate = True
@@ -58,8 +58,8 @@ def writehtml(rows):
     html = []
 
     for r in rows:
-        r[1] = "<b><font color=\"red\">" + r[1]+ "</font></b>"
-        html.append("%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (r[0], r[1], r[2]))
+        p = "<b><font color=\"red\">" + r[1]+ "</font></b>"
+        html.append("%s &nbsp;&nbsp;&nbsp; %s &nbsp;&nbsp;&nbsp; %s" % (r[0], p, r[2]))
 
     return html
 
