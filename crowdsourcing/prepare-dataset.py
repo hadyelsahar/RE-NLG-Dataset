@@ -26,7 +26,7 @@ args = parser.parse_args()
 data = []
 __MAX_TRIPLES__ = 5
 __MIN_TRIPLES__ = 2
-__SAVE_N__ = 25
+__SAVE_N__ = 220
 __MAX_WORDS__ = 80
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
@@ -250,7 +250,9 @@ for ann in anns:
     tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__]
     filtereddata += tmp[0:__SAVE_N__]
 
+
 filteredx = pd.DataFrame(filtereddata, columns=names)
+filteredx = filteredx.sample(frac=1)
 filteredx.to_csv(args.out, encoding="utf-8", index=False)
 
 
