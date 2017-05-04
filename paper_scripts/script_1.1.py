@@ -68,7 +68,7 @@ for c, js in enumerate(json_files):
             stats['NoSubj_all'] += len(uniquerows(triples_annotator_nosub))
 
             triples_annotator_nosub_date = [t for t in d['triples'] if t['annotator'] == annotator_nosub and (t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date)]
-            stats['NoSubj_all'] += len(uniquerows(triples_annotator_nosub_date))
+            stats['NoSubj_dates'] += len(uniquerows(triples_annotator_nosub_date))
 
 ###
 
