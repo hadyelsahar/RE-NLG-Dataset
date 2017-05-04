@@ -18,6 +18,7 @@ annotator_simple = "Simple-Aligner"
 annotator_SPO = "SPOAligner"
 
 stats = {
+        "all": 0,
         "NoSubj_all" : 0,
         "NoSubj_dates" : 0,
         "Simple_all" : 0,
@@ -43,6 +44,8 @@ for c, js in enumerate(json_files):
         print "Starting the file : " + str(os.path.join(path_to_json, js)) + " .. %s / %s" % (c+1, len(json_files))
 
         for d in json.load(json_file):
+
+            stats['all'] += 1
 
             triples_annotator_nosub = [t for t in d['triples'] if t['annotator'] == annotator_nosub]
             stats['NoSubj_all'] += 1 if len(triples_annotator_nosub) > 0 else 0
