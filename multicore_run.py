@@ -8,7 +8,7 @@ from utils.triplereader import *
 import argparse
 
 __START_DOC__ = 0   #start reading from document number
-__CORES__ = 3
+__CORES__ = 7
 # Reading the DBpedia Abstracts Dataset
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=__START_DOC__)
 
@@ -37,10 +37,11 @@ def multhithreadprocess(d):
     try:
 
         d = link.run(d)
-        d = coref.run(d)
-        d = prop.run(d)
         d = NSalign.run(d)
+        d = coref.run(d)
+        d = date.run(d)
         d = Salign.run(d)
+        d = prop.run(d)
         d = SPOalign.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
@@ -48,7 +49,6 @@ def multhithreadprocess(d):
     except Exception as e:
 
         print "error Processing document %s" % d.title
-
 
 if __name__ == '__main__':
 
