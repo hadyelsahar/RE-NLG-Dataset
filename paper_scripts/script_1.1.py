@@ -78,7 +78,7 @@ for c, js in enumerate(json_files):
             triples_annotator_simple_date = [t for t in d['triples'] if t['annotator'] == annotator_simple and ( t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date)]
             stats['Simple_dates'] += len(uniquerows(triples_annotator_simple_date))
 
-            triples_annotator_simple_coref = [t for t in d['triples'] if t['annotator'] == annotator_simple and ( t['subject']['annotator'] == annotator_coref or t['object']['annotator'] == annotator_coref) ]
+            triples_annotator_simple_coref = [t for t in d['triples'] if t['annotator'] == annotator_simple and ( t['subject']['annotator'] == annotator_coref or t['object']['annotator'] == annotator_coref)]
             stats['Simple_coref'] += len(uniquerows(triples_annotator_simple_coref))
 
 ###
@@ -87,10 +87,10 @@ for c, js in enumerate(json_files):
             stats['SPO_all'] += len(uniquerows(triples_annotator_SPO))
 
             triples_annotator_SPO_date = [t for t in d['triples'] if t['annotator'] == annotator_SPO and ( t['subject']['annotator'] == annotator_date or t['object']['annotator'] == annotator_date)]
-            stats['SPO_coref'] += len(uniquerows(triples_annotator_SPO_date))
+            stats['SPO_dates'] += len(uniquerows(triples_annotator_SPO_date))
 
             triples_annotator_SPO_coref = [t for t in d['triples'] if t['annotator'] == annotator_SPO and ( t['subject']['annotator'] == annotator_coref or t['object']['annotator'] == annotator_coref) ]
-            stats['SPO_dates'] += len(uniquerows(triples_annotator_SPO_coref))
+            stats['SPO_coref'] += len(uniquerows(triples_annotator_SPO_coref))
 
 
 with open(result, 'w') as k:
