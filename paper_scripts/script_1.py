@@ -26,8 +26,8 @@ stats = {
         }
 
 parser = argparse.ArgumentParser(description='filter extracted attributes')
-parser.add_argument('-i', '--input', help='input file name', required=True)
-parser.add_argument('-o', '--out', help='input file name', required=True)
+parser.add_argument('-i', '--input', help='input folder name containing the processed dataset', required=True)
+parser.add_argument('-o', '--out', help='output file name', required=True)
 args = parser.parse_args()
 
 result = args.out
