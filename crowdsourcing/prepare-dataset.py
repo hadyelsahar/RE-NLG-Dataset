@@ -24,10 +24,10 @@ args = parser.parse_args()
 
 # [text, triple1 , ... triple 10, annotator]
 data = []
-__MAX_TRIPLES__ = 5
+__MAX_TRIPLES__ = 20
 __MIN_TRIPLES__ = 2
-__SAVE_N__ = 220
-__MAX_WORDS__ = 80
+__SAVE_N__ = 200
+__MAX_WORDS__ = 280
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
 properties = {}
