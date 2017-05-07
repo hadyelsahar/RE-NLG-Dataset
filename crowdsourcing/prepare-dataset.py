@@ -75,43 +75,43 @@ for file in os.listdir(args.input):
          for d in j:
 
              # iterate over every document
-
-             t = [x for x in d['triples'] if annotator_NosubSPO in x['annotator']]
-             text = ""
-
-             if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
-
-                 row = []
-                 maxsent = 0
-
-                 for c, x in enumerate(t):
-
-                     if x['sentence_id'] > maxsent:
-
-                         maxsent = x['sentence_id']
-
-                     subjectname = d['title']
-                     objectname = x['object']['surfaceform']
-                     propname = properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
-
-                     row.append((subjectname, propname, objectname))
-
-                 text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
-                 text = unidecode(text)
-
-                 row = uniquerows(row)
-                 row = writehtml(row)
-
-                 if len(row) > __MAX_TRIPLES__:
-                     row = row[0:__MAX_TRIPLES__]
-
-                 elif len(row) < __MAX_TRIPLES__:
-                     row += [None] * (__MAX_TRIPLES__ - len(row))
-
-                 row = [text] + row
-                 row += [x['annotator']]
-                 data.append(row)
-                 continue
+             #
+             # t = [x for x in d['triples'] if annotator_NosubSPO in x['annotator']]
+             # text = ""
+             #
+             # if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
+             #
+             #     row = []
+             #     maxsent = 0
+             #
+             #     for c, x in enumerate(t):
+             #
+             #         if x['sentence_id'] > maxsent:
+             #
+             #             maxsent = x['sentence_id']
+             #
+             #         subjectname = d['title']
+             #         objectname = x['object']['surfaceform']
+             #         propname = properties[x['predicate']['uri']] if x['predicate']['uri'] in properties else x['predicate']['surfaceform']
+             #
+             #         row.append((subjectname, propname, objectname))
+             #
+             #     text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
+             #     text = unidecode(text)
+             #
+             #     row = uniquerows(row)
+             #     row = writehtml(row)
+             #
+             #     if len(row) > __MAX_TRIPLES__:
+             #         row = row[0:__MAX_TRIPLES__]
+             #
+             #     elif len(row) < __MAX_TRIPLES__:
+             #         row += [None] * (__MAX_TRIPLES__ - len(row))
+             #
+             #     row = [text] + row
+             #     row += [x['annotator']]
+             #     data.append(row)
+             #     continue
 
              t = [x for x in d['triples'] if annotator_SPO in x['annotator']]
              if len(t) > __MIN_TRIPLES__ and len(t) <= __MAX_TRIPLES__:
