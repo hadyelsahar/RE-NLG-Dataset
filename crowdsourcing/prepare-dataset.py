@@ -24,9 +24,9 @@ args = parser.parse_args()
 
 # [text, triple1 , ... triple 10, annotator]
 data = []
-__MAX_TRIPLES__ = 20
-__MIN_TRIPLES__ = 2
-__SAVE_N__ = 200
+__MAX_TRIPLES__ = 10
+__MIN_TRIPLES__ = 6
+__SAVE_N__ = 34
 __MAX_WORDS__ = 280
 
 path_to_properties = os.path.join(os.path.dirname(__file__), '../datasets/wikidata/wikidata-properties.csv')
@@ -128,12 +128,13 @@ for file in os.listdir(args.input):
                      subjectname = x['subject']['surfaceform'] if x['subject']['annotator'] != "Simple_Coreference" else d['title']
                      objectname = x['object']['surfaceform'] if x['object']['annotator'] != "Simple_Coreference" else d['title']
 
-                     row.append((subjectname, propname, objectname))
+                     row.append((unidecode(subjectname), unidecode(propname), unidecode(objectname)))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
                  row = uniquerows(row)
+                 fl = len(row)
                  row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
@@ -143,7 +144,7 @@ for file in os.listdir(args.input):
                      row += [None] * (__MAX_TRIPLES__ - len(row))
 
                  row = [text] + row
-                 row += [x['annotator']]
+                 row += [fl, x['annotator']]
                  data.append(row)
                  continue
 
@@ -170,12 +171,13 @@ for file in os.listdir(args.input):
                      subjectname = d['title']
                      objectname = x['object']['surfaceform']
 
-                     row.append((subjectname, propname, objectname))
+                     row.append((unidecode(subjectname), unidecode(propname), unidecode(objectname)))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
                  row = uniquerows(row)
+                 fl = len(row)
                  row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
@@ -185,7 +187,7 @@ for file in os.listdir(args.input):
                      row += [None] * (__MAX_TRIPLES__ - len(row))
 
                  row = [text] + row
-                 row += [x['annotator']]
+                 row += [fl, x['annotator']]
                  data.append(row)
                  continue
 
@@ -213,12 +215,13 @@ for file in os.listdir(args.input):
                      subjectname = x['subject']['surfaceform'] if x['subject']['annotator'] != "Simple_Coreference" else d['title']
                      objectname = x['object']['surfaceform'] if x['object']['annotator'] != "Simple_Coreference" else d['title']
 
-                     row.append((subjectname, propname, objectname))
+                     row.append((unidecode(subjectname), unidecode(propname), unidecode(objectname)))
 
                  text = d['text'][0:d['sentences_boundaries'][maxsent][1]]
                  text = unidecode(text)
 
                  row = uniquerows(row)
+                 fl = len(row)
                  row = writehtml(row)
 
                  if len(row) > __MAX_TRIPLES__:
@@ -228,7 +231,7 @@ for file in os.listdir(args.input):
                      row += [None] * (__MAX_TRIPLES__ - len(row))
 
                  row = [text] + row
-                 row += [x['annotator']]
+                 row += [fl, x['annotator']]
                  data.append(row)
                  continue
 
@@ -238,7 +241,7 @@ names = ["Original Sentence"]
 for i in range(1, __MAX_TRIPLES__+1):
     names.append("Triple-Fact %s" % i)
 
-names += ["annotator_name"]
+names += ["facts_count", "annotator_name"]
 
 x = pd.DataFrame(data, columns=names)
 
@@ -247,9 +250,8 @@ anns = set(x.annotator_name.values)
 filtereddata = []
 
 for ann in anns:
-    tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__]
+    tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__ and fl <= __MAX_TRIPLES__ and fl >= __MIN_TRIPLES__]
     filtereddata += tmp[0:__SAVE_N__]
-
 
 filteredx = pd.DataFrame(filtereddata, columns=names)
 filteredx = filteredx.sample(frac=1)
