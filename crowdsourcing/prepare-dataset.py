@@ -250,7 +250,7 @@ anns = set(x.annotator_name.values)
 filtereddata = []
 
 for ann in anns:
-    tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__ and fl <= __MAX_TRIPLES__ and fl >= __MIN_TRIPLES__]
+    tmp = [l for l in data if l[-1] == ann and len(l[0].split()) < __MAX_WORDS__ and l[-2] <= __MAX_TRIPLES__ and l[-2] >= __MIN_TRIPLES__]
     filtereddata += tmp[0:__SAVE_N__]
 
 filteredx = pd.DataFrame(filtereddata, columns=names)
