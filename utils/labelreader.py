@@ -47,6 +47,7 @@ class LabelReader:
         fallback = []
         return fallback.append('en')
 
+    # TODO: Add actual list of fallbacks
     def doLangFallback(d, fall, langs):
         # add fallbacks for missing values
         for k,v in d:
