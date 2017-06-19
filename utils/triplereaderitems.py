@@ -17,8 +17,8 @@ class TripleReaderItems:
                     subj = tmp[0].strip().replace(self.baseuri, "")
                     obj = tmp[2].strip().replace(self.baseuri, "")
                     self.d[subj].append(obj)
-                    self.d[obj].append(obj)
+                    self.d[obj].append(subj)
 
     def get(self, uri):
         p = self.d[uri.strip().replace(self.baseuri, "")]
-        return ["%s%s" % (self.baseuri, i) for i in p]
+        return set(["%s%s" % (self.baseuri, i) for i in p])

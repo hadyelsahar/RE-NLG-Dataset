@@ -13,8 +13,8 @@ class LabelReader:
         self.d = defaultdict(list)
         self.fallback_d = defaultdict(list)
 
-        if lang:
-            self.fallback = getLangFallback(lang)
+        #if lang:
+        #    self.fallback = self.getLangFallback(lang)
 
         with open(labels_file) as f:
             for l in f:
@@ -27,12 +27,12 @@ class LabelReader:
                     continue
 
                 #if language is set
-                if tmp[2].strip() == lang:
+                if tmp[2].replace('.','').strip() == lang:
                     self.d[entity_id].append(tmp[1].strip())
                 #start building something for language fallback
-                elif not self.d[entity_id] and tmp[2].strip() in self.fallback:
-                    self.fallback_d[entity_id].append({tmp[2].strip(): tmp[1].strip()})
-                    self.d[entity_id] = []
+                #elif not self.d[entity_id] and tmp[2].strip() in self.fallback:
+                #    self.fallback_d[entity_id].append({tmp[2].strip(): tmp[1].strip()})
+                #    self.d[entity_id] = []
 
         # Needs proper testing and some more thought towards performance
         #doLangFallback(self.d, self.fallback_d, self.fallback)
@@ -43,12 +43,12 @@ class LabelReader:
         p = self.d[uri.strip().replace(self.baseuri, "")]
         return [i for i in p]
 
-    def getLangFallback(lang):
+    def getLangFallback(self, lang):
         fallback = []
         return fallback.append('en')
 
     # TODO: Add actual list of fallbacks
-    def doLangFallback(d, fall, langs):
+    def doLangFallback(self, d, fall, langs):
         # add fallbacks for missing values
         for k,v in d:
             if not v:
