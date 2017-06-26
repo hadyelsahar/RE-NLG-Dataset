@@ -26,7 +26,7 @@ Salign = SimpleAligner(trip_read)
 date = DateLinker()
 #SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
-writer = JsonWriter('./out', "re-nlg", startfile=start_doc)
+writer = JsonWriter('./out_eo', "re-nlg", startfile=start_doc)
 
 for d in reader.read_documents():
 
