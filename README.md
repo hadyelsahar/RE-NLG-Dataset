@@ -1,6 +1,9 @@
 # RE-NLG-Dataset
 A Large Dataset for relation extraction and natural language generation from structured data. 
 
+### TODO (multilingual branch):
+* language fallback in `labelreader.py`
+
 ### Setup 
 
 Run `startup.sh` 

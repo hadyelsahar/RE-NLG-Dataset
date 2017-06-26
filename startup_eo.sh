@@ -51,7 +51,6 @@ echo "make csv file for labels out of nt .."
 ## get only labels and aliases
 bzcat wikidata-20170418-truthy-BETA.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | sed -E 's/[<>"]//g' | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1\t/' | sed 's/  /\t/g' > wikidata-labels.csv
 
-
 # DBpedia -Wikidata Sameas
 echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas-all-wikis.ttl.bz2"
 wget http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2
@@ -68,41 +67,11 @@ cd ../..
 
 echo "Downloading dbpedia abstracts"
 cd ./datasets/wikipedia-abstracts/csv/
-wget http://downloads.dbpedia.org/2016-04/core-i18n/en/long_abstracts_en.ttl.bz2
+wget http://downloads.dbpedia.org/2016-04/core-i18n/eo/long_abstracts_en_uris_eo.ttl.bz2
 echo "unzipping .."
-bzip2 -dk long_abstracts_en.ttl.bz2  #unzip keep original
+bzip2 -dk long_abstracts_en_uris_eo.ttl.bz2  #unzip keep original
 echo "changing ttl to csv.."
-python prep_wiki_abstracts.py -i long_abstracts_en.ttl  -o dbpedia-abstracts.csv
-rm long_abstracts_en.ttl
+python prep_wiki_abstracts.py -i long_abstracts_en_uris_eo.ttl  -o dbpedia-abstracts-eo.csv
+rm long_abstracts_en_uris_eo.ttl
 cd ../../../
 echo "Done!"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
