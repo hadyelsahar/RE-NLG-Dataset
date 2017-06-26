@@ -3,7 +3,7 @@ from pipeline.entitylinker import *
 from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import JsonWriter
-from pipeline.coreference import *
+# from pipeline.coreference import *
 from utils.triplereader import *
 from utils.triplereaderitems import *
 from utils.labelreader import *
