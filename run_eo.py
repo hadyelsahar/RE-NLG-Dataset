@@ -5,6 +5,8 @@ from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import JsonWriter
 from pipeline.coreference import *
 from utils.triplereader import *
+from utils.triplereaderitems import *
+from utils.labelreader import *
 
 
 start_doc = 0   #start reading from document number #
