@@ -1,10 +1,10 @@
 from pipeline import *
-import spotlight
+#import spotlight
 import csv
 import re
 import json
 import os
-from sutime import SUTime
+#from sutime import SUTime
 
 
 class DBSpotlightEntityLinker(BasePipeline):

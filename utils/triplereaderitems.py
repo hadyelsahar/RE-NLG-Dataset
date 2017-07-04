@@ -21,4 +21,5 @@ class TripleReaderItems:
 
     def get(self, uri):
         p = self.d[uri.strip().replace(self.baseuri, "")]
+        p.append(uri.strip().replace(self.baseuri, ""))
         return set(["%s%s" % (self.baseuri, i) for i in p])
