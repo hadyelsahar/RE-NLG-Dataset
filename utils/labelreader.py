@@ -32,7 +32,7 @@ class LabelReader:
                 #if language is set
                 if tmp_lang == lang:
                     self.d[entity_id].append(tmp[1].strip())
-                #start building something for language fallback
+                # if language fallback is enabled
                 elif enable_fallback and tmp_lang in self.fallback_langs:
                     if not entity_id in self.fallback_d:
                         self.fallback_d[entity_id] = {}
@@ -42,10 +42,9 @@ class LabelReader:
                         self.fallback_d[entity_id][tmp_lang].append(tmp[1].strip())
 
         # Needs proper testing and some more thought towards performance
+        # if fallback is wanted, call the function to add lang fallbacks to the dict
         if enable_fallback:
             self.d = self.doLangFallback(self.d, self.fallback_d, self.fallback_langs)
-
-
 
     def get(self, uri):
         p = self.d[uri.strip().replace(self.baseuri, "")]

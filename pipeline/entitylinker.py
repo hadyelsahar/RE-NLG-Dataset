@@ -235,17 +235,21 @@ class KeywordMatchingEntityLinker(BasePipeline):
 		self.label_read = label_read
 
 	def run(self, document):
-
+		# iterate over URIs
 		for uri in self.trip_read_items.get(document.docid):
+			# get array of labels for URI
 			labels = self.label_read.get(uri)
 			for label in labels:
+				# look for label in the text
 				for m in re.finditer(r"\b" + re.escape(label) + r"\b", document.text):
 					(start, end) = m.start(), m.end()
 
+					# create entitity if match is found
 					entity = Entity(uri,
 									boundaries=(start, end),
 									surfaceform=document.text[start:end],
 									annotator=self.annotator_name)
+					# add entity to document
 					document.entities.append(entity)
 
 		return document
