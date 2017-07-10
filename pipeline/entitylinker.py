@@ -276,3 +276,31 @@ class DateLinker(BasePipeline):
                 document.entities.append(entity)
 
         return document
+
+
+
+class NumberLinker(BasePipeline):
+
+    def __init__(self):
+        self.annotator_name = 'Number_Linker'
+
+    def run(self, document):
+
+        dates = []
+        for ent in document.entities:
+            print ent.annotator
+            if ent.annotator == "Date_Linker":
+                dates.append(ent.boundaries)
+
+        pattern = re.compile(r"\b-?\d+(,\d+)*(\.\d+(e\d+)?)?\b")
+        for m in re.finditer(pattern, document.text):
+            (start, end) = m.start(), m.end()
+            t = (start, end)
+            if t not in dates:
+                entity = Entity(uri=document.text[start:end],
+                                boundaries=(start, end),
+                                surfaceform=document.text[start:end],
+                                annotator=self.annotator_name)
+                document.entities.append(entity)
+
+        return document

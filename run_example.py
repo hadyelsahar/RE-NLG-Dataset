@@ -3,6 +3,7 @@ from pipeline.entitylinker import *
 from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import JsonWriter
+from pipeline.NIFwriter import NIFWriter
 from pipeline.coreference import *
 from utils.triplereader import *
 
@@ -18,20 +19,31 @@ trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
 Salign = SimpleAligner(trip_read)
 prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
+number = NumberLinker()
 SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
-writer = JsonWriter('./out', "", 1)
+writer = JsonWriter('./out', "", 2)
+nifwriter = NIFWriter('./out', "", 2)
+
 for d in reader.read_documents():
 
 #    try:
-        d = link.run(d)
-        d = NSalign.run(d)
-        d = coref.run(d)
+	d = link.run(d)
+
         d = date.run(d)
+        d = number.run(d)
+        d = NSalign.run(d)
+
+        d = coref.run(d)
         d = Salign.run(d)
+
         d = prop.run(d)
         d = SPOalign.run(d)
+
         writer.run(d)
+        #print d.toJSON()['docid']
+        nifwriter.run(d)
+        #rdfwriter.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
  #   except Exception as e:
