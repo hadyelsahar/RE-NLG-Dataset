@@ -1,12 +1,12 @@
 from pipeline import *
-import spotlight
+#import spotlight
 import csv
 import re
 import json
 import os
 from sutime import SUTime
 
-
+'''
 class DBSpotlightEntityLinker(BasePipeline):
 
 	def __init__(self, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
@@ -188,7 +188,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
 				document.entities.append(entity)
 
 		return document
-
+'''
 
 class WikidataPropertyLinker(BasePipeline):
 

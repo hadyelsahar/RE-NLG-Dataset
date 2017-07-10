@@ -161,3 +161,52 @@ class SPOAligner(BasePipeline):
                             document.triples.append(triple)
 
         return document
+
+class NoAligner(BasePipeline):
+    """
+    Take a document with tagged entities and add the triples that are not 
+    in the document, without alignment in the text.
+    """
+    def __init__(self, all_triples):
+        """
+        :param: input document containing the triples (two entities and
+        the property that bind them together)
+        """
+        self.annotator_name = "No-Aligner"
+
+        self.wikidata_triples = all_triples
+
+    def makeTriple(self, s, p, o):
+        subj = Entity(s,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        pred = Entity(p,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        obj = Entity(o,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        triple = Triple(subject=subj,
+            predicate=pred,
+            object=obj,
+            sentence_id=None,
+            annotator=self.annotator_name)
+        return triple
+        
+    def run(self, document):
+        # doesn't make sense because I don't know whether it's subject or object
+        for t in self.wikidata_triples.get(document.docid):
+
+            triple = self.makeTriple(t[0], t[1], t[2])
+
+            if triple not in document.triples:
+                document.triples.append(triple)
+        return document
+
+

@@ -6,6 +6,7 @@ from pipeline.writer import JsonWriter
 # from pipeline.coreference import *
 from utils.triplereader import *
 from utils.triplereaderitems import *
+from utils.triplereadertriples import *
 from utils.labelreader import *
 
 
@@ -21,6 +22,7 @@ reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
 label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'eo')
 trip_read_items = TripleReaderItems('./datasets/wikidata/wikidata-triples.csv')
+trip_read_trip = triplereadertriples('./datasets/wikidata/wikidata-triples.csv')
 
 keyword_ent_linker = KeywordMatchingEntityLinker(trip_read_items, label_read)
 Salign = SimpleAligner(trip_read)
@@ -28,6 +30,8 @@ Salign = SimpleAligner(trip_read)
 date = DateLinker()
 #SPOalign = SPOAligner(trip_read)
 NSalign = NoSubjectAlign(trip_read)
+Noalign = NoAligner(trip_read_trip)
+
 writer = JsonWriter('./out_eo', "re-nlg", filesize=100, startfile=start_doc)
 
 for d in reader.read_documents():
@@ -44,6 +48,7 @@ for d in reader.read_documents():
 
         #d = prop.run(d)
         #d = SPOalign.run(d)
+        d = Noalign(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
