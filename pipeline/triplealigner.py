@@ -198,15 +198,19 @@ class NoAligner(BasePipeline):
             sentence_id=None,
             annotator=self.annotator_name)
         return triple
-        
+
     def run(self, document):
-        # doesn't make sense because I don't know whether it's subject or object
+
         for t in self.wikidata_triples.get(document.docid):
-
-            triple = self.makeTriple(t[0], t[1], t[2])
-
-            if triple not in document.triples:
+            # TODO: Better comparison
+            exists = False
+            for doc_t in document.triples:
+                if doc_t.subject == t[0] and doc_t.predicate == t[1] and doc_t.object == t[2]:
+                    exists = True
+            if not exists:
+                triple = self.makeTriple(t[0], t[1], t[2])
                 document.triples.append(triple)
+
         return document
 
 
