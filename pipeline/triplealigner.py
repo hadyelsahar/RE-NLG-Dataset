@@ -205,7 +205,7 @@ class NoAligner(BasePipeline):
             # TODO: Better comparison
             exists = False
             for doc_t in document.triples:
-                if doc_t.subject == t[0] and doc_t.predicate == t[1] and doc_t.object == t[2]:
+                if doc_t.subject.uri == t[0] and doc_t.predicate.uri == t[1] and doc_t.object.uri == t[2]:
                     exists = True
             if not exists:
                 triple = self.makeTriple(t[0], t[1], t[2])
@@ -213,4 +213,66 @@ class NoAligner(BasePipeline):
 
         return document
 
+class NoAlignerLimitedProperties(BasePipeline):
+    """
+    Take a document with tagged entities and add the triples that are not 
+    in the document, without alignment in the text.
+    Limit the missing entities to the entities with properties
+    that appear in the first sentence.
+    """
+    def __init__(self, all_triples):
+        """
+        :param: input document containing the triples (two entities and
+        the property that bind them together)
+        """
+        self.annotator_name = "No-Aligner"
 
+        self.wikidata_triples = all_triples
+
+    def makeTriple(self, s, p, o):
+        subj = Entity(s,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        pred = Entity(p,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        obj = Entity(o,
+            boundaries=None,
+            surfaceform=None,
+            annotator=self.annotator_name)
+
+        triple = Triple(subject=subj,
+            predicate=pred,
+            object=obj,
+            sentence_id=None,
+            annotator=self.annotator_name)
+        return triple
+
+    #get all properties that are used in the first sentence
+    def getAllowedProperties(self, triples):
+        allowed_properties = []
+        for t in triples:
+            if t.sentence_id == 0:
+                allowed_properties.append(t.predicate.uri)
+        return allowed_properties
+
+    def run(self, document):
+        allowed_properties = self.getAllowedProperties(document.triples)
+
+        for t in self.wikidata_triples.get(document.docid):
+            if not allowed_properties or not t[1] in allowed_properties:
+                continue
+            # TODO: Better comparison
+            exists = False
+            for doc_t in document.triples:
+                if doc_t.subject.uri == t[0] and doc_t.predicate.uri == t[1] and doc_t.object.uri == t[2]:
+                    exists = True
+            if not exists:
+                triple = self.makeTriple(t[0], t[1], t[2])
+                document.triples.append(triple)
+
+        return document

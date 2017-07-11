@@ -8,6 +8,7 @@ from utils.triplereader import *
 from utils.triplereaderitems import *
 from utils.triplereadertriples import *
 from utils.labelreader import *
+from pipeline.filter import *
 
 
 start_doc = 0   #start reading from document number #
