@@ -9,6 +9,7 @@ from utils.triplereader import *
 from utils.triplereaderitems import *
 from utils.triplereadertriples import *
 from utils.labelreader import *
+from pipeline.filter import *
 
 # Reading the DBpedia Abstracts Dataset
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts-eo.csv', db_wd_mapping='./datasets/wikidata/sample-dbpedia-wikidata-sameas.csv')
@@ -27,6 +28,8 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
+FistSentenceLimiter = FistSentenceLimiter()
+
 writer = JsonWriter('./out-test', "", 1)
 
 for d in reader.read_documents():
@@ -43,7 +46,8 @@ for d in reader.read_documents():
 	d = Salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
-	d = Noalign.run(d)
+	#d = Noalign.run(d)
+	d = FistSentenceLimiter.run(d)
 	writer.run(d)
 	print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 

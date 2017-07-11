@@ -49,6 +49,7 @@ for d in reader.read_documents():
         #d = prop.run(d)
         #d = SPOalign.run(d)
         d = Noalign(d)
+        d = FistSentenceLimiter.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
