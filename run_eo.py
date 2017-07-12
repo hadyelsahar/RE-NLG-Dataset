@@ -51,9 +51,13 @@ for d in reader.read_documents():
 
         #d = prop.run(d)
         #d = SPOalign.run(d)
-        d = Noalign(d)
         d = FistSentenceLimiter.run(d)
-        
+
+        if not MainEntityLimiter.run(d):
+            continue
+
+        d = Noalign.run(d)
+
         writer_triples.run(d)
         writer_entities.run(d)
         writer.run(d)

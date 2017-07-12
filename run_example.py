@@ -29,6 +29,7 @@ NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
 FistSentenceLimiter = FistSentenceLimiter()
+MainEntityLimiter = MainEntityLimiter()
 
 writer = JsonWriter('./out-test', "", 1)
 
@@ -49,8 +50,13 @@ for d in reader.read_documents():
 	d = Salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
-	d = Noalign.run(d)
 	d = FistSentenceLimiter.run(d)
+	
+	if not MainEntityLimiter.run(d):
+		continue
+
+	d = Noalign.run(d)
+
 	writer_triples.run(d)
 	writer_entities.run(d)
 	writer.run(d)
