@@ -23,7 +23,7 @@ reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
 label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'eo')
 trip_read_items = TripleReaderItems('./datasets/wikidata/wikidata-triples.csv')
-trip_read_trip = triplereadertriples('./datasets/wikidata/wikidata-triples.csv')
+trip_read_trip = TripleReaderTriples('./datasets/wikidata/wikidata-triples.csv')
 
 keyword_ent_linker = KeywordMatchingEntityLinker(trip_read_items, label_read)
 Salign = SimpleAligner(trip_read)
