@@ -49,7 +49,7 @@ for d in reader.read_documents():
 	d = Salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
-	#d = Noalign.run(d)
+	d = Noalign.run(d)
 	d = FistSentenceLimiter.run(d)
 	writer_triples.run(d)
 	writer_entities.run(d)

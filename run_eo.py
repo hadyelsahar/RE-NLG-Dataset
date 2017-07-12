@@ -2,7 +2,7 @@ from pipeline.pipeline import *
 from pipeline.entitylinker import *
 from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
-from pipeline.writer import JsonWriter
+from pipeline.writer import *
 # from pipeline.coreference import *
 from utils.triplereader import *
 from utils.triplereaderitems import *
@@ -33,6 +33,8 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
+writer_triples = CostumeWriterTriples('./out-test', "", 1)
+writer_entities = CostumeWriterEntities('./out-test', "", 1)
 writer = JsonWriter('./out_eo', "re-nlg", filesize=100, startfile=start_doc)
 
 for d in reader.read_documents():
@@ -51,6 +53,9 @@ for d in reader.read_documents():
         #d = SPOalign.run(d)
         d = Noalign(d)
         d = FistSentenceLimiter.run(d)
+        
+        writer_triples.run(d)
+        writer_entities.run(d)
         writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
