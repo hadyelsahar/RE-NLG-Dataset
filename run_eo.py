@@ -33,6 +33,9 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
+fist_sen_lim = FistSentenceLimiter()
+main_ent_lim = MainEntityLimiter()
+
 writer_triples = CostumeWriterTriples('./out_eo', "", 1)
 writer_entities = CostumeWriterEntities('./out_eo', "", 1)
 writer = JsonWriter('./out_eo', "re-nlg", filesize=100, startfile=start_doc)
@@ -51,9 +54,9 @@ for d in reader.read_documents():
 
         #d = prop.run(d)
         #d = SPOalign.run(d)
-        d = FistSentenceLimiter.run(d)
+        d = fist_sen_lim.run(d)
 
-        if not MainEntityLimiter.run(d):
+        if not main_ent_lim.run(d):
             continue
 
         d = Noalign.run(d)
