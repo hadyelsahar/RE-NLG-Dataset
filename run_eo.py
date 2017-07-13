@@ -33,8 +33,8 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
-writer_triples = CostumeWriterTriples('./out-test', "", 1)
-writer_entities = CostumeWriterEntities('./out-test', "", 1)
+writer_triples = CostumeWriterTriples('./out_eo', "", 1)
+writer_entities = CostumeWriterEntities('./out_eo', "", 1)
 writer = JsonWriter('./out_eo', "re-nlg", filesize=100, startfile=start_doc)
 
 for d in reader.read_documents():
