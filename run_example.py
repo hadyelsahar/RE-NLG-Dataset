@@ -32,8 +32,8 @@ main_ent_lim = MainEntityLimiter()
 
 writer = JsonWriter('./out-test', "", 1)
 
-writer_triples = CostumeWriterTriples('./out-test', "", 1)
-writer_entities = CostumeWriterEntities('./out-test', "", 1)
+writer_triples = CustomeWriterTriples('./out-test', "", 1)
+writer_entities = CustomeWriterEntities('./out-test', "", 1)
 
 for d in reader.read_documents():
 	#print d.title
