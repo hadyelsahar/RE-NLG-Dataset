@@ -45,7 +45,7 @@ class JsonWriter(BasePipeline):
             del self.buffer
             self.buffer = []
 
-class CostumeWriterTriples(JsonWriter):
+class CustomeWriterTriples(JsonWriter):
     def __init__(self, outputfolder, basefilename=None, filesize=10000, startfile=0):
         #super(CostumeWriterTriples, self).__init__(outputfolder, basefilename, filesize, startfile)
         JsonWriter.__init__(self, outputfolder, basefilename, filesize, startfile)
@@ -87,7 +87,7 @@ class CostumeWriterTriples(JsonWriter):
             del self.buffer
             self.buffer = []
 
-class CostumeWriterEntities(JsonWriter):
+class CustomeWriterEntities(JsonWriter):
     def __init__(self, outputfolder, basefilename=None, filesize=10000, startfile=0):
         JsonWriter.__init__(self, outputfolder, basefilename, filesize, startfile)
 

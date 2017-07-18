@@ -1,6 +1,5 @@
 from pipeline.pipeline import *
 from pipeline.entitylinker import *
-from pipeline.entitylinker import *
 from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import *
@@ -28,8 +27,8 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
-FistSentenceLimiter = FistSentenceLimiter()
-MainEntityLimiter = MainEntityLimiter()
+fist_sen_lim = FistSentenceLimiter()
+main_ent_lim = MainEntityLimiter()
 
 writer = JsonWriter('./out-test', "", 1)
 
@@ -50,9 +49,9 @@ for d in reader.read_documents():
 	d = Salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
-	d = FistSentenceLimiter.run(d)
-	
-	if not MainEntityLimiter.run(d):
+	d = fist_sen_lim.run(d)
+
+	if not main_ent_lim.run(d):
 		continue
 
 	d = Noalign.run(d)
