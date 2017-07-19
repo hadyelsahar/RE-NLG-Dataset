@@ -19,13 +19,13 @@ trip_read_items = TripleReaderItems('./datasets/wikidata/sample-wikidata-triples
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
 
 keyword_ent_linker = KeywordMatchingEntityLinker(trip_read_items, label_read)
-Salign = SimpleAligner(trip_read)
+salign = SimpleAligner(trip_read)
 
 #prop = WikidataPropertyLinker('./datasets/wikidata/wikidata-properties.csv')
 date = DateLinker()
 #SPOalign = SPOAligner(trip_read)
-NSalign = NoSubjectAlign(trip_read)
-Noalign = NoAligner(trip_read_trip)
+nsalign = NoSubjectAlign(trip_read)
+noalign = NoAligner(trip_read_trip)
 
 fist_sen_lim = FistSentenceLimiter()
 main_ent_lim = MainEntityLimiter()
@@ -43,10 +43,10 @@ for d in reader.read_documents():
 	d = keyword_ent_linker.run(d)
 	d = date.run(d)
 		#d = link.run(d)
-	d = NSalign.run(d)
+	d = nsalign.run(d)
 		#d = coref.run(d)
 		#d = date.run(d)
-	d = Salign.run(d)
+	d = salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
 	d = fist_sen_lim.run(d)
@@ -54,7 +54,7 @@ for d in reader.read_documents():
 	if not main_ent_lim.run(d):
 		continue
 
-	d = Noalign.run(d)
+	d = noalign.run(d)
 
 	writer_triples.run(d)
 	writer_entities.run(d)
