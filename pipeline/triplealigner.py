@@ -176,6 +176,7 @@ class NoAligner(BasePipeline):
 
         self.wikidata_triples = all_triples
 
+
     def makeTriple(self, s, p, o):
         subj = Entity(s,
             boundaries=None,
@@ -201,15 +202,26 @@ class NoAligner(BasePipeline):
 
     def run(self, document):
 
-        for t in self.wikidata_triples.get(document.docid):
-            # TODO: Better comparison
-            exists = False
-            for doc_t in document.triples:
-                if doc_t.subject.uri == t[0] and doc_t.predicate.uri == t[1] and doc_t.object.uri == t[2]:
-                    exists = True
-            if not exists:
-                triple = self.makeTriple(t[0], t[1], t[2])
-                document.triples.append(triple)
+        tall = set([t[0]+"\t"+t[1]+"\t"+t[2] for t in self.wikidata_triples.get(document.docid)])
+
+        tdoc = set([t.subject.uri+"\t"+t.predicate.uri+"\t"+t.object.uri for t in document.triples])
+
+        tadd = tall - tdoc
+        for t in tadd:
+            triple = self.makeTriple(*t.split("\t"))
+            document.triples.append(triple)
+
+        #
+        # for t in self.wikidata_triples.get(document.docid):
+        #     # TODO: Better comparison
+        #     exists = False
+        #
+        #     for doc_t in document.triples:
+        #         if doc_t.subject.uri == t[0] and doc_t.predicate.uri == t[1] and doc_t.object.uri == t[2]:
+        #             exists = True
+        #     if not exists:
+        #         triple = self.makeTriple(t[0], t[1], t[2])
+        #         document.triples.append(triple)
 
         return document
 
