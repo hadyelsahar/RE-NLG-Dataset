@@ -50,6 +50,10 @@ class DBpediaAbstractsDataReader:
                     else:
                         continue
 
+                # For the cases where Wikidata ID is in the DBpedia URI
+                elif 'wikidata.dbpedia.org' in l[0]:
+                    l[0] = l[0].replace("http://wikidata.dbpedia.org/resource/", "http://www.wikidata.org/entity/")
+
                 document = Document(
                     docid=l[0],
                     pageuri=l[0],
@@ -58,9 +62,3 @@ class DBpediaAbstractsDataReader:
                 )
 
                 yield document
-
-
-
-
-
-
