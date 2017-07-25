@@ -6,7 +6,7 @@ import json
 # TODO: language fallback
 class LabelReader:
 
-    def __init__(self, labels_file, lang=None, enable_fallback=True):
+    def __init__(self, labels_file, lang=None, enable_fallback=True, unicode=False):
         self.fallback = []
 
         self.baseuri = "http://www.wikidata.org/entity/"
@@ -22,6 +22,10 @@ class LabelReader:
                 tmp = l.split("\t")
                 if len(tmp) < 3:
                     continue
+                # Unicode encoding
+                if unicode:
+                    tmp[1] = tmp[1].decode('unicode-escape')
+
                 entity_id = tmp[0].strip().replace(self.baseuri, "")
                 tmp_lang = tmp[2].replace('.','').strip()
 

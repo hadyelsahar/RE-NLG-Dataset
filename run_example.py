@@ -14,7 +14,7 @@ from pipeline.filter import *
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts-ar.csv')
 
 trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
-label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'ar')
+label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'ar', unicode=True)
 trip_read_items = TripleReaderItems('./datasets/wikidata/sample-wikidata-triples.csv')
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
 
