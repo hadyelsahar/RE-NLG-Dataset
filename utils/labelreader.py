@@ -19,10 +19,7 @@ class LabelReader:
 
         with open(labels_file) as f:
             for l in f:
-                try:
-                    tmp = l.strip().decode('unicode-escape').split("\t")
-                except: # catch *all* exceptions
-                    print l
+                tmp = l.decode('unicode-escape').split("\t")
 
                 if len(tmp) < 3:
                     continue

@@ -33,6 +33,7 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
+disam_lim = RemoveDisambiguationPagesLimiter(trip_read_trip)
 fist_sen_lim = FistSentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
@@ -44,6 +45,11 @@ for d in reader.read_documents():
 
     try:
         print "Processing Document Title: %s ..." % d.title
+        
+        # ignore disambiguation pages
+        if not disam_lim.run(d):
+            continue
+
         d = keyword_ent_linker.run(d)
 
         d = date.run(d)

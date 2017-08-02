@@ -14,7 +14,7 @@ from pipeline.filter import *
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts-ar.csv')
 
 trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
-label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'ar', unicode=True)
+label_read = LabelReader('./datasets/wikidata/sample-wikidata-labels.csv', 'ar')
 trip_read_items = TripleReaderItems('./datasets/wikidata/sample-wikidata-triples.csv')
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
 
@@ -27,6 +27,7 @@ date = DateLinker()
 nsalign = NoSubjectAlign(trip_read)
 noalign = NoAligner(trip_read_trip)
 
+disam_lim = RemoveDisambiguationPagesLimiter(trip_read_trip)
 fist_sen_lim = FistSentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
@@ -40,6 +41,10 @@ for d in reader.read_documents():
 
 	#print label_read.get(d.docid)
 #    try:
+	if not disam_lim.run(d):
+		print d.docid
+		continue
+
 	d = keyword_ent_linker.run(d)
 	d = date.run(d)
 		#d = link.run(d)
