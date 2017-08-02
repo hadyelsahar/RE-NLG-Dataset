@@ -57,6 +57,10 @@ class RemoveDisambiguationPagesLimiter:
         self.wikidata_triples = all_triples
 
     def run(self, document):
-        if 'http://www.wikidata.org/entity/Q4167410' in [i[2] for i in self.wikidata_triples.get(document.docid)]:
+        # P31: instance of
+        prop_id = 'http://www.wikidata.org/prop/direct/P31'
+        # Q4167410: Wikimedia disambiguation page
+        dis_id = 'http://www.wikidata.org/entity/Q4167410'
+        if any([i for i in self.wikidata_triples.get(document.docid) if i[1] == prop_id and i[2] == dis_id ]):
             document = None
         return document

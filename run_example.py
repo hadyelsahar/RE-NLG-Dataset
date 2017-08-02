@@ -42,7 +42,6 @@ for d in reader.read_documents():
 	#print label_read.get(d.docid)
 #    try:
 	if not disam_lim.run(d):
-		print d.docid
 		continue
 
 	d = keyword_ent_linker.run(d)
