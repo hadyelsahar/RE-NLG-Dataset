@@ -27,7 +27,8 @@ date = DateLinker()
 nsalign = NoSubjectAlign(trip_read)
 noalign = NoAligner(trip_read_trip)
 
-disam_lim = RemoveDisambiguationPagesLimiter(trip_read_trip)
+filter_entities = ['http://www.wikidata.org/entity/Q4167410', 'http://www.wikidata.org/entity/Q13406463']
+ent_filt = EntityTypeFilter(trip_read_trip, filter_entities)
 sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
@@ -41,7 +42,7 @@ for d in reader.read_documents():
 
 	#print label_read.get(d.docid)
 #    try:
-	if not disam_lim.run(d):
+	if not ent_filt.run(d):
 		continue
 
 	d = keyword_ent_linker.run(d)

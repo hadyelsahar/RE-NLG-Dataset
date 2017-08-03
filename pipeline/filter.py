@@ -55,22 +55,24 @@ class MainEntityLimiter:
             document = None
         return document
 
-class RemoveDisambiguationPagesLimiter:
+class EntityTypeFilter:
     """
-    Remove all entites that are disambiguation pages
+    Remove all documents that are of a certain type
     """
-    def __init__(self, all_triples):
+    def __init__(self, all_triples, entities):
         """
         :param: input document containing the triples (two entities and
         the property that bind them together)
+        :param: a list of entity that should be filtered
         """
         self.wikidata_triples = all_triples
+        self.entities = entities
 
     def run(self, document):
         # P31: instance of
         prop_id = 'http://www.wikidata.org/prop/direct/P31'
         # Q4167410: Wikimedia disambiguation page
         dis_id = 'http://www.wikidata.org/entity/Q4167410'
-        if any([i for i in self.wikidata_triples.get(document.docid) if i[1] == prop_id and i[2] == dis_id ]):
+        if any([i for i in self.wikidata_triples.get(document.docid) if i[1] == prop_id and i[2] in self.entities]):
             document = None
         return document

@@ -35,6 +35,8 @@ Noalign = NoAligner(trip_read_trip)
 
 sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
+filter_entities = ['http://www.wikidata.org/entity/Q4167410', 'http://www.wikidata.org/entity/Q13406463']
+ent_filt = EntityTypeFilter(trip_read_trip, filter_entities)
 
 writer_triples = CustomeWriterTriples('./out_ar', "re-nlg", startfile=start_doc)
 writer_entities = CustomeWriterEntities('./out_ar', "re-nlg", startfile=start_doc)
@@ -44,6 +46,10 @@ for d in reader.read_documents():
 
     try:
         print "Processing Document Title: %s ..." % d.title
+
+        if not ent_filt.run(d):
+            continue
+
         d = keyword_ent_linker.run(d)
 
         d = date.run(d)
