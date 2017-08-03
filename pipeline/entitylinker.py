@@ -245,7 +245,6 @@ class KeywordMatchingEntityLinker(BasePipeline):
                 # look for label in the text
                 delims = re.escape(u"\".؟()[]?,' ")
                 for m in re.finditer(r"(^|[%s])%s([%s]|$)"%(delims, x.lower(), delims), document.text.lower()):
-                # for m in re.finditer(r"\d" + re.escape(x) + r"\d", document.text):
 
                     (start, end) = m.start(), m.end()
 
