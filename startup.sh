@@ -75,6 +75,7 @@ echo "Done!"
 
 
 # Downloading instance types
+mkdir  ./datasets/datatypes/
 cd ./datasets/datatypes/
 curl http://downloads.dbpedia.org/2016-10/core-i18n/en/instance_types_en.ttl.bz2 | bzcat | cut -d" " -f1,3 | sed -E 's/[<>"]//g'| sed -E 's/ /      /g'  | sed -E 's/http:\/\/(dbpedia.org\/ontology\/|www\.w3\.org\/2002\/07\/owl#|www\.ontologydesignpatterns\.org\/ont\/dul\/DUL.owl#|www\.ontologydesignpatterns\.org\/ont\/d0\.owl#|www\.wikidata\.org\/entity\/)//g'   > dbpedia_dataypes.csv
 cat dbpedia_dataypes.csv | cut -f2 | sort | uniq > datatypes.txt
