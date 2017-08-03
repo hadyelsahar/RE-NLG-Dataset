@@ -5,9 +5,11 @@ class SentenceLimiter:
     Limit the text, word boundaries and 
     sentence boundaries of a given document
     to the number of sentences given
-    Important: number_sentences starts with 0 for the fist sentence
     """
     def run(self, document, number_sentences):
+        """
+        :param: number_sentences, starts with 0 for the fist sentence
+        """
         boundaries = (document.sentences_boundaries[0][0], document.sentences_boundaries[:number_sentences+1][-1][1])
         document.text = document.text[boundaries[0]:boundaries[1]]
         document.sentences_boundaries = self.limitSenteceBoundaries(document.sentences_boundaries, boundaries[1])
