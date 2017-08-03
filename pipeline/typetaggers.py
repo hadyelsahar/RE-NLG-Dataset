@@ -10,17 +10,12 @@ class PropertyTypeTagger:
                 continue
             for t in document.triples:
                 # if it is the triple with the aligned entity in the text
-                if e == t.object:
-                    e.type_placeholder = t.object.predicate.uri
-                    break
-                elif e == t.subject:
-                    e.type_placeholder = t.subject.predicate.uri
+                if e == t.object or e == t.subject:
+                    e.type_placeholder = t.predicate.uri
                     break
                 # if it is the triple that has the same entity id as subject or object
-                elif e.uri == t.object.uri:
-                    e.type_placeholder = t.object.predicate.uri
-                elif e.uri == t.subject.uri:
-                    e.type_placeholder = t.subject.predicate.uri
+                elif e.uri == t.object.uri or e.uri == t.subject.uri:
+                    e.type_placeholder = t.predicate.uri
         return document
 
 class PlaceholderTypeTagger:
