@@ -1,5 +1,9 @@
-# RE-NLG-Dataset
-A Large Dataset for relation extraction and natural language generation from structured data. 
+# T-Rex : A Large Scale Alignment of Natural Language with Knowledge Base Triples
+
+This repository contains the extraction framework for T-REx Dataset.
+More details found at: [T-REx Website](hadyelsahar.github.io/t-rex/)
+
+[[Paper under submission]]
 
 ### TODO (multilingual branch):
 * language fallback in `labelreader.py`
