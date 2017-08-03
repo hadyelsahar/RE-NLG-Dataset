@@ -1,4 +1,27 @@
-
+class PropertyTypeTagger:
+    """
+    Set the type of the entities to the property
+    in the triple connecting it to the main entity
+    """
+    def run(self, document):
+        for e in document.entities:
+            # check that it's not the main entity of the document
+            if e.uri == document.uri:
+                continue
+            for t in document.triples:
+                # if it is the triple with the aligned entity in the text
+                if e == t.object:
+                    e.type_placeholder = t.object.predicate.uri
+                    break
+                elif e == t.subject:
+                    e.type_placeholder = t.subject.predicate.uri
+                    break
+                # if it is the triple that has the same entity id as subject or object
+                elif e.uri == t.object.uri:
+                    e.type_placeholder = t.object.predicate.uri
+                elif e.uri == t.subject.uri:
+                    e.type_placeholder = t.subject.predicate.uri
+        return document
 
 class PlaceholderTypeTagger:
     """
