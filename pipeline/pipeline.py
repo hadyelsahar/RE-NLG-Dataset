@@ -70,7 +70,7 @@ class Document:
         :param j: j is a json file containing all fields as described in the begining of the document
         """
 
-        docid = j['doc']
+        docid = j['docid']
         title = j['title']
         uri = j['uri']
         text = j['text']
