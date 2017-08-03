@@ -33,7 +33,7 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
-fist_sen_lim = FistSentenceLimiter()
+sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
 writer_triples = CustomeWriterTriples('./out_ar', "re-nlg", startfile=start_doc)
@@ -54,7 +54,7 @@ for d in reader.read_documents():
 
         #d = prop.run(d)
         #d = SPOalign.run(d)
-        d = fist_sen_lim.run(d)
+        d = sen_lim.run(d, 0)
 
         if not main_ent_lim.run(d):
             continue

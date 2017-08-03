@@ -28,7 +28,7 @@ nsalign = NoSubjectAlign(trip_read)
 noalign = NoAligner(trip_read_trip)
 
 disam_lim = RemoveDisambiguationPagesLimiter(trip_read_trip)
-fist_sen_lim = FistSentenceLimiter()
+sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
 writer = JsonWriter('./out-test', "", 1)
@@ -53,7 +53,7 @@ for d in reader.read_documents():
 	d = salign.run(d)
 		#d = prop.run(d)
 		#d = SPOalign.run(d)
-	d = fist_sen_lim.run(d)
+	d = sen_lim.run(d, 0)
 
 	if not main_ent_lim.run(d):
 		continue

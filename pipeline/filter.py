@@ -1,19 +1,27 @@
 from pipeline import *
 
-class FistSentenceLimiter:
+class SentenceLimiter:
     """
     Limit the text, word boundaries and 
     sentence boundaries of a given document
-    to the first sentence
+    to the number of sentences given
+    Important: number_sentences starts with 0 for the fist sentence
     """
-    def run(self, document):
-        first = document.sentences_boundaries[0]
-        document.sentences_boundaries = [first]
-        document.text = document.text[first[0]:first[1]]
-        document.words_boundaries = self.limitWordBoundaries(document.words_boundaries, first[1]) 
-        document.entities = self.limitEntities(document.entities, first[1])
-        document.triples = self.limitTriples(document.triples, first[1])
+    def run(self, document, number_sentences):
+        boundaries = (document.sentences_boundaries[0][0], document.sentences_boundaries[:number_sentences+1][-1][1])
+        document.text = document.text[boundaries[0]:boundaries[1]]
+        document.sentences_boundaries = self.limitSenteceBoundaries(document.sentences_boundaries, boundaries[1])
+        document.words_boundaries = self.limitWordBoundaries(document.words_boundaries, boundaries[1]) 
+        document.entities = self.limitEntities(document.entities, boundaries[1])
+        document.triples = self.limitTriples(document.triples, boundaries[1])
         return document
+
+    def limitSenteceBoundaries(self, sentences_boundaries, maxi):
+        sentences_boundaries_new = []
+        for sent in sentences_boundaries:
+            if sent[1] <= maxi:
+                sentences_boundaries_new.append(sent) 
+        return sentences_boundaries_new
 
     def limitEntities(self, entities, maxi):
         entities_new = []
