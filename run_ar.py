@@ -1,6 +1,7 @@
 from pipeline.pipeline import *
 from pipeline.entitylinker import *
 from pipeline.triplealigner import *
+from pipeline.typetaggers import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import *
 # from pipeline.coreference import *
@@ -9,7 +10,6 @@ from utils.triplereaderitems import *
 from utils.triplereadertriples import *
 from utils.labelreader import *
 from pipeline.filter import *
-
 
 start_doc = 0   #start reading from document number #
 
@@ -33,14 +33,16 @@ date = DateLinker()
 NSalign = NoSubjectAlign(trip_read)
 Noalign = NoAligner(trip_read_trip)
 
-sen_lim = SentenceLimiter()
-main_ent_lim = MainEntityLimiter()
 filter_entities = ['http://www.wikidata.org/entity/Q4167410', 'http://www.wikidata.org/entity/Q13406463']
 ent_filt = EntityTypeFilter(trip_read_trip, filter_entities)
+sen_lim = SentenceLimiter()
+main_ent_lim = MainEntityLimiter()
+
+prop_tag = PropertyTypeTagger()
 
 writer_triples = CustomeWriterTriples('./out_ar', "re-nlg", startfile=start_doc)
 writer_entities = CustomeWriterEntities('./out_ar', "re-nlg", startfile=start_doc)
-writer = JsonWriter('./out_ar', "re-nlg", startfile=start_doc)
+writer = JsonWriter('./out_eo', "re-nlg", startfile=start_doc)
 
 for d in reader.read_documents():
 
@@ -67,6 +69,8 @@ for d in reader.read_documents():
 
         d = Noalign.run(d)
 
+        d = prop_tag.run(d)
+
         writer_triples.run(d)
         writer_entities.run(d)
         writer.run(d)
@@ -75,4 +79,3 @@ for d in reader.read_documents():
     except Exception as e:
 
         print "error Processing document %s" % d.title
-
