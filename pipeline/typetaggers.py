@@ -35,6 +35,8 @@ class PlaceholderTypeTagger:
         :param type_mappings_file: csv file [tab separated] containing each URI with its type
         """
 
+        self.date_placeholder = "date"
+
         self.types_dict = {}
         with open(types_file) as f:
             print "loading types of entities ..."
@@ -48,5 +50,8 @@ class PlaceholderTypeTagger:
 
             if e.uri in self.types_dict:
                 e.type_placeholder = self.types_dict[e.uri]
+
+            if "date" in e.annotator.lower():
+                e.type_placeholder = self.date_placeholder
 
         return d

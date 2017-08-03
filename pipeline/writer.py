@@ -110,6 +110,8 @@ class CustomeWriterEntities(JsonWriter):
             entity['URI'] = e.uri
             entity['offset'] = e.boundaries[0]
             entity['surfaceForm'] = e.surfaceform
+            entity['placeholder'] = e.type_placeholder
+            entity['annotator'] = e.annotator
             entities.append(entity)
 
         return entities
