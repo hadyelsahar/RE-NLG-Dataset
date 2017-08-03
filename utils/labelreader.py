@@ -6,7 +6,7 @@ import json
 # TODO: language fallback
 class LabelReader:
 
-    def __init__(self, labels_file, lang=None, enable_fallback=True):
+    def __init__(self, labels_file, lang=None, enable_fallback=False):
         self.fallback = []
 
         self.baseuri = "http://www.wikidata.org/entity/"
@@ -20,10 +20,8 @@ class LabelReader:
         with open(labels_file) as f:
             for l in f:
                 tmp = l.decode('unicode-escape').split("\t")
-
                 if len(tmp) < 3:
                     continue
-
                 entity_id = tmp[0].strip().replace(self.baseuri, "")
                 tmp_lang = tmp[2].replace('.','').strip()
 
@@ -49,8 +47,11 @@ class LabelReader:
             self.d = self.doLangFallback(self.d, self.fallback_d, self.fallback_langs)
 
     def get(self, uri):
-        p = self.d[uri.strip().replace(self.baseuri, "")]
-        return [i for i in p]
+        p = []
+        key = uri.strip().replace(self.baseuri, "")
+        if key in self.d:
+            p = self.d[key]
+        return p
 
     # get the language fallback chain for a given language
     # language fallback as of Wikimedia language fallbacks

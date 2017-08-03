@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from pipeline import *
 #import spotlight
 import csv
@@ -239,9 +241,10 @@ class KeywordMatchingEntityLinker(BasePipeline):
 		for uri in self.trip_read_items.get(document.docid):
 			# get array of labels for URI
 			labels = self.label_read.get(uri)
-			for label in labels:
+			for x in labels:
 				# look for label in the text
-				for m in re.finditer(r"\b" + re.escape(label) + r"\b", document.text):
+				delims = re.escape(u'.؟()[]? ')
+				for m in re.finditer(r"(^|[%s])%s([%s]|$)"%(delims,x,delims), document.text):
 					(start, end) = m.start(), m.end()
 
 					# create entitity if match is found
