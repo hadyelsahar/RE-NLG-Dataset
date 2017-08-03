@@ -1,5 +1,6 @@
 from pipeline import *
 import csv
+import glob
 
 class DBpediaAbstractsDataReader:
     """
