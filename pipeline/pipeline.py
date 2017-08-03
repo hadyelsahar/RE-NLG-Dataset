@@ -121,7 +121,7 @@ class Document:
 
 
 class Entity:
-    def __init__(self, uri, boundaries, surfaceform, annotator=None):
+    def __init__(self, uri, boundaries, surfaceform, annotator=None, type_placeholder=None):
         """
         :param uri: entity uri
         :param boundaries: start and end boundaries of the surface form in the sentence
@@ -132,6 +132,7 @@ class Entity:
         self.boundaries = boundaries
         self.surfaceform = surfaceform
         self.annotator = annotator
+        self.type_placeholder = type_placeholder
 
     @classmethod
     def fromJSON(cls, j):
@@ -140,7 +141,9 @@ class Entity:
         :param j: json object of an entity
         :return: Entity instantiated object
         """
-        return Entity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'])
+        annotator = j['annotator'] if 'annotator' in j else None
+        type_placeholder = j['type_placeholder'] if 'type_placeholder' in j else None
+        return Entity(j['uri'], j['boundaries'], j['surfaceform'], annotator, type_placeholder)
 
     def toJSON(self):
 
