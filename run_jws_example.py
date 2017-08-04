@@ -11,7 +11,7 @@ from pipeline.writer import *
 from pipeline.placeholdertagger import *
 
 # Reading the T-REx premade dataset folder
-reader = TRExDataReader('./out/')
+reader = TRExDataReader('./out/', titles='./datasets/bibliography_titles.tsv')
 
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
 

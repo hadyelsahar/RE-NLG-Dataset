@@ -117,6 +117,7 @@ class CustomeWriterEntities(JsonWriter):
             entity['annotator'] = e.annotator
             entities.append(entity)
 
+        entities = sorted(entities, key=lambda x: x['offset'])
         return entities
 
     def flush(self):
