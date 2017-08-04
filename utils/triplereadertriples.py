@@ -12,20 +12,20 @@ class TripleReaderTriples:
         with open(triples_file) as f:
             for l in f:
                 tmp = l.split("\t")
+                if len(tmp) == 3:
+                    subj_id = tmp[0].strip().replace(self.baseuri, "")
+                    subj = tmp[0].strip()
+                    pred = tmp[1].strip()
+                    obj = tmp[2].strip()
+                    # create triples for each line
+                    triple = [subj, pred, obj]
+                    self.d[subj_id].append(triple)
 
-                subj_id = tmp[0].strip().replace(self.baseuri, "")
-                subj = tmp[0].strip()
-                pred = tmp[1].strip()
-                obj = tmp[2].strip()
-                # create triples for each line
-                triple = [subj, pred, obj]
-                self.d[subj_id].append(triple)
-
-                # We want to have the entity whether it's object or subject
-                # check whether object is also an entity
-                if self.baseuri in tmp[2]:
-                    obj_id = tmp[2].strip().replace(self.baseuri, "")
-                    self.d[obj_id].append(triple)
+                    # We want to have the entity whether it's object or subject
+                    # check whether object is also an entity
+                    if self.baseuri in tmp[2]:
+                        obj_id = tmp[2].strip().replace(self.baseuri, "")
+                        self.d[obj_id].append(triple)
 
     def get(self, uri):
         # return triples for given entity id

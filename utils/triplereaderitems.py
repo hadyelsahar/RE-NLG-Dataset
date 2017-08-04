@@ -11,7 +11,8 @@ class TripleReaderItems:
         with open(triples_file) as f:
             for l in f:
                 tmp = l.split("\t")
-
+                if len(tmp) < 3:
+                    continue
                 # check whether object is also an entity
                 if self.baseuri in tmp[2]:
                     subj = tmp[0].strip().replace(self.baseuri, "")

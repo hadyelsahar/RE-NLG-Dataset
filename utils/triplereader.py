@@ -11,9 +11,10 @@ class TripleReader:
         with open(triples_file) as f:
             for l in f:
                 tmp = l.split("\t")
-                self.d["%s%s" %
-                       (tmp[0].strip().replace(self.baseuriobj, ""),
-                        tmp[2].strip().replace(self.baseuriobj, ""))].append(tmp[1].strip().replace(self.baseuripred, ""))
+                if len(tmp) == 3:
+                    self.d["%s%s" %
+                           (tmp[0].strip().replace(self.baseuriobj, ""),
+                            tmp[2].strip().replace(self.baseuriobj, ""))].append(tmp[1].strip().replace(self.baseuripred, ""))
 
     def get(self, suri, objuri):
         p = self.d["%s%s" % (suri.strip().replace(self.baseuriobj, ""), objuri.strip().replace(self.baseuriobj, ""))]

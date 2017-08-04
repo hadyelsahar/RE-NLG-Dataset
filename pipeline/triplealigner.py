@@ -144,7 +144,7 @@ class SPOAligner(BasePipeline):
                 if o[0].uri == o[1].uri:
                     continue
 
-	        predicates = self.wikidata_triples.get(o[0].uri, o[1].uri)
+                predicates = self.wikidata_triples.get(o[0].uri, o[1].uri)
                 #predicates = self.wikidata_triples["%s\t%s" % (o[0].uri, o[1].uri)]
 
                 # And create the triples
@@ -202,26 +202,29 @@ class NoAligner(BasePipeline):
 
     def run(self, document):
 
-        tall = set([t[0]+"\t"+t[1]+"\t"+t[2] for t in self.wikidata_triples.get(document.docid)])
+        tall = []
+        tagged_entities = set([e.uri for e in document.entities])
+
+        for t in self.wikidata_triples.get(document.docid):
+            # noagliner aligns triples only:
+                # document.uri is the subject of the triples
+                # document.uri is the object of the triple and its subject is linked by entity linker
+
+            if t[0] not in tagged_entities and t[2] == document.uri:
+                continue
+
+            tall.append(t[0]+"\t"+t[1]+"\t"+t[2])
+
+        tall = set(tall)
 
         tdoc = set([t.subject.uri+"\t"+t.predicate.uri+"\t"+t.object.uri for t in document.triples])
+
+
 
         tadd = tall - tdoc
         for t in tadd:
             triple = self.makeTriple(*t.split("\t"))
             document.triples.append(triple)
-
-        #
-        # for t in self.wikidata_triples.get(document.docid):
-        #     # TODO: Better comparison
-        #     exists = False
-        #
-        #     for doc_t in document.triples:
-        #         if doc_t.subject.uri == t[0] and doc_t.predicate.uri == t[1] and doc_t.object.uri == t[2]:
-        #             exists = True
-        #     if not exists:
-        #         triple = self.makeTriple(t[0], t[1], t[2])
-        #         document.triples.append(triple)
 
         return document
 
