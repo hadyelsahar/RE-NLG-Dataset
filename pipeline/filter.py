@@ -52,7 +52,7 @@ class MainEntityLimiter:
     Remove a document's content if the main entity is not aligned
     """
     def run(self, document):
-        if not document.docid in [i.uri for i in document.entities]:
+        if not document.uri in [i.uri for i in document.entities]:
             document = None
         return document
 

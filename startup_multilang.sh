@@ -50,7 +50,7 @@ echo "make csv file out of nt .."
 bzcat  wikidata-20170418-truthy-BETA.nt.bz2 | grep "/prop/direct/P" | sed -E 's/[<>"]//g'| sed -E 's/@.+//g' | cut -d" " -f1-3 | sed -E 's/\s/\t/g' > wikidata-triples.csv
 echo "make csv file for labels out of nt .."
 ## get only labels and aliases
-bzcat wikidata-20170418-truthy-BETA.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1   /' | sed 's/  / /g' | perl -pe 's/(?<!\\)"//g' | awk '{gsub(/\<|\>/,"",$1)}1' > wikidata-labels.csv
+bzcat wikidata-20170418-truthy-BETA.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1\t/' | sed 's/  /\t/g' | perl -pe 's/(?<!\\)"//g' | awk '{gsub(/\<|\>/,"",$1)}1' > wikidata-labels.csv
 
 # DBpedia -Wikidata Sameas
 echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas-all-wikis.ttl.bz2"
