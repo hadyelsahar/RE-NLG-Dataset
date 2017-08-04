@@ -71,9 +71,11 @@ class CustomeWriterTriples(JsonWriter):
             if t.subject.uri == document.docid:
                 str_triple = t.subject.uri + ' ' + t.predicate.uri + ' ' + t.object.uri
                 triples['triples'].append(str_triple)
+
             elif t.object.uri == document.docid:
                 str_triple = t.subject.uri + ' ' + t.predicate.uri + ' ' + t.object.uri
                 triples['additionalTriples'].append(str_triple)
+
         return triples
 
     def flush(self):
@@ -110,7 +112,7 @@ class CustomeWriterEntities(JsonWriter):
             entity['URI'] = e.uri
             entity['offset'] = e.boundaries[0]
             entity['surfaceForm'] = e.surfaceform
-            entity['placeholder'] = e.type_placeholder
+            entity['propertyplaceholder'] = e.type_placeholder
             entity['annotator'] = e.annotator
             entities.append(entity)
 

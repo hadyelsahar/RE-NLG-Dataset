@@ -1,4 +1,4 @@
-class PropertyTypeTagger:
+class PropertyPlaceholderTagger:
     """
     Set the type of the entities to the property
     in the triple connecting it to the main entity
@@ -11,14 +11,14 @@ class PropertyTypeTagger:
             for t in document.triples:
                 # if it is the triple with the aligned entity in the text
                 if e == t.object or e == t.subject:
-                    e.type_placeholder = t.predicate.uri
+                    e.property_placeholder = t.predicate.uri
                     break
                 # if it is the triple that has the same entity id as subject or object
                 elif e.uri == t.object.uri or e.uri == t.subject.uri:
-                    e.type_placeholder = t.predicate.uri
+                    e.property_placeholder = t.predicate.uri
         return document
 
-class PlaceholderTypeTagger:
+class TypePlaceholderTagger:
     """
     this class reads entities linked in the document
     and ads an entity type for each given a list of entities
