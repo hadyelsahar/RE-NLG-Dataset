@@ -4,6 +4,7 @@ from pipeline.triplealigner import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import *
 from pipeline.coreference import *
+from pipeline.placeholdertagger import *
 from utils.triplereader import *
 from utils.triplereaderitems import *
 from utils.triplereadertriples import *
@@ -34,38 +35,42 @@ main_ent_lim = MainEntityLimiter()
 
 writer = JsonWriter('./out-test', "", 1)
 
+prop_tag = PropertyPlaceholderTagger()
+
 writer_triples = CustomeWriterTriples('./out-test', "", 1)
 writer_entities = CustomeWriterEntities('./out-test', "", 1)
 
 for d in reader.read_documents():
-	#print d.title
+    #print d.title
 
-	#print label_read.get(d.docid)
-#    try:
-	if not ent_filt.run(d):
-		continue
+    #print label_read.get(d.docid)
+    try:
+        print "Processing Document Title: %s ..." % d.title
+        if not ent_filt.run(d):
+            continue
 
-	d = keyword_ent_linker.run(d)
-	d = date.run(d)
-		#d = link.run(d)
-	d = nsalign.run(d)
-		#d = coref.run(d)
-		#d = date.run(d)
-	d = salign.run(d)
-		#d = prop.run(d)
-		#d = SPOalign.run(d)
-	d = sen_lim.run(d, 0)
+        d = keyword_ent_linker.run(d)
+        d = date.run(d)
+        #d = link.run(d)
 
-	if not main_ent_lim.run(d):
-		continue
+        # d = nsalign.run(d)
 
-	d = noalign.run(d)
+        #d = coref.run(d)
+        d = salign.run(d)
+        #d = prop.run(d)
+        #d = SPOalign.run(d)
+        d = sen_lim.run(d, 0)
 
-	writer_triples.run(d)
-	writer_entities.run(d)
-	writer.run(d)
-	print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
+        if not main_ent_lim.run(d):
+            continue
 
- #   except Exception as e:
+        d = noalign.run(d)
+        d = prop_tag.run(d)
 
-  #      print "error Processing document %s" % d.title
+        writer_triples.run(d)
+        writer_entities.run(d)
+        # writer.run(d)
+        print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
+
+    except Exception as e:
+        print "error Processing document %s" % d.title

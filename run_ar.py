@@ -1,7 +1,7 @@
 from pipeline.pipeline import *
 from pipeline.entitylinker import *
 from pipeline.triplealigner import *
-from pipeline.typetaggers import *
+from pipeline.placeholdertagger import *
 from pipeline.datareader import DBpediaAbstractsDataReader
 from pipeline.writer import *
 # from pipeline.coreference import *
@@ -38,7 +38,7 @@ ent_filt = EntityTypeFilter(trip_read_trip, filter_entities)
 sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
-prop_tag = PropertyTypeTagger()
+prop_tag = PropertyPlaceholderTagger()
 
 writer_triples = CustomeWriterTriples('./out_ar', "re-nlg", startfile=start_doc)
 writer_entities = CustomeWriterEntities('./out_ar', "re-nlg", startfile=start_doc)

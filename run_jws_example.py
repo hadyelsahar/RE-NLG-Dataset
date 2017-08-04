@@ -3,12 +3,12 @@ from utils.triplereadertriples import *
 
 from pipeline.datareader import TRExDataReader
 
-from pipeline.typetaggers import PlaceholderTypeTagger
+from pipeline.placeholdertagger import TypePlaceholderTagger
 from pipeline.triplealigner import *
 
 from pipeline.filter import *
 from pipeline.writer import *
-
+from pipeline.placeholdertagger import *
 
 # Reading the T-REx premade dataset folder
 reader = TRExDataReader('./out/')
@@ -27,7 +27,8 @@ sen_lim = SentenceLimiter()
 main_ent_lim = MainEntityLimiter()
 
 # placholder creation
-placeholder_tagger = PlaceholderTypeTagger('./datasets/datatypes/wikidata_datatypes.csv')
+placeholder_tagger = TypePlaceholderTagger('./datasets/datatypes/wikidata_datatypes.csv')
+prop_tag = PropertyPlaceholderTagger()
 
 # adding triples from a knowledge base
 noalign = NoAligner(trip_read_trip)
@@ -50,6 +51,7 @@ for d in reader.read_documents():
         d = placeholder_tagger.run(d)
 
         d = noalign.run(d)
+        d = prop_tag.run(d)
 
         writer_triples.run(d)
         writer_entities.run(d)
