@@ -3,6 +3,7 @@ import csv
 import glob
 import os
 import json
+import pandas as pd
 
 class DBpediaAbstractsDataReader:
     """
@@ -94,8 +95,8 @@ class TRExDataReader:
         self.titles = None   # list of document titles to skip if provided
         if titles is not None:
 
-            titles = pd.read_csv(titles, sep="\t")["title"].values
-            self.titles = set([i.replace("_", " ") for i in titles])
+            tmp = pd.read_csv(titles, sep="\t", encoding="utf-8")["title"].values
+            self.titles = set([i.replace("_", " ") for i in tmp])
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -129,6 +130,7 @@ class TRExDataReader:
                     continue
 
                 if self.titles is not None and d['title'] not in self.titles:
+                    print "%s  -- not found " % d['title']
                     continue
 
                 if self.mappings is not None:

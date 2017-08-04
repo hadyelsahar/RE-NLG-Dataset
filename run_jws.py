@@ -10,11 +10,12 @@ from pipeline.filter import *
 from pipeline.writer import *
 from pipeline.placeholdertagger import *
 
+# Read titles of files from the bibliography domain
+
+
 # Reading the T-REx premade dataset folder
-reader = TRExDataReader('./out/', titles='./datasets/bibliography_titles.tsv')
-
-trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
-
+reader = TRExDataReader('./out/')
+trip_read_trip = TripleReaderTriples('./datasets/wikidata/wikidata-triples.csv')
 
 # filters and limiters
 filter_entities = ['http://www.wikidata.org/entity/Q4167410', 'http://www.wikidata.org/entity/Q13406463']
@@ -33,9 +34,9 @@ prop_tag = PropertyPlaceholderTagger()
 # adding triples from a knowledge base
 noalign = NoAligner(trip_read_trip)
 
-writer = JsonWriter('./out-test', "", 1000)
-writer_triples = CustomeWriterTriples('./out-test', "jws", 1000)
-writer_entities = CustomeWriterEntities('./out-test', "jws", 1000)
+writer = JsonWriter('./out-jws', "", 1000)
+writer_triples = CustomeWriterTriples('./out-jws', "jws_trex", 10000)
+writer_entities = CustomeWriterEntities('./out-jws', "jws_trex", 10000)
 
 for d in reader.read_documents():
 
