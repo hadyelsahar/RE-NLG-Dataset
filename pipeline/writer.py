@@ -76,7 +76,7 @@ class CustomeWriterTriples(JsonWriter):
                 str_triple = t.subject.uri + ' ' + t.predicate.uri + ' ' + t.object.uri
                 triples['additionalTriples'].append(str_triple)
 
-        return triples
+        return list(set(triples))
 
     def flush(self):
         filename = "%s-%s-triples.pkl" % (self.counter-self.filesize, self.counter)
