@@ -33,4 +33,4 @@ with bz2.BZ2File(args.input) as f:
             o = ' '.join(tmp[2:])[0:-2]
             if 'XMLSchema' not in o and 'Point' not in o:
                 o = o[1:-2]
-            print(s + '\t' + p + '\t' + o + '\n')
+            out.write(s + '\t' + p + '\t' + o + '\n')
