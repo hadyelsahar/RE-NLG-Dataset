@@ -14,7 +14,7 @@ from pipeline.placeholdertagger import *
 
 
 # Reading the T-REx premade dataset folder
-reader = TRExDataReader('./out/')
+reader = TRExDataReader('./out/', titles='./datasets/bibliography_titles.tsv')
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/wikidata-triples.csv')
 
 # filters and limiters
@@ -34,13 +34,12 @@ prop_tag = PropertyPlaceholderTagger()
 # adding triples from a knowledge base
 noalign = NoAligner(trip_read_trip)
 
-writer = JsonWriter('./out-jws', "", 1000)
 writer_triples = CustomeWriterTriples('./out-jws', "jws_trex", 10000)
 writer_entities = CustomeWriterEntities('./out-jws', "jws_trex", 10000)
 
 for d in reader.read_documents():
 
-    # try:
+    try:
         if not entity_filter.run(d):
             continue
 
@@ -56,8 +55,8 @@ for d in reader.read_documents():
 
         writer_triples.run(d)
         writer_entities.run(d)
-        writer.run(d)
+
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
-    # except Exception as e:
-    #     print "error Processing document %s" % d.title
+    except Exception as e:
+        print "error Processing document %s" % d.title

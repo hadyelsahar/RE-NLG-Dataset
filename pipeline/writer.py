@@ -72,9 +72,13 @@ class CustomeWriterTriples(JsonWriter):
                 str_triple = t.subject.uri + ' ' + t.predicate.uri + ' ' + t.object.uri
                 triples['triples'].append(str_triple)
 
+
             elif t.object.uri == document.docid:
                 str_triple = t.subject.uri + ' ' + t.predicate.uri + ' ' + t.object.uri
                 triples['additionalTriples'].append(str_triple)
+
+        triples['triples'] = list(set(triples['triples']))
+        triples['additionalTriples'] = list(set(triples['additionalTriples']))
 
         return triples
 
