@@ -33,7 +33,7 @@ prop_tag = PropertyPlaceholderTagger()
 # adding triples from a knowledge base
 noalign = NoAligner(trip_read_trip)
 
-writer = JsonWriter('./out-test', "", 1000)
+# writer = JsonWriter('./out-test', "", 1000)
 writer_triples = CustomeWriterTriples('./out-test', "jws", 1000)
 writer_entities = CustomeWriterEntities('./out-test', "jws", 1000)
 
@@ -55,7 +55,7 @@ for d in reader.read_documents():
 
         writer_triples.run(d)
         writer_entities.run(d)
-        writer.run(d)
+        # writer.run(d)
         print "Document Title: %s \t Number of Annotated Entities %s \t Number of Annotated Triples %s" % (d.title, len(d.entities), len(d.triples))
 
     # except Exception as e:
