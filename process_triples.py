@@ -18,17 +18,19 @@ with open(args.properties) as f:
     for l in f.readlines():
         properties.append(l.strip())
 
+properties = set(properties)
+
 out = open(args.out, "w")
 
 with bz2.BZ2File(args.input) as f:
     for l in f:
-        if not "/prop/direct/P" in l:
+        if "/prop/direct/P" not in l:
             continue
         tmp = l.split(' ')
         p = tmp[1][1:-1]
         if p in properties:
             s = tmp[0][1:-1]
             o = ' '.join(tmp[2:])[0:-2]
-            if not 'XMLSchema' in o and not 'Point' in o:
+            if 'XMLSchema' not in o and 'Point' not in o:
                 o = o[1:-2]
-            out.write(s + '\t' + p + '\t' + o + '\n')
+            print(s + '\t' + p + '\t' + o + '\n')
