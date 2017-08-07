@@ -21,7 +21,7 @@ with open(args.properties) as f:
 properties = set(properties)
 
 out = open(args.out, "w")
-
+counter = 0
 with bz2.BZ2File(args.input) as f:
     for l in f:
         if "/prop/direct/P" not in l:
@@ -34,3 +34,8 @@ with bz2.BZ2File(args.input) as f:
             if 'XMLSchema' not in o and 'Point' not in o:
                 o = o[1:-2]
             out.write(s + '\t' + p + '\t' + o + '\n')
+
+        if counter % 10000 == 0:
+            print("%s logged triples" % counter)
+
+        counter += 1
