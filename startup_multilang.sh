@@ -85,7 +85,7 @@ elif [ $1 == "ar" ]; then
     bzip2 -dk long_abstracts_wkd_uris_ar.ttl.bz2  #unzip keep original
     echo "changing ttl to csv.."
     python prep_wiki_abstracts.py -i long_abstracts_wkd_uris_ar.ttl  -o dbpedia-abstracts-ar.csv
-    rm long_abstracts_en_uris_eo.ttl
+    rm long_abstracts_en_uris_ar.ttl
 else 
     echo "English"
     cd ./datasets/wikipedia-abstracts/csv/
