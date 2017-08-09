@@ -84,6 +84,8 @@ elif [ $1 == "ar" ]; then
     echo "unzipping .."
     bzip2 -dk long_abstracts_wkd_uris_ar.ttl.bz2  #unzip keep original
     echo "changing ttl to csv.."
+    mv long_abstracts_wkd_uris_ar.ttl long_abstracts_wkd_uris_ar_raw.ttl
+    cat long_abstracts_wkd_uris_ar_raw.ttl | sed  -E "s/هذه المقالة عن [^\.]+\. لتصفح عناوين مشابهة،[^\.]+\.//g" | sed -E "s/25بك المحتوى هنا ينقصه الاستشهاد بمصادر\. يرجى إيراد مصادر موثوق بها\. أي معلومات غير موثقة يمكن التشكيك بها وإزالتها\. .*[0-9]{4}\)\s*//g" > long_abstracts_wkd_uris_ar.ttl
     python prep_wiki_abstracts.py -i long_abstracts_wkd_uris_ar.ttl  -o dbpedia-abstracts-ar.csv
     rm long_abstracts_en_uris_ar.ttl
 else 
