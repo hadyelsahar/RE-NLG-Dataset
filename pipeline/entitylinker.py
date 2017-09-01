@@ -244,14 +244,19 @@ class KeywordMatchingEntityLinker(BasePipeline):
             for x in labels:
                 # look for label in the text
                 delims = re.escape(u"\".؟()[]?,' ")
-                for m in re.finditer(r"(^|[%s])(%s)([%s]|$)"%(delims, x.lower(), delims), document.text.lower()):
+                for m in re.finditer(r"(^|[%s])(%s)([%s]|$)"%(delims, re.escape(x.lower()), delims), document.text.lower()):
 
                     (start, end) = m.span(2)
+
+                    if start == end:
+                        sform = document.text[start]
+                    else:
+                        sform = document.text[start:end]
 
                     # create entitity if match is found
                     entity = Entity(uri,
                                     boundaries=(start, end),
-                                    surfaceform=document.text[start:end],
+                                    surfaceform=sform,
                                     annotator=self.annotator_name)
                     # add entity to document
                     document.entities.append(entity)
