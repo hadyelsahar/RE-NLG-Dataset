@@ -9,7 +9,7 @@ class DBpediaAbstractsDataReader:
     """
     class with a default read_documents functions that yields Document iterator
     """
-    def __init__(self, dataset_file, db_wd_mapping=None, skip=0):
+    def __init__(self, dataset_file, db_wd_mapping=None, skip=0, titles=None):
         """
 
         :param dataset_file: path of the dataset file
@@ -20,6 +20,12 @@ class DBpediaAbstractsDataReader:
 
         self.dataset_file = dataset_file
         self.skip = skip
+
+        self.titles = None   # list of document titles to skip if provided
+        if titles is not None:
+
+            tmp = pd.read_csv(titles, sep="\t", encoding="utf-8")["title"].values
+            self.titles = set([i.replace("_", " ") for i in tmp])
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -48,6 +54,9 @@ class DBpediaAbstractsDataReader:
             for l in read:
                 # extraction of title from DBpedia URI
                 title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
+
+                if self.titles is not None and title not in self.titles:
+                    continue
 
                 if self.mappings is not None:
                     if l[0] in self.mappings:
