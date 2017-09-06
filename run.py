@@ -10,7 +10,7 @@ from pipeline.placeholdertagger import *
 start_doc = 0   #start reading from document number #
 
 # Reading the DBpedia Abstracts Dataset
-reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc)
+reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc, titles='./datasets/bibliography_titles.tsv')
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
 link = WikidataSpotlightEntityLinkerWithCustomSupportAndFilter('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv')
@@ -55,8 +55,6 @@ for d in reader.read_documents():
 
         if not main_ent_lim.run(d):
             continue
-
-        d = coref.run(d)
 
         d = coref.run(d)
 
