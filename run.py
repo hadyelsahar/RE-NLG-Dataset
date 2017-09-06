@@ -46,22 +46,29 @@ for d in reader.read_documents():
         print "Processing Document Title: %s ..." % d.title
 
 
+        print "entity filter"
         if not entity_filter.run(d):
             continue
 
+        print "sent limiter"
         d = sen_lim.run(d, 0)
 
+        print "linking"
         d = link.run(d)
 
         if not main_ent_lim.run(d):
             continue
 
-        d = coref.run(d)
+        # d = coref.run(d)
 
+        print "triple alignment"
         d = noalign.run(d)
-        d = placeholder_tagger(d)
+
+        print "adding placeholders"
+        d = placeholder_tagger.run(d)
         d = prop_tag.run(d)
 
+        print "writing to buffer"
         writer_triples.run(d)
         writer_entities.run(d)
         writer.run(d)
