@@ -59,7 +59,7 @@ for d in reader.read_documents():
         d = coref.run(d)
 
         d = noalign.run(d)
-
+        d = placeholder_tagger(d)
         d = prop_tag.run(d)
 
         writer_triples.run(d)
