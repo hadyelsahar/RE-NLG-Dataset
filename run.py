@@ -13,7 +13,7 @@ start_doc = 0   #start reading from document number #
 reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', db_wd_mapping='./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', skip=start_doc, titles='./datasets/bibliography_titles.tsv')
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
-link = WikidataSpotlightEntityLinkerWithCustomSupportAndFilter('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv')
+link = WikidataSpotlightEntityLinkerWithCustomSupportAndFilter('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', spotlight_url="http://127.0.0.1:2222/rest/annotate")
 coref = SimpleCoreference()
 
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/wikidata-triples.csv')
@@ -35,12 +35,13 @@ prop_tag = PropertyPlaceholderTagger()
 # adding triples from a knowledge base
 noalign = NoAligner(trip_read_trip)
 
+
 writer_triples = CustomeWriterTriples('./out-jws', "jws_trex", 10000)
 writer_entities = CustomeWriterEntities('./out-jws', "jws_trex", 10000)
 writer = JsonWriter('./out-jws', "jws_trex")
 
 
-for d in reader.read_documents():
+for c, d in enumerate(reader.read_documents()):
 
     try:
         print "Processing Document Title: %s ..." % d.title
@@ -72,7 +73,7 @@ for d in reader.read_documents():
         writer_triples.run(d)
         writer_entities.run(d)
         writer.run(d)
-        print "Number of Annotated Entities %s \t Number of Annotated Triples %s \n -------" % (len(d.entities), len(d.triples))
+        print "Document %s .. Number of Annotated Entities %s \t Number of Annotated Triples %s \n -------" % (c, len(d.entities), len(d.triples))
 
     except Exception as e:
 
