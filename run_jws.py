@@ -43,7 +43,7 @@ for d in reader.read_documents():
         if not entity_filter.run(d):
             continue
 
-        d = sen_lim.run(d, 2)
+        d = sen_lim.run(d, 1)
 
         if not main_ent_lim.run(d):
             continue

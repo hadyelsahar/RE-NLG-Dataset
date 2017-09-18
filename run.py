@@ -52,7 +52,7 @@ for c, d in enumerate(reader.read_documents()):
             continue
 
         print "sent limiter"
-        d = sen_lim.run(d, 0)
+        d = sen_lim.run(d, 1)
 
         print "linking"
         d = link.run(d)
