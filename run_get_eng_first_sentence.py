@@ -30,7 +30,7 @@ for c, d in enumerate(reader.read_documents()):
         print "Processing Document Title: %s ..." % d.title
 
         print "sent limiter"
-        d = sen_lim.run(d, 1)
+        d = sen_lim.run(d, 0)
 
         writer.run(d)
         print "Document %s .. Number of Annotated Entities %s \t Number of Annotated Triples %s \n -------" % (c, len(d.entities), len(d.triples))
