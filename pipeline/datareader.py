@@ -24,8 +24,7 @@ class DBpediaAbstractsDataReader:
         self.titles = None   # list of document titles to skip if provided
         if titles is not None:
 
-            tmp = pd.read_csv(titles, sep="\t", encoding="utf-8")["title"].values
-            self.titles = set([i.replace("_", " ") for i in tmp])
+            self.titles = titles
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -55,9 +54,6 @@ class DBpediaAbstractsDataReader:
                 # extraction of title from DBpedia URI
                 title = l[0].replace("http://dbpedia.org/resource/", "").replace("_", " ")
 
-                if self.titles is not None and title not in self.titles:
-                    continue
-
                 if self.mappings is not None:
                     if l[0] in self.mappings:
                         l[0] = self.mappings[l[0]]
@@ -67,6 +63,9 @@ class DBpediaAbstractsDataReader:
                 # For the cases where Wikidata ID is in the DBpedia URI
                 elif 'wikidata.dbpedia.org' in l[0]:
                     l[0] = l[0].replace("http://wikidata.dbpedia.org/resource/", "http://www.wikidata.org/entity/")
+
+                if self.titles is not None and l[0] not in self.titles:
+                    continue
 
                 document = Document(
                     docid=l[0],
