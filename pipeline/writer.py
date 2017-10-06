@@ -28,8 +28,8 @@ class JsonWriter(BasePipeline):
         self.counter += 1
         self.buffer.append(document.toJSON())
 
-        if self.counter % self.filesize == 0:
-            self.flush()
+        # if self.counter % self.filesize == 0:
+        #     self.flush()
 
         return document
 

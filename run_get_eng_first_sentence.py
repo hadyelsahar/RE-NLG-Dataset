@@ -39,5 +39,6 @@ for c, d in enumerate(reader.read_documents()):
 
         print "error Processing document %s" % d.title
 
+writer.flush()
 
 
