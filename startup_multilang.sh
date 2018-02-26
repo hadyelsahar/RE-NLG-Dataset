@@ -44,13 +44,13 @@ cd wikidata
 
 # triples
 echo "download wikidata facts triples statements from wikidata truthy dump .."
-wget https://dumps.wikimedia.org/wikidatawiki/entities/20170418/wikidata-20170418-truthy-BETA.nt.bz2
+wget https://dumps.wikimedia.org/wikidatawiki/entities/latest-truthy.nt.bz2
 echo "make csv file out of nt .."
 ## skipping labels and meta information and keep only wikidata props
-bzcat  wikidata-20170418-truthy-BETA.nt.bz2 | grep "/prop/direct/P" | sed -E 's/[<>"]//g'| sed -E 's/@.+//g' | cut -d" " -f1-3 | sed -E 's/\s/\t/g' > wikidata-triples.csv
+bzcat latest-truthy.nt.bz2 | grep "/prop/direct/P" | sed -E 's/[<>"]//g'| sed -E 's/@.+//g' | cut -d" " -f1-3 | sed -E 's/\s/\t/g' > wikidata-triples.csv
 echo "make csv file for labels out of nt .."
 ## get only labels and aliases
-bzcat wikidata-20170418-truthy-BETA.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1\t/' | sed 's/  /\t/g' | perl -pe 's/(?<!\\)"//g' | awk '{gsub(/\<|\>/,"",$1)}1' > wikidata-labels.csv
+bzcat latest-truthy.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1\t/' | sed 's/  /\t/g' | perl -pe 's/(?<!\\)"//g' | awk '{gsub(/\<|\>/,"",$1)}1' > wikidata-labels.csv
 
 # DBpedia -Wikidata Sameas
 echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas-all-wikis.ttl.bz2"
