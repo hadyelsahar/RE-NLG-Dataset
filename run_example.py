@@ -12,10 +12,10 @@ from utils.labelreader import *
 from pipeline.filter import *
 
 # Reading the DBpedia Abstracts Dataset
-reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts-ar.csv')
+reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/sample-dbpedia-abstracts-es.csv')
 
 trip_read = TripleReader('./datasets/wikidata/sample-wikidata-triples.csv')
-label_read = LabelReader('./datasets/wikidata/sample-wikidata-labels.csv', 'ar')
+label_read = LabelReader('./datasets/wikidata/sample-wikidata-labels.csv', 'es')
 trip_read_items = TripleReaderItems('./datasets/wikidata/sample-wikidata-triples.csv')
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/sample-wikidata-triples.csv')
 
