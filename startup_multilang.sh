@@ -100,7 +100,6 @@ elif [ $1 == "es" ]; then
     rm long_abstracts_wkd_uris_es.ttl
 else 
     echo "English"
-    cd ./datasets/wikipedia-abstracts/csv/
     wget http://downloads.dbpedia.org/2016-04/core-i18n/en/long_abstracts_en.ttl.bz2
     echo "unzipping .."
     bzip2 -dk long_abstracts_en.ttl.bz2  #unzip keep original
