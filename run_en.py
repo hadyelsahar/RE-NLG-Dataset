@@ -14,14 +14,14 @@ from pipeline.filter import *
 start_doc = 0   #start reading from document number #
 
 # Reading the DBpedia Abstracts Dataset
-reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts-es.csv', skip=start_doc)
+reader = DBpediaAbstractsDataReader('./datasets/wikipedia-abstracts/csv/dbpedia-abstracts.csv', skip=start_doc)
 
 # Loading the WikidataSpotlightEntityLinker ... DBpedia Spotlight with mapping DBpedia URIs to Wikidata
 # link = WikidataSpotlightEntityLinker('./datasets/wikidata/dbpedia-wikidata-sameas-dict.csv', support=10, confidence=0.4)
 
 #coref = SimpleCoreference()
 trip_read = TripleReader('./datasets/wikidata/wikidata-triples.csv')
-label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'es', enable_fallback=True)
+label_read = LabelReader('./datasets/wikidata/wikidata-labels.csv', 'en')
 trip_read_items = TripleReaderItems('./datasets/wikidata/wikidata-triples.csv')
 trip_read_trip = TripleReaderTriples('./datasets/wikidata/wikidata-triples.csv')
 
@@ -40,9 +40,9 @@ main_ent_lim = MainEntityLimiter()
 
 prop_tag = PropertyPlaceholderTagger()
 
-writer_triples = CustomeWriterTriples('./out_es', "re-nlg", startfile=start_doc)
-writer_entities = CustomeWriterEntities('./out_es', "re-nlg", startfile=start_doc)
-writer = JsonWriter('./out_es', "re-nlg", startfile=start_doc)
+writer_triples = CustomeWriterTriples('./out_en', "re-nlg", startfile=start_doc)
+writer_entities = CustomeWriterEntities('./out_en', "re-nlg", startfile=start_doc)
+writer = JsonWriter('./out_en', "re-nlg", startfile=start_doc)
 
 for d in reader.read_documents():
 
