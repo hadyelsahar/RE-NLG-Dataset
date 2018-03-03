@@ -36,7 +36,10 @@ Each Document with it's annotation when converted into json has the following fi
     }
 """
 
-from nltk.tokenize import PunktSentenceTokenizer, WordPunctTokenizer
+# from nltk.tokenize import PunktSentenceTokenizer, WordPunctTokenizer
+from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
+punkt_param = PunktParameters()
+punkt_param.abbrev_types = set(['st', 'dr', 'prof', 'mgr', 'sgt', 'mr', 'mrs', 'inc', 'no', 'etc'])
 
 class Document:
 
@@ -88,7 +91,8 @@ class Document:
         sentence boundaries of each sentence using a tokenizer.
         :return:
         """
-        tokenizer = PunktSentenceTokenizer()
+
+        tokenizer = PunktSentenceTokenizer(punkt_param)
         sentences = list(tokenizer.span_tokenize(self.text))
         return sentences
 
