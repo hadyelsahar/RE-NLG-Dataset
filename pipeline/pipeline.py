@@ -36,8 +36,7 @@ Each Document with it's annotation when converted into json has the following fi
     }
 """
 
-# from nltk.tokenize import PunktSentenceTokenizer, WordPunctTokenizer
-from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
+from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters, WordPunctTokenizer
 punkt_param = PunktParameters()
 punkt_param.abbrev_types = set(['st', 'dr', 'prof', 'mgr', 'sgt', 'mr', 'mrs', 'inc', 'no', 'etc'])
 
