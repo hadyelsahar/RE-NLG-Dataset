@@ -1,7 +1,7 @@
 # T-Rex : A Large Scale Alignment of Natural Language with Knowledge Base Triples
 
 This repository contains the extraction framework for T-REx Dataset.
-More details found at: [T-REx Website](hadyelsahar.github.io/t-rex/)
+More details found at: [T-REx Website](https://hadyelsahar.github.io/t-rex/)
 
 [[Paper under submission]]
 
@@ -18,25 +18,26 @@ java -Xmx6g -jar dbpedia-spotlight-latest.jar en http://localhost:2222/rest
 # Knowledge Base Dumps
 ## DBpedia
 
-dbpedia triples and same as links are downloaded automatically with the `setup.sh` script
+DBPedia triples and same as links are downloaded automatically with the `setup.sh` script
 
-## Wikdata
+## Wikidata
 
-downloaded automatically using the `setup.sh` script
+Downloaded automatically using the `setup.sh` script
 
-Wikdata provides a [tool for exporting RDF dumps](http://tools.wmflabs.org/wikidata-exports/rdf/index.html)
+Wikidata provides a [tool for exporting RDF dumps](http://tools.wmflabs.org/wikidata-exports/rdf/index.html)
  
 Simple RDF dumps were used in which each statement is represented in a triple and statements with qualifiers are omitted
 [Wikidata RDF dumps 20160801](http://tools.wmflabs.org/wikidata-exports/rdf/exports/20160801/dump_download.html)
 
 Sameas links between Wikidata and DBpedia are already extracted and can be found on [wikidata.dbpedia.org](http://wikidata.dbpedia.org/)
 
-The latest available version in this project is [Available on the extraction page from 20150330](http://wikidata.dbpedia.org/downloads/20150330/)
-the downloaded dump is available from here [20150330-sameas-all-wikis.ttl.bz2](http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2)
+The latest available version in this project is [available on the extraction page from 20150330](http://wikidata.dbpedia.org/downloads/20150330/)
+
+The downloaded dump is available here: [20150330-sameas-all-wikis.ttl.bz2](http://wikidata.dbpedia.org/downloads/20150330/wikidatawiki-20150330-sameas-all-wikis.ttl.bz2)
 
 # Text Dumps
 
-### Wikipedia Atricles dump
+### Wikipedia Articles dump
 go to `./datasets/Wikipedia/`
 run "setup.sh"
 the script will download wikipedia latest dump and extract text in articles.
@@ -48,8 +49,8 @@ the script will download dbpedia abstracts latest dump from DBpedia website
 and extract text in article
 
 ## Output Format :
-All of the modules in the pipeline take the a single json file [as descriped below]
- and outputs the same file after filling in some of it's attributes.
+All of the modules in the pipeline take the a single json file [as described below]
+ and outputs the same file after filling in some of its attributes.
 ```
   {
         "docid":                   Document id     -- Wikipedia document id when dealing with wikipedia dump
