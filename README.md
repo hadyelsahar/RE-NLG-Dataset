@@ -25,12 +25,15 @@ Paper accepted to LREC2018 [link](http://www.lrec-conf.org/proceedings/lrec2018/
 }
 ```
 
-### TODO (multilingual branch):
-* language fallback in `labelreader.py`
+
 
 ### Setup 
 
-Run `startup.sh` 
+For the English version of the dataset run `startup_multilang.sh` 
+
+For multilingual versions of the dataset run it with equivalent language code (es, eo, ar are supported)
+e.g. `startup_multilang.sh es`
+
 
 to run DBpedia spotlight server on port 2222 run in a separate session
 ```
