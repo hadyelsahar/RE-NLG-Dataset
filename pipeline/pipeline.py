@@ -36,7 +36,10 @@ Each Document with it's annotation when converted into json has the following fi
     }
 """
 
-from nltk.tokenize import PunktSentenceTokenizer, WordPunctTokenizer
+from nltk.tokenize import WordPunctTokenizer
+from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
+punkt_param = PunktParameters()
+punkt_param.abbrev_types = set(['st', 'dr', 'prof', 'mgr', 'sgt', 'mr', 'mrs', 'inc', 'no', 'etc'])
 
 class Document:
 
@@ -88,7 +91,8 @@ class Document:
         sentence boundaries of each sentence using a tokenizer.
         :return:
         """
-        tokenizer = PunktSentenceTokenizer()
+
+        tokenizer = PunktSentenceTokenizer(punkt_param)
         sentences = list(tokenizer.span_tokenize(self.text))
         return sentences
 
@@ -121,7 +125,7 @@ class Document:
 
 
 class Entity:
-    def __init__(self, uri, boundaries, surfaceform, annotator=None):
+    def __init__(self, uri, boundaries, surfaceform, annotator=None, type_placeholder=None, property_placeholder=None):
         """
         :param uri: entity uri
         :param boundaries: start and end boundaries of the surface form in the sentence
@@ -132,6 +136,8 @@ class Entity:
         self.boundaries = boundaries
         self.surfaceform = surfaceform
         self.annotator = annotator
+        self.type_placeholder = type_placeholder
+        self.property_placeholder = property_placeholder
 
     @classmethod
     def fromJSON(cls, j):
@@ -140,7 +146,10 @@ class Entity:
         :param j: json object of an entity
         :return: Entity instantiated object
         """
-        return Entity(j['uri'], j['boundaries'], j['surfaceform'], j['annotator'])
+        annotator = j['annotator'] if 'annotator' in j else None
+        type_placeholder = j['type_placeholder'] if 'type_placeholder' in j else None
+        property_placeholder = j['property_placeholder'] if 'property_placeholder' in j else None
+        return Entity(j['uri'], j['boundaries'], j['surfaceform'], annotator, type_placeholder, property_placeholder)
 
     def toJSON(self):
 

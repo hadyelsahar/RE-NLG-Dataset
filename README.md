@@ -5,6 +5,9 @@ More details found at: [T-REx Website](https://hadyelsahar.github.io/t-rex/)
 
 [[Paper under submission]]
 
+### TODO (multilingual branch):
+* language fallback in `labelreader.py`
+
 ### Setup 
 
 Run `startup.sh` 

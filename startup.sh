@@ -47,6 +47,9 @@ wget https://dumps.wikimedia.org/wikidatawiki/entities/20170418/wikidata-2017041
 echo "make csv file out of nt .."
 ## skipping labels and meta information and keep only wikidata props
 bzcat  wikidata-20170418-truthy-BETA.nt.bz2 | grep "/prop/direct/P" | sed -E 's/[<>"]//g'| sed -E 's/@.+//g' | cut -d" " -f1-3 | sed -E 's/\s/\t/g' > wikidata-triples.csv
+echo "make csv file for labels out of nt .."
+## get only labels and aliases
+bzcat wikidata-20170418-truthy-BETA.nt.bz2 | grep -E "schema.org/name|skos/core#altLabel" | awk '{$2="";print $0}' | sed 's/\(.*\)\@/\1\t/' | sed 's/  /\t/g' | perl -pe 's/(?<!\\)"//g' | awk '{gsub(/\<|\>/,"",$1)}1' > wikidata-labels.csv
 
 # DBpedia -Wikidata Sameas
 echo "download DBpedia-Wikidata Same As links dump: wikidatawiki-20150330-sameas-all-wikis.ttl.bz2"
@@ -77,7 +80,8 @@ echo "Done!"
 # Downloading instance types
 mkdir  ./datasets/datatypes/
 cd ./datasets/datatypes/
-curl http://downloads.dbpedia.org/2016-10/core-i18n/en/instance_types_en.ttl.bz2 | bzcat | cut -d" " -f1,3 | sed -E 's/[<>"]//g'| sed -E 's/ /      /g'  | sed -E 's/http:\/\/(dbpedia.org\/ontology\/|www\.w3\.org\/2002\/07\/owl#|www\.ontologydesignpatterns\.org\/ont\/dul\/DUL.owl#|www\.ontologydesignpatterns\.org\/ont\/d0\.owl#|www\.wikidata\.org\/entity\/)//g'   > dbpedia_dataypes.csv
+#curl http://downloads.dbpedia.org/2016-10/core-i18n/en/instance_types_en.ttl.bz2 | bzcat | cut -d" " -f1,3 | sed -E 's/[<>"]//g'| sed -E 's/ /\t/g'  | sed -E 's/http:\/\/(dbpedia.org\/ontology\/|www\.w3\.org\/2002\/07\/owl#|www\.ontologydesignpatterns\.org\/ont\/dul\/DUL.owl#|www\.ontologydesignpatterns\.org\/ont\/d0\.owl#|www\.wikidata\.org\/entity\/)//g'   > dbpedia_dataypes.csv
+curl http://downloads.dbpedia.org/2016-10/core-i18n/en/instance_types_en.ttl.bz2 | bzcat | cut -d" " -f1,3 | sed -E 's/[<>"]//g'| sed -E 's/ /\t/g'   > dbpedia_dataypes.csv
 cat dbpedia_dataypes.csv | cut -f2 | sort | uniq > datatypes.txt
 python prepare_wikidata_datatypes.py -i dbpedia_dataypes.csv -m ../wikidata/dbpedia-wikidata-sameas-dict.csv -o ./wikidata_datatypes.csv
 

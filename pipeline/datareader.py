@@ -1,10 +1,9 @@
-import csv
-import os
-import glob
-import json
-
-import pandas as pd
 from pipeline import *
+import csv
+import glob
+import os
+import json
+import pandas as pd
 
 class DBpediaAbstractsDataReader:
     """
@@ -56,6 +55,10 @@ class DBpediaAbstractsDataReader:
                     else:
                         continue
 
+                # For the cases where Wikidata ID is in the DBpedia URI
+                elif 'wikidata.dbpedia.org' in l[0]:
+                    l[0] = l[0].replace("http://wikidata.dbpedia.org/resource/", "http://www.wikidata.org/entity/")
+
                 document = Document(
                     docid=l[0],
                     pageuri=l[0],
@@ -92,8 +95,8 @@ class TRExDataReader:
         self.titles = None   # list of document titles to skip if provided
         if titles is not None:
 
-            titles = pd.read_csv(titles, sep="\t")["title"].values
-            self.titles = set([i.replace("_", " ") for i in titles])
+            tmp = pd.read_csv(titles, sep="\t", encoding="utf-8")["title"].values
+            self.titles = set([i.replace("_", " ") for i in tmp])
 
         if db_wd_mapping is not None:
             self.mappings = {}
@@ -127,6 +130,7 @@ class TRExDataReader:
                     continue
 
                 if self.titles is not None and d['title'] not in self.titles:
+                    print "%s  -- not found " % d['title']
                     continue
 
                 if self.mappings is not None:
@@ -138,8 +142,6 @@ class TRExDataReader:
                 document = Document.fromJSON(d)
 
                 yield document
-
-
 
 
 

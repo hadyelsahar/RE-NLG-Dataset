@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from pipeline import *
-import spotlight
+#import spotlight
 import csv
 import re
 import json
 import os
 from sutime import SUTime
 
-
+'''
 class DBSpotlightEntityLinker(BasePipeline):
 
     def __init__(self, spotlight_url='http://localhost:2222/rest/annotate', confidence=0.2, support=1):
@@ -188,7 +190,7 @@ class WikidataSpotlightEntityLinker(BasePipeline):
                 document.entities.append(entity)
 
         return document
-
+'''
 
 class WikidataPropertyLinker(BasePipeline):
 
@@ -227,6 +229,39 @@ class WikidataPropertyLinker(BasePipeline):
 
         return document
 
+class KeywordMatchingEntityLinker(BasePipeline):
+
+    def __init__(self, trip_read_items, label_read):
+        self.annotator_name = 'Keyword_Matching_Entity_Linker'
+        self.trip_read_items = trip_read_items
+        self.label_read = label_read
+
+    def run(self, document):
+        # iterate over URIs
+        for uri in self.trip_read_items.get(document.docid):
+            # get array of labels for URI
+            labels = self.label_read.get(uri)
+            for x in labels:
+                # look for label in the text
+                delims = re.escape(u"\".؟()[]?,' ")
+                for m in re.finditer(r"(^|[%s])(%s)([%s]|$)"%(delims, re.escape(x.lower()), delims), document.text.lower()):
+
+                    (start, end) = m.span(2)
+
+                    if start == end:
+                        sform = document.text[start]
+                    else:
+                        sform = document.text[start:end]
+
+                    # create entitity if match is found
+                    entity = Entity(uri,
+                                    boundaries=(start, end),
+                                    surfaceform=sform,
+                                    annotator=self.annotator_name)
+                    # add entity to document
+                    document.entities.append(entity)
+
+        return document
 
 class DateLinker(BasePipeline):
 
@@ -252,8 +287,8 @@ class DateLinker(BasePipeline):
                         stdform = val + '-00T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
                     elif len(val[1:]) == 10:
                         stdform = val + 'T00:00:00Z^^http://www.w3.org/2001/XMLSchema#dateTime'
-		    else:
-			stdform = val + '^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+                    else:
+                        stdform = val + '^^<http://www.w3.org/2001/XMLSchema#dateTime>'
 
                 else:
                     if len(val) == 4:
