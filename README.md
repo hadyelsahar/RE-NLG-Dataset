@@ -3,7 +3,27 @@
 This repository contains the extraction framework for T-REx Dataset.
 More details found at: [T-REx Website](https://hadyelsahar.github.io/t-rex/)
 
-[[Paper under submission]]
+Paper accepted to LREC2018 [link](http://www.lrec-conf.org/proceedings/lrec2018/pdf/632.pdf)
+```
+@inproceedings{DBLP:conf/lrec/ElSaharVRGHLS18,
+  author    = {Hady ElSahar and
+               Pavlos Vougiouklis and
+               Arslen Remaci and
+               Christophe Gravier and
+               Jonathon S. Hare and
+               Fr{\'{e}}d{\'{e}}rique Laforest and
+               Elena Simperl},
+  title     = {T-REx: {A} Large Scale Alignment of Natural Language with Knowledge
+               Base Triples},
+  booktitle = {Proceedings of the Eleventh International Conference on Language Resources
+               and Evaluation, {LREC} 2018, Miyazaki, Japan, May 7-12, 2018.},
+  year      = {2018},
+  crossref  = {DBLP:conf/lrec/2018},
+  timestamp = {Fri, 18 May 2018 10:35:14 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/lrec/ElSaharVRGHLS18},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
 
 ### TODO (multilingual branch):
 * language fallback in `labelreader.py`
